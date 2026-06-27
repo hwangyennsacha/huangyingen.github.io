@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="bg-black">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HUANG YINGEN — Portfolio v4.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/roughjs/bundled/rough.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        header: ['Space Grotesk', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        brandAmber: '#FFD600',
+                        brandRed: '#FF2E2E',
+                        brandPink: '#F7A3B5',
+                        brandMint: '#50E3C2',
+                        brandPurple: '#7F00FF',
+                        brandPinkNeon: '#FF007F',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .fade-enter { opacity: 0; transform: scale(0.995); }
+        .fade-enter-active {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        body { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+    </style>
+</head>
+<body class="bg-black text-white">
+
+<!-- HEADER -->
+<header class="h-16 border-b border-zinc-900 px-6 flex items-center justify-between z-50 bg-black/90 backdrop-blur-md shrink-0">
+    <div class="flex items-center space-x-4">
+        <span class="font-header font-bold text-lg tracking-wider text-white">HUANG YINGEN <span class="text-xs text-zinc-500 font-normal">PORTFOLIO v4.0</span></span>
+    </div>
+    <div class="hidden lg:flex space-x-1.5">
+        <button onclick="jumpToPage(1)" id="btn-part0" class="px-2.5 py-1 text-[11px] rounded transition-all bg-zinc-800 text-white">COVER</button>
+        <button onclick="jumpToPage(2)" id="btn-part1" class="px-2.5 py-1 text-[11px] rounded transition-all border border-brandAmber/30 text-brandAmber hover:bg-brandAmber/10">01 AI SIMULATOR</button>
+        <button onclick="jumpToPage(7)" id="btn-part2" class="px-2.5 py-1 text-[11px] rounded transition-all border border-brandRed/30 text-brandRed hover:bg-brandRed/10">02 RED LINE</button>
+        <button onclick="jumpToPage(12)" id="btn-part3" class="px-2.5 py-1 text-[11px] rounded transition-all border border-brandPink/30 text-brandPink hover:bg-brandPink/10">03 HER</button>
+        <button onclick="jumpToPage(16)" id="btn-part4" class="px-2.5 py-1 text-[11px] rounded transition-all border border-brandPurple/30 text-brandPinkNeon hover:bg-brandPurple/10">04 BEHIND THE TIME</button>
+    </div>
+    <div class="flex items-center space-x-4">
+        <span class="text-xs text-zinc-500 font-mono hidden sm:inline">[ Full Design Process Expanded ]</span>
+        <a href="https://drive.google.com/drive/folders/1tyGSd66AA_2CY3kK-6Et95MhLRV7K5x_?usp=sharing" target="_blank" class="bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 px-3 py-1.5 rounded text-xs flex items-center space-x-1 transition-all">
+            <span>⚡ Real Video Demo</span>
+        </a>
+    </div>
+</header>
+
+<!-- MAIN SLIDE AREA -->
+<main class="flex-1 flex items-center justify-center p-4 bg-zinc-950 overflow-hidden relative">
+    <div id="slide-container" class="aspect-[16/9] w-full max-w-[1400px] bg-black shadow-[0_0_50px_rgba(0,0,0,0.8)] rounded-xl border border-zinc-900 relative overflow-hidden transition-all duration-500">
+
+        <!-- SLIDE 1: COVER -->
+        <div id="page-1" class="slide-page absolute inset-0 w-full h-full p-12 flex flex-col justify-between bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-900/40 via-black to-black">
+            <div class="flex justify-between items-start relative z-10">
+                <div>
+                    <p class="text-xs tracking-widest text-zinc-500 uppercase font-header">Academic & Commercial Portfolio / 2023 - 2026</p>
+                    <h1 class="text-5xl font-header font-bold mt-4 tracking-tight leading-none text-zinc-100">DIGITAL TAPESTRY &<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-zinc-400 via-white to-zinc-600">CONSCIOUSNESS RESONANCE</span></h1>
+                </div>
+            </div>
+            <div class="grid grid-cols-4 gap-6 w-full py-6 border-y border-zinc-900 relative z-10">
+                <div class="p-6 rounded bg-zinc-950/40 border border-zinc-900/50">
+                    <span class="text-brandAmber font-mono text-sm font-bold block">PART 01</span>
+                    <span class="text-base font-semibold text-zinc-200 mt-2 block">AI创意工作模拟器</span>
+                    <p class="text-xs text-zinc-500 mt-2">AI 时代创意劳动的异化与清醒抵抗思辨交互系统。</p>
+                </div>
+                <div class="p-6 rounded bg-zinc-950/40 border border-zinc-900/50">
+                    <span class="text-brandRed font-mono text-sm font-bold block">PART 02</span>
+                    <span class="text-base font-semibold text-zinc-200 mt-2 block">RED LINE — 物物相生</span>
+                    <p class="text-xs text-zinc-500 mt-2">基于点云参数化算法生成的数字文物记忆重构实验。</p>
+                </div>
+                <div class="p-6 rounded bg-zinc-950/40 border border-zinc-900/50">
+                    <span class="text-brandPink font-mono text-sm font-bold block">PART 03</span>
+                    <span class="text-base font-semibold text-zinc-200 mt-2 block">HER — 凝视消解</span>
+                    <p class="text-xs text-zinc-500 mt-2">女性主义身体政治、流量跟踪与量子坍缩动态海报。</p>
+                </div>
+                <div class="p-6 rounded bg-zinc-950/40 border border-zinc-900/50">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandPurple to-brandPinkNeon font-mono text-sm font-bold block">PART 04</span>
+                    <span class="text-base font-semibold text-zinc-200 mt-2 block">BEHIND THE TIME</span>
+                    <p class="text-xs text-zinc-500 mt-2">莉莉丝游戏 Dislyte 宣发 CG、空间考古学场景概念与电影分镜。</p>
+                </div>
+            </div>
+            <div class="flex justify-between items-end relative z-10">
+                <div class="flex space-x-12 text-xs">
+                    <div>
+                        <p class="text-zinc-500">Designer / Director</p>
+                        <p class="text-zinc-300 font-semibold mt-0.5">HUANG YINGEN (黄音根)</p>
+                    </div>
+                    <div>
+                        <p class="text-zinc-500">Target Field</p>
+                        <p class="text-zinc-300 font-semibold mt-0.5">Interactive Media & Art Direction</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: PART 1 CONCEPT BACKGROUND -->
+        <div id="page-2" class="slide-page absolute inset-0 w-full h-full p-12 bg-[#020202] hidden flex-col justify-between">
+            <div class="flex justify-between items-center border-b border-zinc-900 pb-4">
+                <span class="text-brandAmber text-xs tracking-widest font-header font-bold">PART 01: AI CREATIVE WORK SIMULATOR</span>
+            </div>
+            <div class="flex-1 grid grid-cols-12 gap-8 items-stretch py-4">
+                <div class="col-span-4 flex flex-col justify-between h-full pr-6 border-r border-zinc-900">
+                    <div>
+                        <h2 class="text-3xl font-header font-bold text-white tracking-tight leading-snug">Prompt Factory: A Simulator of Creative Labor</h2>
+                        <p class="text-xs text-brandAmber mt-1 tracking-widest uppercase font-mono">How many prompts does it take to lose your imagination?</p>
+                        <div class="mt-6 space-y-4 text-sm leading-relaxed text-zinc-400 text-justify">
+                            <p>The promise of Generative AI was to liberate creative labor. Yet in many contemporary workflows, designers increasingly function as operators of algorithmic systems rather than authors of original ideas.</p>
+                            <p>Creative work is gradually shifting from making to prompting, from crafting to selecting, and from designing to endlessly refining machine-generated outputs. Under the logic of productivity and optimization, creativity risks becoming a repetitive cycle of prompt engineering, evaluation, and revision.</p>
+                            <p>This project is a <strong>critical design simulation</strong> that models the everyday experience of creative workers in AI-driven production environments. Through gameplay, it explores how automation reshapes authorship, agency, and the psychological condition of creative labor.</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2 mt-4 pt-4 border-t border-zinc-900">
+                        <p class="text-xs text-zinc-500 uppercase font-mono tracking-widest">Key Research Questions</p>
+                        <ul class="text-xs text-zinc-400 space-y-2 font-sans">
+                            <li>• Q1  When creativity becomes prompt engineering, who can still claim authorship?</li>
+                            <li>• Q2  Can a game system make players experience the invisible exhaustion of automated creative labor?</li>
+                            <li>• Q3  What happens when productivity becomes the only measure of creative value?</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-span-8 h-full relative rounded border border-zinc-900 overflow-hidden">
+                    <iframe src="simulator/index.html" class="w-full h-full border-0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: PART 1 INTERACTION & PROBABILITY -->
+        <div id="page-3" class="slide-page absolute inset-0 w-full h-full p-12 bg-[#020202] hidden flex-col justify-between">
+            <div class="flex justify-between items-center border-b border-zinc-900 pb-4">
+                <span class="text-brandAmber text-xs tracking-widest font-header font-bold">PART 01: AI CREATIVE WORK SIMULATOR</span>
+            </div>
+            <div class="flex-1 grid grid-cols-12 gap-8 items-center py-6">
+                <div class="col-span-4 flex flex-col justify-between h-full">
+                    <div class="space-y-4">
+                        <h4 class="text-xl font-serif italic text-zinc-100 leading-snug">"The Rework Hell of Technological Acceleration"</h4>
+                        <p class="text-sm text-zinc-400 leading-relaxed text-justify">As Generative AI reshapes creative industries, creators are increasingly shifting from makers to optimizers. As generation becomes easier, creative work is reduced to an endless cycle of selection, revision, and regeneration.</p>
+                        <p class="text-sm text-zinc-400 leading-relaxed text-justify">Based on research involving 150 creative practitioners, this project develops an unwinnable mathematical model in which each cycle of rework increases approval rates while reducing the player's Thinking Index. Players eventually reach a state of <strong>maximum productivity but minimum creativity</strong>.</p>
+                    </div>
+                    <div class="bg-zinc-950 p-4 border-l-2 border-l-brandAmber border border-zinc-900 rounded space-y-2">
+                        <p class="text-xs text-brandAmber font-mono font-bold">Theoretical Framework: Social Acceleration</p>
+                        <p class="text-xs text-zinc-400 leading-relaxed">Technological progress does not reduce labor; it accelerates expectations of productivity. This project visualizes how AI-driven workflows can transform creativity into an endless optimization loop.</p>
+                    </div>
+                </div>
+                <div class="col-span-8 h-full rounded border border-zinc-900 bg-zinc-950 p-4 flex flex-col gap-3">
+                    <!-- top row: terminal + stats + buttons -->
+                    <div class="flex gap-4 shrink-0" style="height:148px">
+                        <div id="p3-log" class="w-48 bg-black rounded border border-zinc-800 p-2 overflow-y-auto font-mono text-[10px] no-scrollbar flex-none">
+                            <div style="color:#4ade80">> System initialized.</div>
+                            <div style="color:#4ade80">> Subject: Creative_01</div>
+                        </div>
+                        <div class="flex-1 flex flex-col justify-between">
+                            <div class="space-y-1 text-[11px]">
+                                <div><span class="text-zinc-500">Base Rate:</span> <span class="text-zinc-200">2%</span> <span class="text-zinc-600 text-[10px]">(system initial gate)</span></div>
+                                <div><span class="text-zinc-500">Growth Step:</span> <span class="text-zinc-200">+1% per rework cycle</span></div>
+                                <div><span class="text-zinc-500">Hard Cap:</span> <span class="text-zinc-200">10%</span> <span class="text-zinc-600 text-[10px]">(algorithm ceiling)</span></div>
+                                <div class="pt-1.5 border-t border-zinc-800 mt-1">
+                                    <div class="text-zinc-500 text-[10px] mb-0.5">Outcome Distribution:</div>
+                                    <div class="text-zinc-400 text-[10px]">P &gt; 90%: Alienation / Resignation</div>
+                                    <div class="text-zinc-400 text-[10px]">P &lt; 10%: Passed via AI Error</div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="p3Rework()" class="w-1/2 py-1.5 bg-white hover:bg-zinc-200 border border-white text-black text-[10px] font-mono rounded transition-all">CLICK TO REWORK</button>
+                                <button onclick="p3Reset()" class="w-1/2 py-1.5 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-400 text-[10px] font-mono rounded transition-all">RESET</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- chart -->
+                    <div class="flex-1 min-h-0">
+                        <svg id="p3-svg" class="w-full h-full" viewBox="0 0 520 155" preserveAspectRatio="none">
+                            <!-- grid lines -->
+                            <line x1="50" y1="10"  x2="510" y2="10"  stroke="#222" stroke-width="0.5"/>
+                            <line x1="50" y1="34"  x2="510" y2="34"  stroke="#222" stroke-width="0.5"/>
+                            <line x1="50" y1="58"  x2="510" y2="58"  stroke="#222" stroke-width="0.5"/>
+                            <line x1="50" y1="82"  x2="510" y2="82"  stroke="#222" stroke-width="0.5"/>
+                            <line x1="50" y1="106" x2="510" y2="106" stroke="#222" stroke-width="0.5"/>
+                            <line x1="50" y1="130" x2="510" y2="130" stroke="#333" stroke-width="0.8"/>
+                            <!-- y labels -->
+                            <text x="44" y="13"  fill="#555" font-size="7" text-anchor="end">100</text>
+                            <text x="44" y="37"  fill="#555" font-size="7" text-anchor="end">80</text>
+                            <text x="44" y="61"  fill="#555" font-size="7" text-anchor="end">60</text>
+                            <text x="44" y="85"  fill="#555" font-size="7" text-anchor="end">40</text>
+                            <text x="44" y="109" fill="#555" font-size="7" text-anchor="end">20</text>
+                            <text x="44" y="133" fill="#555" font-size="7" text-anchor="end">0</text>
+                            <!-- x labels -->
+                            <text x="50"  y="143" fill="#555" font-size="7" text-anchor="middle">0</text>
+                            <text x="85"  y="143" fill="#555" font-size="7" text-anchor="middle">1</text>
+                            <text x="120" y="143" fill="#555" font-size="7" text-anchor="middle">2</text>
+                            <text x="155" y="143" fill="#555" font-size="7" text-anchor="middle">3</text>
+                            <text x="191" y="143" fill="#555" font-size="7" text-anchor="middle">4</text>
+                            <text x="226" y="143" fill="#555" font-size="7" text-anchor="middle">5</text>
+                            <text x="261" y="143" fill="#555" font-size="7" text-anchor="middle">6</text>
+                            <text x="297" y="143" fill="#555" font-size="7" text-anchor="middle">7</text>
+                            <text x="332" y="143" fill="#555" font-size="7" text-anchor="middle">8</text>
+                            <text x="367" y="143" fill="#555" font-size="7" text-anchor="middle">9</text>
+                            <text x="402" y="143" fill="#555" font-size="7" text-anchor="middle">10</text>
+                            <text x="438" y="143" fill="#555" font-size="7" text-anchor="middle">11</text>
+                            <text x="473" y="143" fill="#555" font-size="7" text-anchor="middle">12</text>
+                            <text x="508" y="143" fill="#555" font-size="7" text-anchor="middle">13</text>
+                            <!-- legend -->
+                            <rect x="155" y="148" width="12" height="4" fill="#FF6B35" rx="1"/>
+                            <text x="170" y="153" fill="#aaa" font-size="7">Pass Rate %</text>
+                            <line x1="220" y1="150" x2="232" y2="150" stroke="#FFD600" stroke-width="1.5" stroke-dasharray="3 2"/>
+                            <circle cx="226" cy="150" r="2" fill="#FFD600"/>
+                            <text x="237" y="153" fill="#aaa" font-size="7">Thinking Index %</text>
+                            <!-- data lines (updated by JS) -->
+                            <polyline id="p3-think-line" points="50,10" fill="none" stroke="#FFD600" stroke-width="2" stroke-dasharray="4 3"/>
+                            <polyline id="p3-pass-line"  points="50,128" fill="none" stroke="#FF6B35" stroke-width="2"/>
+                            <g id="p3-pass-dots"></g>
+                            <g id="p3-think-dots"></g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: PART 1 STATE MACHINE VECTOR FLOW -->
+        <div id="page-4" class="slide-page absolute inset-0 w-full h-full bg-black hidden items-center justify-center">
+            <img src="pic/模拟器方法论3.jpg" class="w-full h-full object-cover">
+        </div>
+
+
+        <!-- SLIDE 5: PART 1 GAME SCREENSHOTS -->
+        <div id="page-5" class="slide-page absolute inset-0 w-full h-full bg-black hidden items-center justify-center">
+            <img src="pic/page5方法论2.jpg" class="w-full h-full object-cover">
+        </div>
+
+        <!-- SLIDE 6: PART 1 OUTCOMES -->
+        <div id="page-6" class="slide-page absolute inset-0 w-full h-full p-12 bg-[#020202] hidden flex-col justify-between">
+            <div class="flex justify-between items-center border-b border-zinc-900 pb-4">
+                <span class="text-brandAmber text-xs tracking-widest font-header font-bold">PART 01: AI CREATIVE WORK SIMULATOR</span>
+            </div>
+            <div class="flex-1 min-h-0 flex flex-col py-4">
+                <div class="shrink-0 mb-3">
+                    <h3 class="text-lg font-header font-bold text-zinc-200">Three Outcomes of Creative Alienation</h3>
+                    <p class="text-sm text-zinc-500 mt-1">Players arrive at three distinct endings shaped by their responses to acceleration, optimization, and automation. None represents victory. Each reflects a different condition of creative labor in the age of AI.</p>
+                </div>
+                <div class="flex gap-6 flex-1 min-h-0">
+                    <div class="flex-1 border border-brandRed/40 rounded-lg p-4 bg-[#0a0505] flex flex-col relative group overflow-hidden">
+                        <div class="absolute -right-12 -top-12 w-28 h-28 bg-brandRed/5 rounded-full blur-xl group-hover:bg-brandRed/10 transition-all pointer-events-none"></div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-mono text-brandRed font-semibold tracking-wider bg-brandRed/10 px-2 py-0.5 rounded">ENDING 01</span>
+                            <span class="text-zinc-500 text-xs font-mono">SOBER RESISTANCE</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-zinc-100 font-header">The Resister</h4>
+                        <p class="text-base text-zinc-400 mt-1.5 leading-relaxed">The player chooses to leave the system. Rather than surrendering creativity to endless optimization, they preserve their autonomy through refusal. Not a victory, but an act of resistance.</p>
+                        <div class="flex items-end justify-center my-2" style="height:42%">
+                            <img src="../../AI模拟器/image/新建文件夹/1%20%282%29.png" class="max-w-full max-h-full object-contain" onerror="this.style.display='none'">
+                        </div>
+                        <span class="text-sm text-brandRed font-mono tracking-wider font-bold block border-t border-zinc-900 pt-2 mt-auto shrink-0">Psychological Status: Conscious Resister</span>
+                    </div>
+                    <div class="flex-1 border border-zinc-800 rounded-lg p-4 bg-[#060608] flex flex-col relative group overflow-hidden">
+                        <div class="absolute -right-12 -top-12 w-28 h-28 bg-zinc-800/10 rounded-full blur-xl transition-all pointer-events-none"></div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-mono text-zinc-400 font-semibold tracking-wider bg-zinc-800 px-2 py-0.5 rounded">ENDING 02</span>
+                            <span class="text-zinc-500 text-xs font-mono">QUIET BURNOUT</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-zinc-100 font-header">Hollow Man</h4>
+                        <p class="text-base text-zinc-400 mt-1.5 leading-relaxed">After prolonged AI-assisted production and passive feedback cycles, the player's Thinking Index reaches zero. A state of Quiet Burnout is triggered. The body continues working, but the creative self is gone.</p>
+                        <div class="flex items-end justify-center my-2" style="height:42%">
+                            <img src="../../AI模拟器/image/新建文件夹/2%20%281%29.png" class="max-w-full max-h-full object-contain" onerror="this.style.display='none'">
+                        </div>
+                        <span class="text-sm text-zinc-400 font-mono tracking-wider font-bold block border-t border-zinc-900 pt-2 mt-auto shrink-0">Psychological Status: The Hollowed-Out</span>
+                    </div>
+                    <div class="flex-1 border border-brandPurple/40 rounded-lg p-4 bg-[#080512] flex flex-col relative group overflow-hidden">
+                        <div class="absolute -right-12 -top-12 w-28 h-28 bg-brandPurple/10 rounded-full blur-xl group-hover:bg-brandPurple/15 transition-all pointer-events-none"></div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-mono text-brandPurple font-semibold tracking-wider bg-brandPurple/20 px-2 py-0.5 rounded">ENDING 03</span>
+                            <span class="text-zinc-500 text-xs font-mono">SILENT ALIENATION</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-zinc-100 font-header">Cyber Homunculus</h4>
+                        <p class="text-base text-zinc-400 mt-1.5 leading-relaxed">Among the few who surpass the impossible 10% approval threshold. Yet this is no victory. Their will is fully assimilated into automated systems, becoming nothing more than a data interface obedient to client demands.</p>
+                        <div class="flex items-end justify-center my-2" style="height:42%">
+                            <img src="../../AI模拟器/image/新建文件夹/3%20%281%29.png" class="max-w-full max-h-full object-contain" onerror="this.style.display='none'">
+                        </div>
+                        <span class="text-sm text-brandPurple font-mono tracking-wider font-bold block border-t border-zinc-900 pt-2 mt-auto shrink-0">Psychological Status: Fully Assimilated</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 13: PART 3 POSTER 1 TIME PROGRESSION -->
+        <div id="page-13" class="slide-page absolute inset-0 w-full h-full bg-black hidden items-center justify-center">
+            <img src="pic/13改标.jpg" class="w-full h-full object-cover">
+        </div>
+
+        <!-- SLIDE 14: PART 3 POSTER 2 BLOOMING -->
+        <div id="page-14" class="slide-page absolute inset-0 w-full h-full bg-black hidden items-center justify-center">
+            <img src="pic/14改标.jpg" class="w-full h-full object-cover">
+        </div>
+
+        <!-- SLIDE 15: DESIGN METHODOLOGY IMAGE -->
+        <div id="page-15" class="slide-page absolute inset-0 w-full h-full bg-black hidden items-center justify-center">
+            <img src="pic/花的方法论3.jpg" class="w-full h-full object-cover">
+            <div class="absolute bottom-0 left-0 right-0 bg-black" style="height:4%"></div>
+        </div>
+        <div style="display:none">
+            <!-- Title section -->
+            <div class="flex items-end gap-6 px-6 pt-3 pb-3 border-b border-zinc-800 shrink-0">
+                <div style="flex:0 0 44%">
+                    <h1 class="text-[38px] font-black text-brandPink leading-none tracking-tight">DESIGN METHODOLOGY</h1>
+                    <p class="text-[10px] text-zinc-400 mt-1 tracking-wide">Translating Feminist Theory into Computational Behaviors</p>
+                </div>
+                <div class="w-px self-stretch bg-zinc-700 shrink-0"></div>
+                <div class="flex-1 flex items-center">
+                    <p class="text-[11px] text-zinc-300 leading-relaxed">Rather than illustrating feminist concepts,<br>the project translates them into procedural systems<br>that continuously generate visual behavior.</p>
+                </div>
+            </div>
+            <!-- 4-column main grid -->
+            <div class="flex-1 min-h-0 grid grid-cols-4 divide-x divide-zinc-800 overflow-hidden">
+
+                <!-- COL 01: RESEARCH -->
+                <div class="flex flex-col px-4 py-3 overflow-hidden">
+                    <div class="flex items-baseline gap-2 mb-1">
+                        <span class="text-brandPink text-sm font-black">01</span>
+                        <span class="text-[9px] font-bold text-zinc-100 tracking-widest">RESEARCH</span>
+                    </div>
+                    <p class="text-[8px] text-zinc-500 mb-2">Theoretical Foundation</p>
+                    <!-- Book placeholders -->
+                    <div class="flex gap-1 mb-3">
+                        <div class="flex-1 bg-zinc-900 rounded overflow-hidden flex flex-col items-center justify-center p-1 text-center" style="height:60px">
+                            <p class="text-[6.5px] text-zinc-300 font-bold leading-tight">The Beauty Myth</p>
+                            <p class="text-[6px] text-zinc-600 mt-0.5">Naomi Wolf</p>
+                        </div>
+                        <div class="flex-1 bg-zinc-900 rounded overflow-hidden flex flex-col items-center justify-center p-1 text-center" style="height:60px">
+                            <p class="text-[6.5px] text-zinc-300 font-bold leading-tight">Visual Pleasure &amp; Narrative Cinema</p>
+                            <p class="text-[6px] text-zinc-600 mt-0.5">Laura Mulvey</p>
+                        </div>
+                        <div class="flex-1 bg-zinc-900 rounded overflow-hidden flex flex-col items-center justify-center p-1 text-center" style="height:60px">
+                            <p class="text-[6.5px] text-zinc-300 font-bold leading-tight">The Female Body in Western Culture</p>
+                            <p class="text-[6px] text-zinc-600 mt-0.5">Susan Bordo</p>
+                        </div>
+                    </div>
+                    <p class="text-[7px] text-zinc-500 tracking-widest font-bold mb-2">KEY CONCEPTS</p>
+                    <div class="space-y-2 flex-1">
+                        <div class="flex gap-2 items-start">
+                            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" class="shrink-0 mt-0.5"><ellipse cx="7" cy="7" rx="6" ry="4" stroke="#ec4899" stroke-width="1"/><circle cx="7" cy="7" r="2" stroke="#ec4899" stroke-width="1"/><circle cx="7" cy="7" r="0.8" fill="#ec4899"/></svg>
+                            <div><p class="text-[7.5px] font-bold text-zinc-300 tracking-wider">THE GAZE</p><p class="text-[7.5px] text-zinc-500 leading-snug">Women are positioned as objects to be looked at and evaluated.</p></div>
+                        </div>
+                        <div class="flex gap-2 items-start">
+                            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" class="shrink-0 mt-0.5"><circle cx="7" cy="3" r="1.5" stroke="#ec4899" stroke-width="1"/><line x1="7" y1="4.5" x2="7" y2="9" stroke="#ec4899" stroke-width="1"/><line x1="4" y1="6.5" x2="10" y2="6.5" stroke="#ec4899" stroke-width="1"/><line x1="7" y1="9" x2="4.5" y2="13" stroke="#ec4899" stroke-width="1"/><line x1="7" y1="9" x2="9.5" y2="13" stroke="#ec4899" stroke-width="1"/></svg>
+                            <div><p class="text-[7.5px] font-bold text-zinc-300 tracking-wider">BODY POLITICS</p><p class="text-[7.5px] text-zinc-500 leading-snug">The female body is regulated, shaped and controlled by cultural and power structures.</p></div>
+                        </div>
+                        <div class="flex gap-2 items-start">
+                            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" class="shrink-0 mt-0.5"><circle cx="7" cy="7" r="1.5" fill="#ec4899"/><circle cx="3" cy="5" r="0.8" fill="#ec4899" opacity="0.6"/><circle cx="11" cy="5" r="0.8" fill="#ec4899" opacity="0.6"/><circle cx="3" cy="9" r="0.8" fill="#ec4899" opacity="0.6"/><circle cx="11" cy="9" r="0.8" fill="#ec4899" opacity="0.6"/><circle cx="7" cy="2" r="0.6" fill="#ec4899" opacity="0.4"/><circle cx="7" cy="12" r="0.6" fill="#ec4899" opacity="0.4"/></svg>
+                            <div><p class="text-[7.5px] font-bold text-zinc-300 tracking-wider">OBSERVER EFFECT</p><p class="text-[7.5px] text-zinc-500 leading-snug">Observation is not neutral— it produces changes.</p></div>
+                        </div>
+                    </div>
+                    <div class="border border-brandPink/60 rounded p-2 mt-2 shrink-0">
+                        <p class="text-[7px] text-brandPink font-bold tracking-widest mb-0.5">INSIGHT</p>
+                        <p class="text-[7.5px] text-brandPink leading-snug">The act of looking is an act of power.<br>It shapes, distorts, and transforms what it observes.</p>
+                    </div>
+                </div>
+
+                <!-- COL 02: CONCEPT TRANSLATION -->
+                <div class="flex flex-col px-4 py-3 overflow-hidden">
+                    <div class="flex items-baseline gap-2 mb-1">
+                        <span class="text-brandPink text-sm font-black">02</span>
+                        <span class="text-[9px] font-bold text-zinc-100 tracking-widest">CONCEPT TRANSLATION</span>
+                    </div>
+                    <p class="text-[8px] text-zinc-500 mb-2">From Theory to Computational Behavior</p>
+                    <div class="grid grid-cols-2 gap-1 border-b border-zinc-800 pb-1 mb-2">
+                        <p class="text-[7px] text-zinc-500 tracking-widest">THEORY</p>
+                        <p class="text-[7px] text-zinc-500 tracking-widest">COMPUTATIONAL BEHAVIOR</p>
+                    </div>
+                    <!-- Row 1 -->
+                    <div class="grid grid-cols-2 gap-2 mb-3 flex-1">
+                        <div>
+                            <p class="text-[8px] font-bold text-zinc-200 mb-0.5">The Gaze</p>
+                            <p class="text-[7.5px] text-zinc-500 leading-snug">A gaze is directed toward the object.</p>
+                            <div class="mt-1"><svg width="80" height="32" viewBox="0 0 80 32" fill="none"><circle cx="8" cy="16" r="2" fill="#ec4899" opacity="0.4"/><circle cx="18" cy="9" r="1.5" fill="#ec4899" opacity="0.3"/><circle cx="18" cy="23" r="1.5" fill="#ec4899" opacity="0.3"/><line x1="30" y1="16" x2="44" y2="16" stroke="#ec4899" stroke-width="0.8"/><path d="M41 13 L44 16 L41 19" stroke="#ec4899" stroke-width="0.8"/><circle cx="60" cy="16" r="10" stroke="#ec4899" stroke-width="1"/><circle cx="60" cy="16" r="4" stroke="#ec4899" stroke-width="0.8" opacity="0.5"/><circle cx="60" cy="16" r="1.5" fill="#ec4899"/></svg></div>
+                        </div>
+                        <div>
+                            <p class="text-[8px] font-bold text-brandPink mb-0.5">Gaze as Disturbance</p>
+                            <p class="text-[7.5px] text-zinc-500 leading-snug">The viewer's observation becomes input that disturbs the system.</p>
+                        </div>
+                    </div>
+                    <!-- Row 2 -->
+                    <div class="grid grid-cols-2 gap-2 mb-3 flex-1">
+                        <div>
+                            <p class="text-[8px] font-bold text-zinc-200 mb-0.5">Body Politics</p>
+                            <p class="text-[7.5px] text-zinc-500 leading-snug">The body is shaped and constrained by external forces.</p>
+                            <div class="mt-1"><svg width="80" height="32" viewBox="0 0 80 32" fill="none"><circle cx="40" cy="16" r="12" stroke="#ec4899" stroke-width="0.8" opacity="0.3"/><circle cx="40" cy="16" r="7" stroke="#ec4899" stroke-width="0.8" opacity="0.5"/><circle cx="40" cy="16" r="3" stroke="#ec4899" stroke-width="1"/><circle cx="27" cy="10" r="1" fill="#ec4899" opacity="0.4"/><circle cx="53" cy="10" r="1" fill="#ec4899" opacity="0.4"/><circle cx="27" cy="22" r="1" fill="#ec4899" opacity="0.4"/><circle cx="53" cy="22" r="1" fill="#ec4899" opacity="0.4"/></svg></div>
+                        </div>
+                        <div>
+                            <p class="text-[8px] font-bold text-brandPink mb-0.5">Particles Under Constraint</p>
+                            <p class="text-[7.5px] text-zinc-500 leading-snug">Particles are influenced by invisible forces, constantly pulled and reshaped.</p>
+                        </div>
+                    </div>
+                    <!-- Row 3 -->
+                    <div class="grid grid-cols-2 gap-2 flex-1">
+                        <div>
+                            <p class="text-[8px] font-bold text-zinc-200 mb-0.5">Observer Effect</p>
+                            <p class="text-[7.5px] text-zinc-500 leading-snug">Observation changes the state of what is being observed.</p>
+                            <div class="mt-1"><svg width="80" height="32" viewBox="0 0 80 32" fill="none"><circle cx="20" cy="16" r="7" stroke="#ec4899" stroke-width="0.8" stroke-dasharray="2 1" opacity="0.5"/><circle cx="60" cy="16" r="7" stroke="#ec4899" stroke-width="0.8"/><line x1="28" y1="16" x2="51" y2="16" stroke="#ec4899" stroke-width="0.8"/><path d="M48 13 L51 16 L48 19" stroke="#ec4899" stroke-width="0.8"/><circle cx="20" cy="16" r="2" fill="#ec4899" opacity="0.3"/><circle cx="60" cy="16" r="3" fill="#ec4899" opacity="0.8"/></svg></div>
+                        </div>
+                        <div>
+                            <p class="text-[8px] font-bold text-brandPink mb-0.5">Memory &amp; Reorganization</p>
+                            <p class="text-[7.5px] text-zinc-500 leading-snug">The system retains traces of previous states and reorganizes into a new form.</p>
+                        </div>
+                    </div>
+                    <div class="border border-brandPink/60 rounded p-2 mt-2 shrink-0">
+                        <p class="text-[7.5px] text-brandPink text-center leading-snug">Concepts are not illustrated,<br>they are encoded into rules.</p>
+                    </div>
+                </div>
+
+                <!-- COL 03: SYSTEM ALGORITHM -->
+                <div class="flex flex-col px-4 py-3 overflow-hidden">
+                    <div class="flex items-baseline gap-2 mb-1">
+                        <span class="text-brandPink text-sm font-black">03</span>
+                        <span class="text-[9px] font-bold text-zinc-100 tracking-widest">SYSTEM ALGORITHM</span>
+                    </div>
+                    <p class="text-[8px] text-zinc-500 mb-2">Computational Process</p>
+                    <div class="grid grid-cols-2 border-b border-zinc-800 pb-1 mb-1 gap-2">
+                        <p class="text-[7px] text-zinc-500 tracking-widest">MODULE</p>
+                        <p class="text-[7px] text-zinc-500 tracking-widest">FUNCTION</p>
+                    </div>
+                    <div class="flex-1 flex flex-col justify-between">
+                        <!-- INPUT -->
+                        <div class="grid grid-cols-2 gap-2 items-start">
+                            <div class="flex items-center gap-1.5"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="12" height="9" rx="1" stroke="#ec4899" stroke-width="0.8"/><circle cx="8" cy="8.5" r="2.5" stroke="#ec4899" stroke-width="0.8"/><rect x="5" y="2" width="6" height="2" rx="0.5" stroke="#ec4899" stroke-width="0.8"/></svg><div><p class="text-[7.5px] font-bold text-zinc-200">INPUT</p><p class="text-[7px] text-zinc-600">Webcam</p></div></div>
+                            <p class="text-[7.5px] text-zinc-500 leading-snug">Capture viewer movement in real time.</p>
+                        </div>
+                        <div class="text-center text-brandPink text-[8px]">↓</div>
+                        <!-- OPTICAL FLOW -->
+                        <div class="grid grid-cols-2 gap-2 items-start">
+                            <div class="flex items-center gap-1.5"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 8 Q5 4 8 8 Q11 12 14 8" stroke="#ec4899" stroke-width="0.8" fill="none"/><path d="M2 11 Q5 7 8 11 Q11 15 14 11" stroke="#ec4899" stroke-width="0.8" fill="none" opacity="0.5"/><path d="M2 5 Q5 1 8 5 Q11 9 14 5" stroke="#ec4899" stroke-width="0.8" fill="none" opacity="0.5"/></svg><div><p class="text-[7.5px] font-bold text-zinc-200">OPTICAL FLOW</p><p class="text-[7px] text-zinc-600">TOP</p></div></div>
+                            <p class="text-[7.5px] text-zinc-500 leading-snug">Detect subtle motion and generate motion vectors.</p>
+                        </div>
+                        <div class="text-center text-brandPink text-[8px]">↓</div>
+                        <!-- PARTICLE GENERATION -->
+                        <div class="grid grid-cols-2 gap-2 items-start">
+                            <div class="flex items-center gap-1.5"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="1.5" fill="#ec4899"/><circle cx="4" cy="5" r="1" fill="#ec4899" opacity="0.7"/><circle cx="12" cy="5" r="1" fill="#ec4899" opacity="0.7"/><circle cx="4" cy="11" r="1" fill="#ec4899" opacity="0.7"/><circle cx="12" cy="11" r="1" fill="#ec4899" opacity="0.7"/><circle cx="2" cy="8" r="0.7" fill="#ec4899" opacity="0.4"/><circle cx="14" cy="8" r="0.7" fill="#ec4899" opacity="0.4"/></svg><div><p class="text-[7.5px] font-bold text-zinc-200">PARTICLE GENERATION</p><p class="text-[7px] text-zinc-600">SOP</p></div></div>
+                            <p class="text-[7.5px] text-zinc-500 leading-snug">Convert motion data into particles.</p>
+                        </div>
+                        <div class="text-center text-brandPink text-[8px]">↓</div>
+                        <!-- NOISE FIELD -->
+                        <div class="grid grid-cols-2 gap-2 items-start">
+                            <div class="flex items-center gap-1.5"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 12 C4 8 6 10 8 6 C10 2 12 6 14 4" stroke="#ec4899" stroke-width="0.8" fill="none"/><circle cx="3" cy="11" r="0.7" fill="#ec4899" opacity="0.5"/><circle cx="13" cy="4" r="0.7" fill="#ec4899" opacity="0.5"/></svg><div><p class="text-[7.5px] font-bold text-zinc-200">NOISE FIELD</p><p class="text-[7px] text-zinc-600">CHOP</p></div></div>
+                            <p class="text-[7.5px] text-zinc-500 leading-snug">Introduce instability and dissolution.</p>
+                        </div>
+                        <div class="text-center text-brandPink text-[8px]">↓</div>
+                        <!-- FORCE FIELD -->
+                        <div class="grid grid-cols-2 gap-2 items-start">
+                            <div class="flex items-center gap-1.5"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5" stroke="#ec4899" stroke-width="0.8" opacity="0.4"/><path d="M8 3 A5 5 0 0 1 13 8" stroke="#ec4899" stroke-width="1" stroke-linecap="round"/><path d="M11 6 L13 8 L10.5 9.5" stroke="#ec4899" stroke-width="0.8" stroke-linecap="round"/></svg><div><p class="text-[7.5px] font-bold text-zinc-200">FORCE FIELD</p><p class="text-[7px] text-zinc-600">SOP</p></div></div>
+                            <p class="text-[7.5px] text-zinc-500 leading-snug">Apply attraction fields to pull particles into new configurations.</p>
+                        </div>
+                        <div class="text-center text-brandPink text-[8px]">↓</div>
+                        <!-- FEEDBACK LOOP -->
+                        <div class="grid grid-cols-2 gap-2 items-start">
+                            <div class="flex items-center gap-1.5"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8 A5 5 0 1 1 8 13" stroke="#ec4899" stroke-width="0.8" stroke-linecap="round"/><path d="M6 11 L8 13 L6 15" stroke="#ec4899" stroke-width="0.8" stroke-linecap="round"/><circle cx="8" cy="8" r="1.5" fill="#ec4899" opacity="0.6"/></svg><div><p class="text-[7.5px] font-bold text-zinc-200">FEEDBACK LOOP</p><p class="text-[7px] text-zinc-600">TOP</p></div></div>
+                            <p class="text-[7.5px] text-zinc-500 leading-snug">Retain particle state across time to preserve memory.</p>
+                        </div>
+                        <div class="text-center text-brandPink text-[8px]">↓</div>
+                        <!-- RENDER OUTPUT -->
+                        <div class="grid grid-cols-2 gap-2 items-start">
+                            <div class="flex items-center gap-1.5"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="#ec4899" stroke-width="0.8"/><line x1="8" y1="1" x2="8" y2="4" stroke="#ec4899" stroke-width="0.8"/><line x1="8" y1="12" x2="8" y2="15" stroke="#ec4899" stroke-width="0.8"/><line x1="1" y1="8" x2="4" y2="8" stroke="#ec4899" stroke-width="0.8"/><line x1="12" y1="8" x2="15" y2="8" stroke="#ec4899" stroke-width="0.8"/><line x1="3.5" y1="3.5" x2="5.5" y2="5.5" stroke="#ec4899" stroke-width="0.8" opacity="0.6"/><line x1="10.5" y1="10.5" x2="12.5" y2="12.5" stroke="#ec4899" stroke-width="0.8" opacity="0.6"/><line x1="12.5" y1="3.5" x2="10.5" y2="5.5" stroke="#ec4899" stroke-width="0.8" opacity="0.6"/><line x1="5.5" y1="10.5" x2="3.5" y2="12.5" stroke="#ec4899" stroke-width="0.8" opacity="0.6"/></svg><div><p class="text-[7.5px] font-bold text-zinc-200">RENDER OUTPUT</p><p class="text-[7px] text-zinc-600">COMP</p></div></div>
+                            <p class="text-[7.5px] text-zinc-500 leading-snug">Render the evolving structure in real time.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COL 04: VISUAL OUTCOME -->
+                <div class="flex flex-col px-4 py-3 overflow-hidden">
+                    <div class="flex items-baseline gap-2 mb-1">
+                        <span class="text-brandPink text-sm font-black">04</span>
+                        <span class="text-[9px] font-bold text-zinc-100 tracking-widest">VISUAL OUTCOME</span>
+                    </div>
+                    <p class="text-[8px] text-zinc-500 mb-2">From Behavior to Visual Language</p>
+                    <!-- Poster I -->
+                    <p class="text-[7.5px] text-brandPink font-bold tracking-wider mb-1">POSTER I : DISSIPATION &amp; REORGANIZATION</p>
+                    <div class="flex gap-1 items-center mb-2 shrink-0" style="height:38px">
+                        <div class="flex-1 h-full bg-zinc-900 rounded-sm overflow-hidden"><img src="pic/1.png" class="w-full h-full object-cover" onerror="this.style.display='none'"></div>
+                        <span class="text-brandPink text-[8px] shrink-0">→</span>
+                        <div class="flex-1 h-full bg-zinc-900 rounded-sm overflow-hidden"><img src="pic/2.png" class="w-full h-full object-cover" onerror="this.style.display='none'"></div>
+                        <span class="text-brandPink text-[8px] shrink-0">→</span>
+                        <div class="flex-1 h-full bg-zinc-900 rounded-sm overflow-hidden"><img src="pic/3.png" class="w-full h-full object-cover" onerror="this.style.display='none'"></div>
+                        <span class="text-brandPink text-[8px] shrink-0">→</span>
+                        <div class="flex-1 h-full bg-zinc-900 rounded-sm overflow-hidden"><img src="pic/4.png" class="w-full h-full object-cover" onerror="this.style.display='none'"></div>
+                    </div>
+                    <!-- Poster II -->
+                    <p class="text-[7.5px] text-brandPink font-bold tracking-wider mb-1">POSTER II : BLOOMING DYNAMICS</p>
+                    <div class="flex gap-1 items-center mb-2 shrink-0" style="height:38px">
+                        <div class="flex-1 h-full bg-zinc-900 rounded-sm"></div>
+                        <span class="text-brandPink text-[8px] shrink-0">→</span>
+                        <div class="flex-1 h-full bg-zinc-900 rounded-sm"></div>
+                        <span class="text-brandPink text-[8px] shrink-0">→</span>
+                        <div class="flex-1 h-full bg-zinc-900 rounded-sm"></div>
+                        <span class="text-brandPink text-[8px] shrink-0">→</span>
+                        <div class="flex-1 h-full bg-zinc-900 rounded-sm"></div>
+                    </div>
+                    <!-- Dynamic Scene -->
+                    <p class="text-[7.5px] text-brandPink font-bold tracking-wider mb-1">DYNAMIC SCENE <span class="text-zinc-500 font-normal">(REAL-TIME OUTPUT)</span></p>
+                    <div class="flex gap-1 items-stretch mb-2 flex-1 min-h-0">
+                        <div class="flex-1 bg-zinc-900 rounded-sm"></div>
+                        <div class="flex-1 bg-zinc-900 rounded-sm"></div>
+                        <div class="flex-1 bg-zinc-900 rounded-sm"></div>
+                        <div class="flex-1 bg-zinc-900 rounded-sm"></div>
+                    </div>
+                    <div class="border border-zinc-700 rounded p-2 shrink-0">
+                        <p class="text-[7.5px] text-zinc-400 text-center leading-snug">Visual outcomes are emergent results<br>of the system—not predetermined images.</p>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Bottom bar -->
+            <div class="border-t border-zinc-800 px-6 py-2.5 shrink-0 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <svg width="20" height="18" viewBox="0 0 20 18" fill="none"><rect x="1" y="2" width="18" height="13" rx="1" stroke="#71717a" stroke-width="1"/><line x1="1" y1="6" x2="19" y2="6" stroke="#71717a" stroke-width="0.8"/><line x1="4" y1="9.5" x2="16" y2="9.5" stroke="#71717a" stroke-width="0.7" opacity="0.5"/><line x1="4" y1="12" x2="13" y2="12" stroke="#71717a" stroke-width="0.7" opacity="0.5"/></svg>
+                    <div><p class="text-[7.5px] font-bold text-zinc-400 tracking-widest">THEORY</p><p class="text-[7px] text-zinc-600 leading-tight">Critical feminist theory<br>and cultural analysis</p></div>
+                </div>
+                <span class="text-zinc-700 text-[7px] tracking-widest">··········→</span>
+                <div class="flex items-center gap-2">
+                    <svg width="20" height="18" viewBox="0 0 20 18" fill="none"><path d="M10 1 L19 6 L19 12 L10 17 L1 12 L1 6 Z" stroke="#71717a" stroke-width="1" fill="none"/><line x1="10" y1="1" x2="10" y2="17" stroke="#71717a" stroke-width="0.6" opacity="0.4"/><line x1="1" y1="6" x2="19" y2="6" stroke="#71717a" stroke-width="0.6" opacity="0.4"/><line x1="1" y1="12" x2="19" y2="12" stroke="#71717a" stroke-width="0.6" opacity="0.4"/></svg>
+                    <div><p class="text-[7.5px] font-bold text-zinc-400 tracking-widest">COMPUTATION</p><p class="text-[7px] text-zinc-600 leading-tight">Algorithmic translation<br>and system design</p></div>
+                </div>
+                <span class="text-zinc-700 text-[7px] tracking-widest">··········→</span>
+                <div class="flex items-center gap-2">
+                    <svg width="20" height="18" viewBox="0 0 20 18" fill="none"><circle cx="10" cy="9" r="2.5" fill="#71717a" opacity="0.7"/><circle cx="4" cy="5" r="1.8" fill="#71717a" opacity="0.5"/><circle cx="16" cy="5" r="1.8" fill="#71717a" opacity="0.5"/><circle cx="4" cy="13" r="1.8" fill="#71717a" opacity="0.5"/><circle cx="16" cy="13" r="1.8" fill="#71717a" opacity="0.5"/><circle cx="10" cy="1.5" r="1.2" fill="#71717a" opacity="0.3"/><circle cx="10" cy="16.5" r="1.2" fill="#71717a" opacity="0.3"/></svg>
+                    <div><p class="text-[7.5px] font-bold text-zinc-400 tracking-widest">BEHAVIOR</p><p class="text-[7px] text-zinc-600 leading-tight">Real-time particle simulation<br>and generative process</p></div>
+                </div>
+                <span class="text-zinc-700 text-[7px] tracking-widest">··········→</span>
+                <div class="flex items-center gap-2">
+                    <svg width="20" height="18" viewBox="0 0 20 18" fill="none"><circle cx="10" cy="9" r="3" stroke="#71717a" stroke-width="1"/><line x1="10" y1="1" x2="10" y2="5" stroke="#71717a" stroke-width="1"/><line x1="10" y1="13" x2="10" y2="17" stroke="#71717a" stroke-width="1"/><line x1="2" y1="9" x2="6" y2="9" stroke="#71717a" stroke-width="1"/><line x1="14" y1="9" x2="18" y2="9" stroke="#71717a" stroke-width="1"/><line x1="4" y1="3" x2="6.5" y2="5.5" stroke="#71717a" stroke-width="0.8" opacity="0.7"/><line x1="13.5" y1="12.5" x2="16" y2="15" stroke="#71717a" stroke-width="0.8" opacity="0.7"/><line x1="16" y1="3" x2="13.5" y2="5.5" stroke="#71717a" stroke-width="0.8" opacity="0.7"/><line x1="6.5" y1="12.5" x2="4" y2="15" stroke="#71717a" stroke-width="0.8" opacity="0.7"/></svg>
+                    <div><p class="text-[7.5px] font-bold text-zinc-400 tracking-widest">VISUAL LANGUAGE</p><p class="text-[7px] text-zinc-600 leading-tight">Posters and dynamic scenes<br>as a new visual discourse</p></div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- SLIDE 17: PART 4 DIRECTOR INTRO -->
+        <div id="page-16" class="slide-page absolute inset-0 w-full h-full bg-black hidden items-center justify-center">
+            <img src="pic/16.jpg" class="w-full h-full object-cover">
+        </div>
+        <div style="display:none">
+            <!-- Header -->
+            <div class="flex justify-between items-center px-8 py-3 border-b border-zinc-800 shrink-0">
+                <span class="text-[#d95ef3] text-[9px] tracking-widest font-bold font-mono">PART 04: BEHIND THE TIME — COMMERCIAL VISUALS &amp; FILM STORYTELLING</span>
+                <span class="text-zinc-500 text-[9px] font-mono tracking-widest">PAGE 17 / DISLYTE CINEMATIC</span>
+            </div>
+            <!-- Body -->
+            <div class="flex-1 min-h-0 flex overflow-hidden">
+                <!-- Left column ~65% -->
+                <div class="flex flex-col py-5 pl-8 pr-4 overflow-hidden" style="width:65%">
+                    <!-- Text block, z-index above image -->
+                    <div class="shrink-0 relative z-10">
+                        <span class="text-zinc-400 text-[9px] font-mono tracking-widest uppercase block mb-2">3D COMMERCIAL CINEMATIC</span>
+                        <h2 class="text-[40px] font-black text-white leading-tight">BEHIND THE TIME:</h2>
+                        <div class="w-10 h-1 bg-[#d95ef3] mt-2 mb-3"></div>
+                        <p class="text-sm font-bold text-[#d95ef3]">My Role: Director, Art Director,<br>Scene Designer</p>
+                    </div>
+                    <!-- Image placeholder -->
+                    <div class="flex-1 min-h-0 rounded bg-black" style="margin-top:-80px"></div>
+                    <span class="text-[8px] text-zinc-600 font-mono mt-1 mb-2 shrink-0 relative z-10">FINAL KEY FRAME (16:9)</span>
+                    <!-- Three small image placeholders -->
+                    <div class="grid grid-cols-3 gap-2 shrink-0" style="height:100px">
+                        <div class="bg-zinc-900 rounded flex items-end p-2">
+                            <span class="text-[7px] text-zinc-600 font-mono">LIGHTING PASS</span>
+                        </div>
+                        <div class="bg-zinc-900 rounded flex items-end p-2">
+                            <span class="text-[7px] text-zinc-600 font-mono">CAMERA ANGLE &amp; COMPOSITION</span>
+                        </div>
+                        <div class="bg-zinc-900 rounded flex items-end p-2">
+                            <span class="text-[7px] text-zinc-600 font-mono">DETAIL EXPLORATION</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Right column -->
+                <div class="flex flex-col px-8 py-5 overflow-hidden flex-1 border-l border-zinc-800">
+                    <!-- PROJECT OVERVIEW -->
+                    <div class="mb-5 shrink-0">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-8 h-8 rounded-full border border-[#d95ef3] flex items-center justify-center shrink-0">
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2.5" y="2.5" width="11" height="11" rx="1.5" stroke="#d95ef3" stroke-width="1.2"/><line x1="5.5" y1="2.5" x2="5.5" y2="13.5" stroke="#d95ef3" stroke-width="1"/><line x1="10.5" y1="2.5" x2="10.5" y2="13.5" stroke="#d95ef3" stroke-width="1"/></svg>
+                            </div>
+                            <span class="text-[#d95ef3] text-[10px] tracking-widest font-bold font-mono">PROJECT OVERVIEW</span>
+                        </div>
+                        <div class="border-t border-zinc-800 pt-3">
+                            <p class="text-sm text-zinc-400 leading-relaxed">A 3D commercial cinematic sequence developed for Dislyte. The story explores the confrontation between ancient forces and futuristic ideals, visualizing a world where mythology collides with cyberpunk aesthetics.</p>
+                        </div>
+                    </div>
+                    <!-- DESIGN QUESTION -->
+                    <div class="mb-5 shrink-0">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-8 h-8 rounded-full border border-[#d95ef3] flex items-center justify-center shrink-0">
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="#d95ef3" stroke-width="1.2"/><circle cx="8" cy="11.5" r="0.6" fill="#d95ef3"/><path d="M6.5 6C6.5 5.17 7.17 4.5 8 4.5s1.5.67 1.5 1.5c0 1-1.5 1.5-1.5 2.5" stroke="#d95ef3" stroke-width="1.1" stroke-linecap="round"/></svg>
+                            </div>
+                            <span class="text-[#d95ef3] text-[10px] tracking-widest font-bold font-mono">DESIGN QUESTION</span>
+                        </div>
+                        <div class="border-t border-zinc-800 pt-3">
+                            <p class="text-sm text-zinc-400 leading-relaxed">How can mythological symbols remain culturally recognizable while existing within a cyberpunk metropolis?</p>
+                        </div>
+                    </div>
+                    <!-- MY CONTRIBUTION -->
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-8 h-8 rounded-full border border-[#d95ef3] flex items-center justify-center shrink-0">
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5.5" r="2.5" stroke="#d95ef3" stroke-width="1.2"/><path d="M3 13.5c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="#d95ef3" stroke-width="1.2" stroke-linecap="round"/></svg>
+                            </div>
+                            <span class="text-[#d95ef3] text-[10px] tracking-widest font-bold font-mono">MY CONTRIBUTION</span>
+                        </div>
+                        <div class="border-t border-zinc-800 pt-3">
+                            <ul class="text-sm text-zinc-400 leading-relaxed space-y-1.5">
+                                <li>• Scene Direction</li>
+                                <li>• Visual Narrative</li>
+                                <li>• Environment Design</li>
+                                <li>• Composition &amp; Camera Language</li>
+                                <li>• Cinematic Lighting</li>
+                                <li>• Art Direction</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Bottom bar -->
+            <div class="border-t border-zinc-800 px-8 py-3 shrink-0 flex items-center justify-between">
+                <div class="flex items-center gap-4 flex-1 min-w-0">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" class="shrink-0"><circle cx="14" cy="14" r="2.5" fill="#d95ef3"/><line x1="14" y1="4" x2="14" y2="9" stroke="#d95ef3" stroke-width="1.5" stroke-linecap="round"/><line x1="14" y1="19" x2="14" y2="24" stroke="#d95ef3" stroke-width="1.5" stroke-linecap="round"/><line x1="4" y1="14" x2="9" y2="14" stroke="#d95ef3" stroke-width="1.5" stroke-linecap="round"/><line x1="19" y1="14" x2="24" y2="14" stroke="#d95ef3" stroke-width="1.5" stroke-linecap="round"/><line x1="7.51" y1="7.51" x2="10.99" y2="10.99" stroke="#d95ef3" stroke-width="1.5" stroke-linecap="round"/><line x1="17.01" y1="17.01" x2="20.49" y2="20.49" stroke="#d95ef3" stroke-width="1.5" stroke-linecap="round"/><line x1="20.49" y1="7.51" x2="17.01" y2="10.99" stroke="#d95ef3" stroke-width="1.5" stroke-linecap="round"/><line x1="10.99" y1="17.01" x2="7.51" y2="20.49" stroke="#d95ef3" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    <span class="text-[#d95ef3] text-[10px] tracking-widest font-bold font-mono shrink-0">VISUAL GOAL</span>
+                    <p class="text-sm text-zinc-400">Reimagine mythological symbols as a <span class="text-[#d95ef3]">living visual language</span> within a cyberpunk world, creating a cinematic experience that bridges culture, emotion, and futuristic fantasy.</p>
+                </div>
+                <span class="text-zinc-100 font-black text-xl tracking-widest shrink-0 ml-8">DIS<span class="text-[#d95ef3]">↯</span>LYTE</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 18: PART 4 WORLD CONCEPT PRE-VIZ -->
+        <div id="page-17" class="slide-page absolute inset-0 w-full h-full bg-black hidden items-center justify-center">
+            <img src="pic/金字塔2.png" class="w-full h-full object-cover">
+        </div>
+
+        <!-- SLIDE 19: PART 4 SPATIAL ARCHAEOLOGY -->
+        <div id="page-18" class="slide-page absolute inset-0 w-full h-full px-12 pt-6 pb-10 bg-black hidden flex-col justify-between">
+            <div class="flex justify-between items-center border-b border-zinc-800 pb-4">
+                <img src="pic/part04.png" class="h-3 object-contain">
+            </div>
+            <div class="flex-1 grid grid-cols-12 gap-8 items-stretch py-3">
+                <div class="col-span-8 rounded overflow-hidden">
+                    <img src="pic/内部2.png" alt="Interior Corridor" class="w-full h-full object-cover">
+                </div>
+                <div class="col-span-4 flex flex-col justify-between h-full pl-2">
+                    <div>
+                        <span class="text-[13px] font-mono tracking-widest block uppercase font-bold" style="color:#d95ef3">ENVIRONMENTAL STORYTELLING</span>
+                        <h3 class="text-sm font-semibold text-zinc-200 mt-1">Reconstructing Memory Through Interior Space</h3>
+                        <p class="text-sm text-zinc-400 mt-2 leading-relaxed">The pyramid interior combines ancient Egyptian murals, hieroglyphic inscriptions, ceremonial architecture, and contemporary urban relics into a single spatial narrative. Each object functions not only as environmental decoration, but also as a fragment of cultural memory embedded within the scene.</p>
+                        <p class="text-sm text-zinc-400 mt-2 leading-relaxed">Rather than recreating history, the environment stages a dialogue between ancient mythology and speculative futures. Traditional symbols are intentionally relocated into futuristic architecture, producing a sense of temporal dislocation.</p>
+                    </div>
+                    <div>
+                        <span class="text-[13px] font-mono tracking-widest uppercase font-bold block mb-1" style="color:#d95ef3">Environment References</span>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="overflow-hidden rounded"><img src="pic/内对比1.png" alt="内对比1" class="w-full h-full object-cover"></div>
+                            <div class="overflow-hidden rounded"><img src="pic/内对比2.png" alt="内对比2" class="w-full h-full object-cover"></div>
+                            <div class="col-span-2 overflow-hidden rounded"><img src="pic/材料1.png" alt="材料1" class="w-full object-cover"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- SLIDE 21: PART 4 STORYBOARDS -->
+        <div id="page-19" class="slide-page absolute inset-0 w-full h-full bg-black hidden flex-col">
+            <div class="flex items-center px-12 pt-3 pb-3 border-b border-zinc-800 shrink-0">
+                <img src="pic/part04.png" class="h-3 object-contain">
+            </div>
+            <div class="flex-1 flex items-center justify-center min-h-0 overflow-hidden pb-10">
+                <img src="pic/动态分镜.png" alt="动态分镜" class="w-full h-full object-contain">
+            </div>
+        </div>
+
+
+        <!-- SLIDE 24: SUMMARY & EPILOGUE -->
+        <div id="page-24" class="slide-page absolute inset-0 w-full h-full p-12 bg-[#020202] hidden flex-col justify-between">
+            <div class="flex justify-between items-center border-b border-zinc-900 pb-4">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandPinkNeon to-brandPurple text-xs tracking-widest font-header font-bold">EPILOGUE — 结语：科技、身体、神知的多维转译</span>
+                <span class="text-zinc-600 text-xs font-mono">Page 24 / Epilogue Statement</span>
+            </div>
+            <div class="flex-1 grid grid-cols-12 gap-12 items-center py-6">
+                <div class="col-span-7 h-full flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <span class="text-xs font-mono text-zinc-500 block uppercase">CREATIVE DIRECTIVE</span>
+                        <h2 class="text-3xl font-header font-bold tracking-tight">在算法的喧嚣中探寻自决意识</h2>
+                        <p class="text-xs text-zinc-400 leading-relaxed text-justify mt-4">本部作品集不仅仅是一次纯粹的三维视觉资产与软件工具开发展示，更是一场将 <strong>思辨政治 (Critical Politics)</strong>、<strong>媒介本体论 (Medium Ontology)</strong> 以及 <strong>商业演绎视角 (Cinematic Commercial AD)</strong> 高度融合的交互演绎。</p>
+                        <p class="text-xs text-zinc-400 leading-relaxed text-justify">无论是Part 1中对命令决胜概率异化的抵抗，还是Part 2和Part 3中用流线纹编织量子花解析凝视以及凝视，亦或是Part 4中跨部门协调、严格赛博古埃及CGI，本质上都在试图证明：在新技术重视视觉文化的命下，创作者应成为主动探索深层思维的 <strong>媒介总监 (Art Director)</strong>，而非顺从算法的被动性笔。</p>
+                    </div>
+                    <div class="flex space-x-4 border-t border-zinc-900 pt-4">
+                        <div class="px-3 py-1.5 rounded bg-zinc-900/40 border border-zinc-800 text-[10px] text-zinc-400">Global Pipeline Strategy</div>
+                        <div class="px-3 py-1.5 rounded bg-zinc-900/40 border border-zinc-800 text-[10px] text-zinc-400">Artistic Agency Re-assertion</div>
+                    </div>
+                </div>
+                <div class="col-span-5 h-full rounded border border-zinc-900 bg-zinc-950 flex flex-col justify-center items-center relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-5 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:12px_12px]"></div>
+                    <span class="text-[9px] text-zinc-600 font-mono absolute top-4 left-4">PORTFOLIO CODENAME: RESONANCE</span>
+                    <div class="text-center px-8 z-10">
+                        <span class="text-zinc-400 text-xs block font-header uppercase tracking-widest">Huang Yingen's Portfolio Complete</span>
+                        <p class="text-xs text-brandPinkNeon font-mono mt-3">[ 2023 - 2026 Academic Campaign Ends ]</p>
+                        <p class="text-[10px] text-zinc-600 mt-4 max-w-xs leading-relaxed">感谢审阅。让我们在物理实体的解析之外，共同窥见数字织锦编织者弦外的微弱意识共鸣。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+<!-- SLIDE 7: PART 2 RED LINE INTRODUCTION -->
+        <div id="page-7" class="slide-page absolute inset-0 w-full h-full p-12 bg-[#000000] hidden flex-col justify-between">
+            <div class="flex justify-between items-center border-b border-zinc-900 pb-4">
+                <span class="text-brandRed text-xs tracking-widest font-header font-bold">PART 02: RED LINE — 物物相生，记忆交织</span>
+            </div>
+            <div class="flex-1 grid grid-cols-12 gap-8 items-center py-6">
+                <div class="col-span-5 flex flex-col justify-between h-full pr-4 border-r border-zinc-900">
+                    <div>
+                        <p class="text-xl text-brandRed tracking-widest uppercase font-mono font-bold">RED LINE</p>
+                        <h2 class="text-3xl font-header font-bold text-white tracking-tight mt-1">Generative Weaving of Cultural Memory</h2>
+                        <div class="mt-6 space-y-4 text-sm leading-relaxed text-zinc-400 text-justify">
+                            <p>Conventional heritage restoration seeks to recover the original physical form of artifacts. This project explores an alternative possibility:</p>
+                            <p class="text-zinc-200 font-medium">Can cultural memory survive after the artifact itself has disappeared?</p>
+                            <p>Built in TouchDesigner, the system transforms fragmented 3D-scanned artifacts into dynamic data nodes connected through an evolving generative network. These fragments are continuously rewoven into emergent digital life forms.</p>
+                            <p>In this context, restoration is no longer about reconstructing the past, but enabling memory to persist through new media.</p>
+                        </div>
+                        <div class="mt-6 space-y-3 border-t border-zinc-900 pt-5">
+                            <p class="text-xs font-mono text-zinc-500 tracking-widest uppercase mb-3">Key Research Questions</p>
+                            <div class="space-y-2">
+                                <p class="text-sm text-zinc-300 leading-relaxed"><span class="text-zinc-500 font-mono mr-2">Q1</span>Where does memory reside when the artifact is gone?</p>
+                                <p class="text-sm text-zinc-300 leading-relaxed"><span class="text-zinc-500 font-mono mr-2">Q2</span>Is AI weaving history itself, or an alternative possibility of history?</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-7 h-full relative group rounded overflow-hidden border border-zinc-900 bg-zinc-950 flex flex-col justify-center items-center">
+                    <img src="pic/图片尺寸改成4：3，补充上下-1.png" class="w-full h-full object-cover" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: PART 2 INTERACTIVE POINT CLOUD -->
+        <div id="page-8" class="slide-page absolute inset-0 w-full h-full p-12 bg-[#000000] hidden flex-col justify-between">
+            <div class="flex justify-between items-center border-b border-zinc-900 pb-4">
+                <span class="text-brandRed text-xs tracking-widest font-header font-bold">PART 02: LIVE RUNNABLE RENDER // 交互演示：红线编织点云模型</span>
+                <span class="text-zinc-600 text-xs font-mono">Page 08 / 3D Asset Processing</span>
+            </div>
+            <div class="flex-1 grid grid-cols-12 gap-8 items-center py-4 overflow-hidden">
+                <div class="col-span-8 h-full rounded border border-zinc-900 bg-black relative overflow-hidden flex items-center justify-center">
+                    <span class="text-[9px] text-zinc-600 font-mono absolute top-3 left-3 uppercase z-10">TouchDesigner WebGL Mock Canvas</span>
+                    <canvas id="p8-canvas" class="w-full h-full bg-[#020203]"></canvas>
+                    <div class="absolute bottom-4 right-4 bg-black/80 border border-zinc-800 p-4 rounded-lg text-xs font-mono text-zinc-500 space-y-1.5 pointer-events-none">
+                        <p class="text-brandRed font-semibold">PARTICLES: <span id="p8-hud-count">240</span></p>
+                        <p>NOISE STATE: <span class="text-zinc-300">ACTIVE</span></p>
+                        <p>ROTATION: <span class="text-zinc-300">AUTO</span></p>
+                    </div>
+                </div>
+                <div class="col-span-4 h-full flex flex-col justify-between pl-4">
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-semibold text-zinc-200">Red Thread & Point Cloud Generative System</h3>
+                        <p class="text-sm text-zinc-400 leading-relaxed text-justify">Built with TouchDesigner SOP and CHOP networks, the system transforms cultural artifacts into dynamic point-cloud structures connected through evolving red-thread networks.</p>
+                        <p class="text-sm text-zinc-400 leading-relaxed text-justify">Users can manipulate particle density, noise force, and connection distance in real time, observing how digital memory continuously emerges and dissolves between order and chaos.</p>
+                        <div class="space-y-3 pt-2">
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-sm font-mono text-zinc-300">
+                                    <span>Point Density</span>
+                                    <span id="p8-val-density" class="text-brandRed">240</span>
+                                </div>
+                                <input type="range" id="p8-slider-density" min="100" max="400" value="240" class="w-full" style="accent-color:#e11d24" oninput="updateP8Params()">
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-sm font-mono text-zinc-300">
+                                    <span>Noise Force</span>
+                                    <span id="p8-val-noise" class="text-brandRed">1.5</span>
+                                </div>
+                                <input type="range" id="p8-slider-noise" min="1" max="5" step="0.1" value="1.5" class="w-full" style="accent-color:#e11d24" oninput="updateP8Params()">
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-sm font-mono text-zinc-300">
+                                    <span>Connection Distance</span>
+                                    <span id="p8-val-cutoff" class="text-brandRed">120</span>
+                                </div>
+                                <input type="range" id="p8-slider-cutoff" min="60" max="200" value="120" class="w-full" style="accent-color:#e11d24" oninput="updateP8Params()">
+                            </div>
+                        </div>
+                        <p class="text-sm text-zinc-500 italic mt-4 border-t border-zinc-900 pt-4">Memory is not preserved. It is continuously reassembled.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: PART 2 ALGORITHMIC GENERATIVE TD -->
+        <div id="page-9" class="slide-page absolute inset-0 w-full h-full p-12 bg-[#000000] hidden flex-col justify-between">
+            <div class="flex justify-between items-center border-b border-zinc-900 pb-4">
+                <span class="text-brandRed text-xs tracking-widest font-header font-bold">PART 02: RED LINE — 参数化噪波力场与线约束生成</span>
+                <span class="text-zinc-600 text-xs font-mono">Page 09 / TouchDesigner Generative Forces</span>
+            </div>
+            <div class="flex-1 grid grid-cols-12 gap-8 items-center py-6">
+                <div class="col-span-4 flex flex-col justify-between h-full pr-4 border-r border-zinc-900">
+                    <div class="space-y-4">
+                        <span class="text-xs text-brandRed font-mono block">TD PARAMETERS</span>
+                        <h4 class="text-xl font-semibold text-zinc-200">Weaving Fragmented Histories Through Force Fields</h4>
+                        <p class="text-sm text-zinc-400 leading-relaxed text-justify">The system is built using TouchDesigner SOP networks. Proximity-based connections are first established through Connect SOP, after which Turbulence Noise fields continuously reshape the network structure.</p>
+                        <p class="text-sm text-zinc-400 leading-relaxed text-justify">As the force amplitude increases, stable connections begin to oscillate, stretch, and reorganize. The red-thread network moves between order and chaos, simulating the fragmentation and reconnection of memory over time.</p>
+                        <p class="text-sm text-zinc-500 italic mt-2 border-t border-zinc-900 pt-4">History is not a static archive, but a network continuously connected, disturbed, and reassembled.</p>
+                    </div>
+                </div>
+                <div class="col-span-8 h-full rounded border border-zinc-900 bg-[#060608] relative overflow-hidden">
+                    <span class="text-[9px] text-zinc-600 font-mono absolute top-3 left-3 z-10 pointer-events-none">FORCE FIELDS NOISE SCHEMATIC</span>
+                    <img src="pic/文件工程.png" class="w-full h-full object-contain" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: PART 2 INTERACTION CONTROLS -->
+        <div id="page-10" class="slide-page absolute inset-0 w-full h-full p-12 bg-[#000000] hidden flex-col justify-between">
+            <div class="flex justify-between items-center border-b border-zinc-900 pb-4">
+                <span class="text-brandRed text-xs tracking-widest font-header font-bold">PART 02: RED LINE — 多通道即时键盘交互</span>
+                <span class="text-zinc-600 text-xs font-mono">Page 10 / Multi-channel Input Mapping</span>
+            </div>
+            <div class="flex-1 grid grid-cols-12 gap-8 items-center py-6">
+                <div class="col-span-8 h-full rounded border border-zinc-900 bg-black relative overflow-hidden">
+                    <span class="text-[9px] text-zinc-600 font-mono absolute top-3 left-3 z-10 pointer-events-none">INTERACTIVE STATE SWITCH DIAGRAM</span>
+                    <img src="pic/羊角尊.png" class="w-full h-full object-contain">
+                </div>
+                <div class="col-span-4 h-full flex flex-col justify-between pl-4">
+                    <div class="space-y-4">
+                        <span class="text-xs text-brandRed font-mono block">USER EXPERIENCE</span>
+                        <h4 class="text-xl font-semibold text-zinc-200">Translating History Through Interaction</h4>
+                        <p class="text-sm text-zinc-300 font-medium leading-relaxed">Every click, drag, and parameter adjustment reshapes the digital structure of the artifact.</p>
+                        <p class="text-sm text-zinc-400 leading-relaxed text-justify">History is no longer presented as a static object for observation. Instead, it is continuously reactivated through interaction between the user and the system. User actions become a medium connecting past and present, transforming cultural memory from preservation into generation. Each interaction reorganizes particles and red-thread connections, allowing cultural artifacts to acquire new forms of digital life.</p>
+                    </div>
+                    <div class="flex-1 mt-4 overflow-hidden">
+                        <img src="pic/王子午鼎.png" class="w-full h-full object-contain">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: PART 2 CASE STUDY COMPARISON -->
+        <div id="page-11" class="slide-page absolute inset-0 w-full h-full bg-black hidden items-center justify-center">
+            <img src="pic/铜鼎4.png" class="w-full h-full object-cover">
+            <div class="absolute flex gap-4" style="left:3%;top:54%;width:94%;height:38%;">
+                <div class="flex-1 h-full bg-black overflow-hidden border border-zinc-700">
+                    <img src="pic/左.jpg"    class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1 h-full bg-black overflow-hidden border border-zinc-700">
+                    <img src="pic/线模.png"  class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1 h-full bg-black overflow-hidden border border-zinc-700">
+                    <img src="pic/右.png"    class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1 h-full bg-black overflow-hidden border border-zinc-700">
+                    <img src="pic/红线2.png" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: PART 3 HER INTRODUCTION -->
+        <div id="page-12" class="slide-page absolute inset-0 w-full h-full bg-black hidden items-center justify-center">
+            <img src="pic/her首页-2.jpg" class="w-full h-full object-cover">
+        </div>
+
+                <!-- NAV ARROWS -->
+        <button onclick="prevPage()" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-zinc-800 bg-black/60 backdrop-blur-md text-zinc-400 hover:text-white flex items-center justify-center transition-all z-40 hover:bg-black/95">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button onclick="nextPage()" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-zinc-800 bg-black/60 backdrop-blur-md text-zinc-400 hover:text-white flex items-center justify-center transition-all z-40 hover:bg-black/95">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </button>
+
+    </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="h-16 border-t border-zinc-900 bg-black px-6 flex items-center justify-between shrink-0 font-sans">
+    <div class="flex items-center space-x-2">
+        <span class="text-xs text-zinc-500 font-mono">Active Sheet:</span>
+        <span id="sheet-title-indicator" class="text-xs text-zinc-300 font-semibold uppercase">Cover Sheet</span>
+    </div>
+    <div class="flex items-center space-x-6">
+        <div class="flex space-x-1.5" id="dots-progress"></div>
+        <span id="page-num-indicator" class="text-xs text-zinc-500 font-mono">Slide 01 / 24</span>
+    </div>
+    <div class="text-xs text-zinc-500 font-mono">Key [←] [→] to Flip</div>
+</footer>
+
+<script>
+    const totalPages = 19;
+    let currentPage = 1;
+
+    const slideMetadata = {
+        1:  { title: "Cover Page / Visual Theme Summary", section: "part0" },
+        2:  { title: "Part 1 / AI Simulator Research Background", section: "part1" },
+        3:  { title: "Part 1 / AI Simulator Mathematical Loop Design", section: "part1" },
+        4:  { title: "Part 1 / Game State Machine & Decision Vector Flowchart", section: "part1" },
+        5:  { title: "Part 1 / AI Simulator UI Mockup & Command Terminal", section: "part1" },
+        6:  { title: "Part 1 / Three Psychopolitical Endings", section: "part1" },
+        7:  { title: "Part 2 / Red Line Speculative Digital Restoration Background", section: "part2" },
+        8:  { title: "Part 2 / 3D Scanning and Point Cloud Extraction Pipeline", section: "part2" },
+        9:  { title: "Part 2 / TouchDesigner Generative Force Fields & Noise", section: "part2" },
+        10: { title: "Part 2 / TouchDesigner Multi-channel Input Mapping", section: "part2" },
+        11: { title: "Part 2 / Shang Gong & Wang Ziwu Tripod Case Studies", section: "part2" },
+        12: { title: "Part 3 / HER: Speculative Feminist Body Politics", section: "part3" },
+        13: { title: "Part 3 / Poster I: Dissipation & Gaze Collapse Sequence", section: "part3" },
+        14: { title: "Part 3 / Poster II: Blooming Cliff Fluid Dynamics", section: "part3" },
+        15: { title: "Part 3 / TouchDesigner Feedback & Attractor Nodes", section: "part3" },
+        16: { title: "Part 3 / Physical Gallery Mockup & Camera Capture", section: "part3" },
+        17: { title: "Part 4 / Behind The Time: Cyber Egypt Worldview", section: "part4" },
+        18: { title: "Part 4 / Pre-viz: Dunes Desert vs Cyber Pyramid Scene", section: "part4" },
+        19: { title: "Part 4 / Cinematic Storyboard Matrix Part I (Shots 1-8)", section: "part4" },
+        22: { title: "Part 4 / Cinematic Storyboard Matrix Part II (Shots 9-16)", section: "part4" },
+        23: { title: "Part 4 / Post-Production Glitch & Compositing Pipeline", section: "part4" },
+        24: { title: "Epilogue / Multimodal translation and artistic reflection", section: "part4" }
+    };
+
+    const dotsContainer = document.getElementById('dots-progress');
+    for (let i = 1; i <= totalPages; i++) {
+        const dot = document.createElement('div');
+        dot.id = `dot-${i}`;
+        dot.className = `w-1.5 h-1.5 rounded-full cursor-pointer transition-all ${i === 1 ? 'bg-white scale-125' : 'bg-zinc-800 hover:bg-zinc-600'}`;
+        dot.onclick = () => jumpToPage(i);
+        dotsContainer.appendChild(dot);
+    }
+
+    function updateSlideDisplay() {
+        document.querySelectorAll('.slide-page').forEach(page => {
+            page.classList.add('hidden');
+            page.classList.remove('flex');
+        });
+        const activePage = document.getElementById(`page-${currentPage}`);
+        if (activePage) {
+            activePage.classList.remove('hidden');
+            activePage.classList.add('flex', 'fade-enter');
+            void activePage.offsetWidth;
+            activePage.classList.add('fade-enter-active');
+        }
+        document.getElementById('page-num-indicator').innerText = `Slide ${String(currentPage).padStart(2,'0')} / ${String(totalPages).padStart(2,'0')}`;
+        document.getElementById('sheet-title-indicator').innerText = slideMetadata[currentPage].title;
+
+        for (let i = 1; i <= totalPages; i++) {
+            const dot = document.getElementById(`dot-${i}`);
+            dot.className = i === currentPage
+                ? 'w-1.5 h-1.5 rounded-full cursor-pointer transition-all bg-white scale-125'
+                : 'w-1.5 h-1.5 rounded-full cursor-pointer transition-all bg-zinc-800 hover:bg-zinc-600';
+        }
+
+        const section = slideMetadata[currentPage].section;
+        document.querySelectorAll('header button').forEach(btn => {
+            btn.classList.remove('bg-brandAmber/10','bg-brandRed/10','bg-brandPink/10','bg-brandPurple/10','bg-zinc-800','text-white');
+        });
+        const activeBtn = document.getElementById(`btn-${section}`);
+        if (activeBtn) {
+            const map = { part0:'bg-zinc-800', part1:'bg-brandAmber/10', part2:'bg-brandRed/10', part3:'bg-brandPink/10', part4:'bg-brandPurple/10' };
+            activeBtn.classList.add(map[section]);
+        }
+        if (currentPage === 8) { initP8Canvas(); } else { stopP8Loop(); }
+    }
+
+    function nextPage() { if (currentPage < totalPages) { currentPage++; updateSlideDisplay(); } }
+    function prevPage() { if (currentPage > 1) { currentPage--; updateSlideDisplay(); } }
+    function jumpToPage(num) { currentPage = num; updateSlideDisplay(); }
+
+    let touchstartX = 0, touchendX = 0;
+    const slideContainer = document.getElementById('slide-container');
+    slideContainer.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; }, false);
+    slideContainer.addEventListener('touchend', e => {
+        touchendX = e.changedTouches[0].screenX;
+        if (touchendX < touchstartX - 50) nextPage();
+        if (touchendX > touchstartX + 50) prevPage();
+    }, false);
+
+    window.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === ' ') nextPage();
+        else if (e.key === 'ArrowLeft') prevPage();
+    });
+
+    // ── Page 3 interactive chart ──
+    const P3 = {
+        cycle: 0,
+        passH: [2],
+        thinkH: [100],
+        toX(c) { return 50 + (c / 13) * 460; },
+        toY(v) { return 130 - (v / 100) * 120; },
+
+        _draw(ph, th) {
+            const f = (v, i) => `${this.toX(i).toFixed(2)},${this.toY(v).toFixed(2)}`;
+            document.getElementById('p3-pass-line').setAttribute('points', ph.map(f).join(' '));
+            document.getElementById('p3-think-line').setAttribute('points', th.map(f).join(' '));
+            document.getElementById('p3-pass-dots').innerHTML =
+                ph.map((v,i) => `<circle cx="${this.toX(i).toFixed(2)}" cy="${this.toY(v).toFixed(2)}" r="2.5" fill="#FF6B35"/>`).join('');
+            document.getElementById('p3-think-dots').innerHTML =
+                th.map((v,i) => `<circle cx="${this.toX(i).toFixed(2)}" cy="${this.toY(v).toFixed(2)}" r="2.5" fill="#FFD600"/>`).join('');
+        },
+
+        render() { this._draw(this.passH, this.thinkH); },
+
+        animateTo(pTarget, tTarget) {
+            const n   = this.passH.length - 1;
+            const p0  = this.passH[n - 1],  p1 = pTarget;
+            const t0  = this.thinkH[n - 1], t1 = tTarget;
+            const dur = 700, start = performance.now();
+            const self = this;
+            function frame(now) {
+                const raw = Math.min((now - start) / dur, 1);
+                const e   = 1 - Math.pow(1 - raw, 3);
+                self.passH[n]  = p0 + (p1 - p0) * e;
+                self.thinkH[n] = t0 + (t1 - t0) * e;
+                self._draw(self.passH, self.thinkH);
+                if (raw < 1) requestAnimationFrame(frame);
+                else { self.passH[n] = p1; self.thinkH[n] = t1; }
+            }
+            requestAnimationFrame(frame);
+        }
+    };
+
+    function p3Rework() {
+        P3.cycle++;
+        const pass  = Math.min(2 + P3.cycle, 10);
+        const think = Math.max(100 - P3.cycle * 12.5, 0);
+        // push placeholder (start of animation = current last point)
+        P3.passH.push(P3.passH[P3.passH.length - 1]);
+        P3.thinkH.push(P3.thinkH[P3.thinkH.length - 1]);
+        const log = document.getElementById('p3-log');
+        ['Rework #' + P3.cycle + '...', 'Pass rate detected: ' + pass + '%', 'Thinking index: ' + think + '%'].forEach(txt => {
+            const d = document.createElement('div');
+            d.style.color = '#4ade80';
+            d.textContent = '> ' + txt;
+            log.appendChild(d);
+        });
+        log.scrollTop = log.scrollHeight;
+        P3.animateTo(pass, think);
+    }
+
+    function p3Reset() {
+        P3.cycle = 0; P3.passH = [2]; P3.thinkH = [100];
+        const log = document.getElementById('p3-log');
+        log.innerHTML = ['System initialized.', 'Subject: Creative_01']
+            .map(t => `<div style="color:#4ade80">> ${t}</div>`).join('');
+        P3.render();
+    }
+
+    function drawPage4MindMap() {
+        const svg = document.getElementById('p4-mindmap');
+        if (!svg || typeof rough === 'undefined') return;
+        while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+        const rc = rough.svg(svg);
+        const FCN = "'Microsoft YaHei', sans-serif";  // Chinese text
+        const FHW = "'Caveat', cursive";               // English hand-drawn
+        const FMO = "monospace";
+        const S = 42;
+
+        function tx(x, y, text, o) {
+            o = o || {};
+            const el = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            el.setAttribute('x', x); el.setAttribute('y', y);
+            el.setAttribute('text-anchor', o.anchor || 'middle');
+            el.setAttribute('dominant-baseline', 'middle');
+            el.setAttribute('fill', o.fill || '#ffffff');
+            el.setAttribute('font-size', o.size || 14);
+            if (o.bold) el.setAttribute('font-weight', 'bold');
+            el.setAttribute('font-family', o.family || FHW);
+            el.textContent = text;
+            svg.appendChild(el);
+        }
+
+        function sl(x1, y1, x2, y2, o) {
+            o = o || {};
+            const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            l.setAttribute('x1', x1); l.setAttribute('y1', y1);
+            l.setAttribute('x2', x2); l.setAttribute('y2', y2);
+            l.setAttribute('stroke', o.stroke || '#4B87F8');
+            l.setAttribute('stroke-width', o.w || 1.4);
+            if (o.dash) l.setAttribute('stroke-dasharray', o.dash);
+            if (o.m) l.setAttribute('marker-end', 'url(#' + o.m + ')');
+            svg.appendChild(l);
+        }
+
+        function sp(d, o) {
+            o = o || {};
+            const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            p.setAttribute('d', d); p.setAttribute('fill', 'none');
+            p.setAttribute('stroke', o.stroke || '#5599FF');
+            p.setAttribute('stroke-width', o.w || 1.2);
+            if (o.dash) p.setAttribute('stroke-dasharray', o.dash);
+            if (o.m) p.setAttribute('marker-end', 'url(#' + o.m + ')');
+            svg.appendChild(p);
+        }
+
+        const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+        defs.innerHTML =
+            '<marker id="p4-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M 0 2 L 8 5 L 0 8 z" fill="#4B87F8"/></marker>' +
+            '<marker id="p4-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M 0 2 L 8 5 L 0 8 z" fill="#10b981"/></marker>' +
+            '<marker id="p4-gr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M 0 2 L 8 5 L 0 8 z" fill="#555"/></marker>' +
+            '<marker id="p4-lp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M 0 2 L 8 5 L 0 8 z" fill="#5599FF"/></marker>' +
+            '<marker id="p4-rd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M 0 2 L 8 5 L 0 8 z" fill="#FF5555"/></marker>';
+        svg.appendChild(defs);
+
+        const LN = { roughness: 0.7, bowing: 0.8, seed: S };
+        const CBLUE = '#2255CC';   // main branch color
+        const CTXT  = '#1a1a2a';   // body text on light bg
+        const CSUB  = '#444455';   // secondary lines/text
+
+        // ══ 任务下达 ══
+        svg.appendChild(rc.rectangle(10, 100, 155, 58, { roughness: 1.2, bowing: 0.8, seed: S, fill: '#2563EB', fillStyle: 'solid', stroke: '#1d4ed8', strokeWidth: 2 }));
+        tx(87, 129, '任务下达', { bold: true, size: 17, family: FCN });
+
+        // Trunk + spine
+        svg.appendChild(rc.line(165, 129, 192, 129, { ...LN, stroke: CBLUE, strokeWidth: 1.8 }));
+        svg.appendChild(rc.line(192, 82, 192, 196, { ...LN, stroke: CBLUE, strokeWidth: 1.8, seed: S + 1 }));
+
+        // ══ 接受 ══
+        svg.appendChild(rc.line(192, 82, 210, 82, { ...LN, stroke: CBLUE, strokeWidth: 1.5 }));
+        svg.appendChild(rc.rectangle(210, 62, 118, 40, { roughness: 1.3, bowing: 0.8, seed: S, fill: '#1a1a3e', fillStyle: 'solid', stroke: '#3344AA', strokeWidth: 1.8 }));
+        tx(269, 82, '接受', { bold: true, size: 14, family: FCN });
+        svg.appendChild(rc.circle(328, 82, 8, { roughness: 1.0, seed: S, fill: '#1a1a3e', fillStyle: 'solid', stroke: CBLUE, strokeWidth: 1.5 }));
+        svg.appendChild(rc.line(332, 82, 358, 82, { ...LN, stroke: CBLUE, strokeWidth: 1.3 }));
+        svg.appendChild(rc.line(358, 47, 358, 140, { ...LN, stroke: CBLUE, strokeWidth: 1.3, seed: S + 2 }));
+
+        // ── 用AI工具做 ──
+        svg.appendChild(rc.line(358, 47, 378, 47, { ...LN, stroke: CBLUE, strokeWidth: 1.2 }));
+        tx(383, 47, '用AI工具做', { fill: CTXT, size: 13, anchor: 'start', family: FCN });
+        sl(452, 47, 452, 44, { stroke: CBLUE, w: 1.0, dash: '3 2' });
+        sl(452, 44, 474, 44, { stroke: CBLUE, w: 1.0, dash: '3 2', m: 'p4-b' });
+
+        // ══ REVISION LOOP BOX ══
+        svg.appendChild(rc.rectangle(462, 14, 420, 116, {
+            roughness: 0.4, bowing: 0.3, seed: S,
+            fill: '#EEF0FA', fillStyle: 'solid',
+            stroke: '#3355AA', strokeWidth: 1.2,
+            strokeLineDash: [6, 4]
+        }));
+        tx(672, 24, 'REVISION LOOP — avg. 7 cycles', { fill: '#3355AA', size: 8.5, anchor: 'middle', family: FMO });
+
+        // ── AI生成内容 (center: 519, 46) ──
+        svg.appendChild(rc.rectangle(474, 32, 90, 28, {
+            roughness: 1.1, bowing: 0.8, seed: S + 3,
+            fill: '#D8D8EE', fillStyle: 'solid', stroke: '#3344AA', strokeWidth: 1.2
+        }));
+        tx(519, 46, 'AI生成内容', { fill: '#1a1a44', size: 10.5, family: FCN });
+
+        // AI生成 → 老板反馈
+        sl(564, 46, 588, 46, { stroke: '#555577', w: 1.1, m: 'p4-gr' });
+
+        // ── 老板反馈 (center: 630, 46) ──
+        svg.appendChild(rc.rectangle(588, 32, 82, 28, {
+            roughness: 1.1, bowing: 0.8, seed: S + 4,
+            fill: '#E8D8F0', fillStyle: 'solid', stroke: '#7733AA', strokeWidth: 1.2
+        }));
+        tx(629, 46, '老板反馈', { fill: '#44116a', size: 10.5, family: FCN });
+
+        // 通过 exit →
+        sl(670, 46, 698, 46, { stroke: '#059669', w: 1.1, dash: '4 2', m: 'p4-g' });
+        tx(702, 40, '通过', { fill: '#059669', size: 8, anchor: 'start', family: FCN });
+        tx(702, 52, '通过率↑/轮', { fill: '#059669', size: 7.5, anchor: 'start', family: FMO });
+
+        // ── 被拒 path ↓
+        sl(629, 60, 629, 73, { stroke: '#CC2222', w: 1.1, m: 'p4-rd' });
+        tx(636, 67, '被拒', { fill: '#CC2222', size: 8, anchor: 'start', family: FCN });
+        tx(664, 67, '主体思考性 −12.5%/轮', { fill: '#885500', size: 7.5, anchor: 'start', family: FMO });
+
+        sl(629, 73, 510, 73, { stroke: CSUB, w: 1.0 });
+        sl(510, 73, 510, 106, { stroke: CSUB, w: 1.0 });
+
+        // Option 1: 重新写prompt (y=84)
+        sl(510, 84, 526, 84, { stroke: CSUB, w: 1.0 });
+        tx(530, 84, '重新写prompt', { fill: CTXT, size: 10.5, anchor: 'start', family: FCN });
+
+        // Option 2: 试着往AI给的方向做 (y=104)
+        sl(510, 104, 526, 104, { stroke: CSUB, w: 1.0 });
+        tx(530, 104, '试着往AI给的方向做', { fill: CTXT, size: 10.5, anchor: 'start', family: FCN });
+
+        // ══ LOOP BACK: cubic bezier arc (from revision spine → curves over top → back to AI生成)
+        sp('M 510 94 C 510 20 474 20 474 46', { stroke: '#3355CC', w: 1.5, dash: '6 4', m: 'p4-lp' });
+        tx(492, 20, '↺ 修改后重新生成', { fill: '#3355CC', size: 8, anchor: 'middle', family: FMO });
+
+        // ── 自己手搓 ──
+        svg.appendChild(rc.line(358, 140, 378, 140, { ...LN, stroke: CBLUE, strokeWidth: 1.2 }));
+        tx(383, 140, '自己手搓', { fill: CTXT, size: 13, anchor: 'start', family: FCN });
+
+        // ══ 不接受 ══
+        svg.appendChild(rc.line(192, 196, 210, 196, { ...LN, stroke: CBLUE, strokeWidth: 1.5 }));
+        svg.appendChild(rc.rectangle(210, 176, 118, 40, { roughness: 1.3, bowing: 0.8, seed: S + 5, fill: '#1a1a3e', fillStyle: 'solid', stroke: '#3344AA', strokeWidth: 1.8 }));
+        tx(269, 196, '不接受', { bold: true, size: 14, family: FCN });
+        svg.appendChild(rc.line(328, 196, 380, 196, { ...LN, stroke: CBLUE, strokeWidth: 1.2 }));
+        tx(383, 196, '不干了，离职', { fill: CTXT, size: 13, anchor: 'start', family: FCN });
+        sl(462, 196, 488, 196, { stroke: '#666', w: 1.2, m: 'p4-gr' });
+        tx(492, 196, '寻找灵魂', { fill: '#666', size: 13, anchor: 'start', family: FCN });
+    }
+
+    /* ======================================================== */
+    /* PAGE 8: LIVE 3D POINT-CLOUD CANVAS                       */
+    /* ======================================================== */
+    let p8Canvas, p8Ctx, p8Points = [], p8Params = { density: 240, noise: 1.5, cutoff: 120 };
+    let p8AnimId, p8AngleX = 0, p8AngleY = 0, p8Dragging = false, p8LastX, p8LastY, p8Initialized = false;
+
+    function initP8Canvas() {
+        p8Canvas = document.getElementById('p8-canvas');
+        if (!p8Canvas) return;
+        p8Ctx = p8Canvas.getContext('2d');
+        p8Canvas.width = p8Canvas.parentElement.clientWidth;
+        p8Canvas.height = p8Canvas.parentElement.clientHeight;
+        if (!p8Initialized) {
+            p8Canvas.addEventListener('mousedown', (e) => { p8Dragging = true; p8LastX = e.clientX; p8LastY = e.clientY; });
+            window.addEventListener('mouseup', () => p8Dragging = false);
+            p8Canvas.addEventListener('mousemove', (e) => {
+                if (!p8Dragging) return;
+                p8AngleY += (e.clientX - p8LastX) * 0.01;
+                p8AngleX += (e.clientY - p8LastY) * 0.01;
+                p8LastX = e.clientX; p8LastY = e.clientY;
+            });
+            p8Initialized = true;
+        }
+        p8GeneratePoints();
+        stopP8Loop();
+        p8Loop();
+    }
+
+    function p8GeneratePoints() {
+        p8Points = [];
+        for (let i = 0; i < p8Params.density; i++) {
+            let theta = Math.random() * Math.PI * 2;
+            let h = (Math.random() - 0.5) * 320;
+            let r = 80 + Math.sin(h * 0.03) * 30 + Math.cos(theta * 2) * 10;
+            p8Points.push({ baseX: Math.cos(theta) * r, baseY: h, baseZ: Math.sin(theta) * r, phase: Math.random() * Math.PI * 2 });
+        }
+    }
+
+    function updateP8Params() {
+        p8Params.density = parseInt(document.getElementById('p8-slider-density').value);
+        p8Params.noise = parseFloat(document.getElementById('p8-slider-noise').value);
+        p8Params.cutoff = parseInt(document.getElementById('p8-slider-cutoff').value);
+        document.getElementById('p8-val-density').innerText = p8Params.density;
+        document.getElementById('p8-val-noise').innerText = p8Params.noise;
+        document.getElementById('p8-val-cutoff').innerText = p8Params.cutoff;
+        document.getElementById('p8-hud-count').innerText = p8Params.density;
+        p8GeneratePoints();
+    }
+
+    function stopP8Loop() { if (p8AnimId) cancelAnimationFrame(p8AnimId); }
+
+    function p8Loop() {
+        if (!p8Canvas) return;
+        p8Ctx.clearRect(0, 0, p8Canvas.width, p8Canvas.height);
+        let time = Date.now() * 0.001;
+        let halfW = p8Canvas.width / 2, halfH = p8Canvas.height / 2;
+        if (!p8Dragging) p8AngleY += 0.006;
+        let projected = [];
+        for (let pt of p8Points) {
+            let offset = Math.sin(pt.phase + time * 2) * p8Params.noise * 4;
+            let tx = pt.baseX + (pt.baseX / 50) * offset;
+            let ty = pt.baseY + offset * 0.8;
+            let tz = pt.baseZ + (pt.baseZ / 50) * offset;
+            let x1 = tx * Math.cos(p8AngleY) - tz * Math.sin(p8AngleY);
+            let z1 = tx * Math.sin(p8AngleY) + tz * Math.cos(p8AngleY);
+            let y2 = ty * Math.cos(p8AngleX) - z1 * Math.sin(p8AngleX);
+            let z2 = ty * Math.sin(p8AngleX) + z1 * Math.cos(p8AngleX);
+            let fov = 250, scale = fov / (fov + z2);
+            projected.push({ x: halfW + x1 * scale, y: halfH + y2 * scale, scale });
+        }
+        p8Ctx.lineWidth = 0.5;
+        p8Ctx.strokeStyle = 'rgba(255, 46, 74, 0.25)';
+        for (let i = 0; i < projected.length; i++) {
+            for (let j = i + 1; j < projected.length; j++) {
+                let dx = projected[i].x - projected[j].x, dy = projected[i].y - projected[j].y;
+                if (Math.sqrt(dx*dx + dy*dy) < p8Params.cutoff) {
+                    p8Ctx.beginPath(); p8Ctx.moveTo(projected[i].x, projected[i].y);
+                    p8Ctx.lineTo(projected[j].x, projected[j].y); p8Ctx.stroke();
+                }
+            }
+        }
+        for (let pt of projected) {
+            p8Ctx.fillStyle = `rgba(255, 255, 255, ${pt.scale * 0.75})`;
+            p8Ctx.beginPath(); p8Ctx.arc(pt.x, pt.y, Math.max(0.5, pt.scale * 1.5), 0, Math.PI * 2); p8Ctx.fill();
+        }
+        p8AnimId = requestAnimationFrame(p8Loop);
+    }
+
+    window.onload = () => { updateSlideDisplay(); P3.render(); drawPage4MindMap(); };
+
+
+</script>
+
+</body>
+</html>

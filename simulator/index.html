@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>AI创意工作模拟器 / AI Creative Work Simulator</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #EDE8DC;
+      font-family: "Microsoft YaHei", "SimHei", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 24px 16px;
+      font-size: 14px;
+    }
+    #game {
+      width: 760px;
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      grid-template-rows: auto auto 1fr auto auto;
+      gap: 10px;
+    }
+    .stat-bar {
+      grid-column: 1 / -1;
+      background: #2D2D2D;
+      color: #F0EBE0;
+      padding: 9px 18px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+    }
+    .stat-bar span { opacity: 0.85; }
+    .stat-bar b { opacity: 1; color: #F0EBE0; }
+    #char-panel {
+      grid-column: 1;
+      grid-row: 3 / 6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding-top: 4px;
+    }
+    #char-img {
+      width: 160px;
+      height: 160px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: #D8D2C4;
+      transition: opacity 0.2s;
+    }
+    #mood-label {
+      font-size: 12px;
+      color: #888;
+      letter-spacing: 1px;
+    }
+    #status-box {
+      background: #F7F4EE;
+      border-radius: 8px;
+      padding: 10px 12px;
+      width: 100%;
+      font-size: 12px;
+      color: #666;
+      line-height: 1.8;
+    }
+    #status-box ul { padding-left: 14px; }
+    #last-result {
+      margin-top: 6px;
+      font-style: italic;
+      color: #999;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+    #event-box {
+      grid-column: 2;
+      grid-row: 3;
+      background: #FFFFFF;
+      border-radius: 10px;
+      padding: 22px 24px;
+      min-height: 120px;
+      line-height: 1.9;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      color: #2D2D2D;
+    }
+    #choices-box {
+      grid-column: 2;
+      grid-row: 4;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .choice-btn {
+      background: #2D2D2D;
+      color: #F0EBE0;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 18px;
+      text-align: left;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 13px;
+      line-height: 1.5;
+      transition: background 0.15s;
+    }
+    .choice-btn:hover { background: #444; }
+    .choice-btn::before { content: '→  '; opacity: 0.5; }
+    #bottom-row { grid-column: 1 / -1; grid-row: 5; }
+    .red { color: #C0392B; font-weight: bold; }
+    #ending-stats {
+      text-align: center;
+      padding: 12px;
+      color: #999;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+    }
+    #lang-btn {
+      position: fixed;
+      top: 12px;
+      right: 16px;
+      background: #2D2D2D;
+      color: #F0EBE0;
+      border: none;
+      border-radius: 4px;
+      padding: 5px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 1px;
+      z-index: 100;
+      opacity: 0.7;
+    }
+    #lang-btn:hover { opacity: 1; }
+  </style>
+</head>
+<body>
+<button id="lang-btn" onclick="toggleLang()">中</button>
+<div id="game">
+  <div class="stat-bar">
+    <span><span class="i18n" data-cn="主体思考性" data-en="Creative Thinking">主体思考性</span> <b id="thinking">100</b> / 100</span>
+    <span><span class="i18n" data-cn="延期率" data-en="Delay Rate">延期率</span> <b id="delay">0</b> %</span>
+  </div>
+  <div id="char-panel">
+    <img id="char-img" src="image/平静.png" alt="角色">
+    <div id="mood-label">平静</div>
+    <div id="status-box">
+      <ul id="status-list"></ul>
+      <div id="last-result"></div>
+    </div>
+  </div>
+  <div id="event-box"></div>
+  <div id="choices-box"></div>
+  <div id="bottom-row"></div>
+</div>
+
+<script>
+let LANG = 'en';
+
+const MOOD_NAMES = {
+  cn: { '平静':'平静','激动':'激动','生气':'生气','麻木':'麻木','想到好主意':'想到好主意' },
+  en: { '平静':'Calm','激动':'Excited','生气':'Frustrated','麻木':'Numb','想到好主意':'Inspired' },
+};
+
+const G = {
+  thinking:100, aiOutput:0, delayRate:0, day:1,
+  statuses:[], lastResult:'', mood:'平静',
+  phase:'task_received', usedAI:false,
+  workEventsLeft:0, revisionCount:0, currentTask:null,
+  _currentEvent:null, _rerender:null, _isFirstDay:true,
+};
+
+const triggered = new Set();
+
+function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+function applyFx(obj){
+  if(obj.thinking)  G.thinking  = clamp(G.thinking  + obj.thinking,  0,100);
+  if(obj.aiOutput)  G.aiOutput  = clamp(G.aiOutput  + obj.aiOutput,  0,100);
+  if(obj.delayRate) G.delayRate = clamp(G.delayRate + obj.delayRate, 0,100);
+}
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function bi(obj){
+  if(!obj || typeof obj==='string') return obj||'';
+  return obj[LANG]||obj.cn||'';
+}
+
+function applyLang(){
+  document.getElementById('lang-btn').textContent = LANG==='cn' ? 'EN' : '中';
+  document.querySelectorAll('.i18n').forEach(el=>{
+    el.textContent = el.dataset[LANG]||el.dataset.cn;
+  });
+}
+function toggleLang(){
+  LANG = LANG==='cn' ? 'en' : 'cn';
+  applyLang();
+  updateMoodDisplay();
+  refreshStatuses();
+  updateUI();
+  if(G._rerender) G._rerender();
+}
+
+// ── 任务库 ────────────────────────────────────────────────────
+const TASKS = [
+  { deadline:3, desc:{ cn:'夏日活动海报，节日氛围，热闹，色彩鲜明。', en:'Summer event poster — festive atmosphere, lively, bold colors.' }},
+  { deadline:2, desc:{ cn:'新品上线 Banner，简洁大气，突出产品。', en:'New product launch banner — clean and bold, product-forward.' }},
+  { deadline:5, desc:{ cn:'品牌宣传视频分镜，国风元素，高端质感。', en:'Brand promo video storyboard — Chinese aesthetic elements, premium feel.' }},
+  { deadline:3, desc:{ cn:'社交媒体配图系列，统一风格，年轻化。', en:'Social media image series — consistent style, youth-oriented.' }},
+  { deadline:2, desc:{ cn:'活动 H5 插图，卡通风，可爱，互动感强。', en:'Event H5 illustrations — cartoon style, cute, highly interactive.' }},
+  { deadline:4, desc:{ cn:'年终报告封面，专业，沉稳，有设计感。', en:'Annual report cover — professional, composed, design-forward.' }},
+  { deadline:1, desc:{ cn:'紧急！明天要用的主视觉，随便做做就好。', en:'Urgent! Key visual needed by tomorrow — just get it done.' }},
+];
+
+// ── AI 过程事件 ───────────────────────────────────────────────
+const AI_EVENTS = [
+  {
+    text:{ cn:'你开始写 prompt，但生成出来的总是差一点。你已经试了很多次了。', en:'You start writing prompts, but what comes out always falls just short. You\'ve tried many times.' },
+    choices:[
+      { text:()=> G.revisionCount>=3
+          ? bi({cn:'继续生成（和刚才一样的关键词）',en:'Generate again (same keywords as before)'})
+          : bi({cn:'再换个角度描述，继续生成',en:'Try a different angle and generate again'}),
+        result:()=> Math.random()<0.35
+          ? bi({cn:'这次出来了，勉强能用。',en:'This one worked — barely usable.'})
+          : bi({cn:'还是差一点。你继续。',en:'Still not quite right. You keep going.'}),
+        eff:{thinking:-6,delayRate:5}, mood:'生气' },
+      { text:()=> bi({cn:'选一张将就的，自己用 PS 修',en:'Pick the closest one and fix it in PS'}),
+        result:()=> bi({cn:'你打开 PS，开始动手。起码这部分是你自己做的。',en:'You open PS and get to work. At least this part is yours.'}),
+        eff:{thinking:3,delayRate:-2}, mood:'平静' },
+    ]
+  },
+  {
+    text:{ cn:'AI 生成了一张你没想到的构图，和需求不完全符合，但你觉得比你想的更好。', en:'AI generated a composition you didn\'t expect. It doesn\'t fully match the brief, but you think it\'s better than what you had in mind.' },
+    choices:[
+      { text:()=> bi({cn:'顺着它的方向走，和老板商量改需求',en:'Follow its direction and negotiate the brief with your boss'}),
+        result:()=> bi({cn:'老板想了想，说"可以试试"。你不确定这算你的判断还是 AI 的。',en:'Your boss thought it over and said "let\'s try it." You\'re not sure if this was your call or AI\'s.'}),
+        eff:{thinking:6,delayRate:5}, mood:'想到好主意' },
+      { text:()=> bi({cn:'放弃它，继续生成符合需求的',en:'Discard it and generate something that fits the brief'}),
+        result:()=> bi({cn:'你关掉那张图，继续生成。那张图消失了。',en:'You close the image and keep generating. That one is gone.'}),
+        eff:{thinking:-5,aiOutput:3}, mood:'平静' },
+    ]
+  },
+  {
+    text:{ cn:'你盯着这批生成结果看了四十分钟了。开始觉得每张都差不多好，又每张都差不多不好。', en:'You\'ve been staring at these results for forty minutes. Every image feels equally good, and equally bad.' },
+    choices:[
+      { text:()=> bi({cn:'找同事来看看',en:'Ask a colleague to take a look'}),
+        result:()=> bi({cn:'同事说"这张吧"。你说好。你还是不确定。',en:'Your colleague said "this one." You agreed. You\'re still not sure.'}),
+        eff:{thinking:3,delayRate:4}, mood:'平静' },
+      { text:()=> G.revisionCount>=2
+          ? bi({cn:'就选这张（和上次选的差不多）',en:'Just pick this one (about the same as last time)'})
+          : bi({cn:'就选这张，再看也没用了',en:'Just pick this one — staring longer won\'t help'}),
+        result:()=> bi({cn:'你不记得你最初想要什么了。',en:'You can\'t remember what you originally wanted.'}),
+        eff:{thinking:-7,delayRate:-3}, mood:'麻木' },
+    ]
+  },
+  {
+    text:{ cn:'你脑子里有个画面，但不知道怎么用文字描述出来。', en:'You have an image in your mind but don\'t know how to put it into words.' },
+    choices:[
+      { text:()=> G.revisionCount>=2
+          ? bi({cn:'让 AI 把想法转 prompt（上次也这么做的）',en:'Let AI convert your idea to a prompt (you did this last time too)'})
+          : bi({cn:'让 AI 帮你把想法转成 prompt',en:'Let AI help convert your idea into a prompt'}),
+        result:()=> bi({cn:'AI 给了一段 prompt。生成出来的，不是你想的那个画面。',en:'AI gave you a prompt. What it generated wasn\'t the image you had in mind.'}),
+        eff:{thinking:-7,aiOutput:3}, mood:'生气' },
+      { text:()=> bi({cn:'慢慢自己摸索关键词',en:'Slowly work out the keywords yourself'}),
+        result:()=> Math.random()<0.5
+          ? bi({cn:'摸到了。那个感觉出来了。',en:'You found it. That feeling came through.'})
+          : bi({cn:'没摸到。但你知道你在找什么。',en:'Didn\'t quite get there. But you know what you\'re looking for.'}),
+        eff:{thinking:4,delayRate:7}, mood:'想到好主意' },
+    ]
+  },
+  {
+    text:{ cn:'生成到一半，工具报错。等了二十分钟，还在转圈。', en:'Halfway through generating, the tool crashes. Twenty minutes later, it\'s still spinning.' },
+    choices:[
+      { text:()=> bi({cn:'趁这时间自己起个草稿',en:'Use the time to sketch out a draft yourself'}),
+        result:()=> bi({cn:'你发现自己还会。这个发现让你有点说不清楚的感觉。',en:'You discover you still can. That realization gives you a feeling you can\'t quite name.'}),
+        eff:{thinking:8,delayRate:-2}, mood:'想到好主意' },
+      { text:()=> G.revisionCount>=3
+          ? bi({cn:'刷手机等（和之前一样）',en:'Scroll your phone while waiting (same as before)'})
+          : bi({cn:'刷手机等它好',en:'Scroll your phone and wait'}),
+        result:()=> bi({cn:'工具好了。刚才的思路没了。',en:'The tool recovered. Your train of thought didn\'t.'}),
+        eff:{thinking:-7,delayRate:8}, mood:'麻木' },
+    ]
+  },
+  {
+    text:{ cn:'那张图很好，但你忘记记下来用的是什么关键词。', en:'That image was great, but you forgot to note what keywords you used.' },
+    choices:[
+      { text:()=> bi({cn:'花时间重新找',en:'Spend time tracking them down again'}),
+        result:()=> Math.random()<0.4
+          ? bi({cn:'找到了。存进备忘录。',en:'Found them. Saved to notes.'})
+          : bi({cn:'找不到了。那张图成了孤本。',en:'Couldn\'t find them. That image is one of a kind now.'}),
+        eff:{thinking:2,delayRate:5}, mood:'平静' },
+      { text:()=> G.revisionCount>=2
+          ? bi({cn:'算了重新生成（第几次这样了）',en:'Just regenerate — how many times has this happened'})
+          : bi({cn:'算了，重新生成',en:'Forget it, just regenerate'}),
+        result:()=> bi({cn:'生成不出来了。那个感觉找不回来了。',en:'Can\'t recreate it. That feeling is gone.'}),
+        eff:{thinking:-5,delayRate:4}, mood:'生气' },
+    ]
+  },
+  {
+    text:{ cn:'AI 在跑，你在等。这两分钟不知道干什么。', en:'AI is running, you\'re waiting. Two minutes to kill, nothing to do.' },
+    choices:[
+      { text:()=> bi({cn:'看看别人做的 AI 图',en:'Browse other people\'s AI-generated work'}),
+        result:()=> bi({cn:'你开始觉得自己的不够好。',en:'You start feeling like yours isn\'t good enough.'}),
+        eff:{thinking:-4}, mood:'平静' },
+      { text:()=> bi({cn:'想一想这张图为什么要这么做',en:'Think about why you\'re making this image this way'}),
+        result:()=> Math.random()<0.4
+          ? bi({cn:'想到了一个更好的方案。',en:'A better approach comes to you.'})
+          : bi({cn:'想了，没有结论。但想了。',en:'You thought about it. No conclusions. But you thought.'}),
+        eff:{thinking:4}, mood:'想到好主意' },
+    ]
+  },
+  {
+    text:{ cn:'同事推荐了一个新的 AI 工具，说效果更好。', en:'A colleague recommends a new AI tool, says the results are much better.' },
+    choices:[
+      { text:()=> bi({cn:'马上试试',en:'Try it right now'}),
+        result:()=> bi({cn:'你花了一下午学新工具。当前任务往后推了。',en:'You spent the afternoon learning the new tool. Current task pushed back.'}),
+        eff:{thinking:-3,delayRate:6}, mood:'激动' },
+      { text:()=> bi({cn:'等这个项目完了再说',en:'Wait until this project is done'}),
+        result:()=> bi({cn:'你关掉链接。可能别人已经用新工具超过你了。',en:'You close the link. Others may already be ahead of you with it.'}),
+        eff:{thinking:2}, mood:'平静' },
+    ]
+  },
+  {
+    text:{ cn:'你写了一个很详细的 prompt：国风、水墨、留白、高端、克制。<br>AI 给你生成了一个赛博朋克霓虹街头。', en:'You wrote a detailed prompt: Chinese aesthetic, ink wash, negative space, premium, restrained.<br>AI generated a cyberpunk neon street scene.' },
+    choices:[
+      { text:()=> G.revisionCount>=2
+          ? bi({cn:'重新写 prompt（和之前写的差不多）',en:'Rewrite the prompt (about the same as before)'})
+          : bi({cn:'重新写 prompt，再试',en:'Rewrite the prompt and try again'}),
+        result:()=> bi({cn:'这次好一点了。是水墨，但是在下雨，还有一只猫。',en:'A bit better this time. It\'s ink wash, but it\'s raining, and there\'s a cat.'}),
+        eff:{thinking:-5,delayRate:5}, mood:'生气' },
+      { text:()=> bi({cn:'赛博朋克其实也不错，试着往这个方向做',en:'Cyberpunk is actually not bad — try running with it'}),
+        result:()=> bi({cn:'你发了一版给老板。老板说"这不是我要的"。',en:'You sent a version to your boss. Boss said: "This isn\'t what I asked for."'}),
+        eff:{thinking:-3,delayRate:8}, mood:'生气' },
+    ]
+  },
+  {
+    text:{ cn:'你今天已经生成了四十多张图了。<br>每一张都差一点。你也说不清楚差在哪里。', en:'You\'ve generated over forty images today.<br>Every one falls just short. You can\'t explain where.' },
+    choices:[
+      { text:()=> G.revisionCount>=3
+          ? bi({cn:'继续生成（你已经说不出理由了）',en:'Keep generating (you can\'t explain why anymore)'})
+          : bi({cn:'继续生成',en:'Keep generating'}),
+        result:()=> bi({cn:'第四十一张出来了。你选了它，不是因为它好，是因为你累了。',en:'Number forty-one appeared. You chose it — not because it\'s good, but because you\'re tired.'}),
+        eff:{thinking:-8,aiOutput:4}, mood:'麻木' },
+      { text:()=> bi({cn:'停下来，想想到底要什么',en:'Stop and think about what you actually want'}),
+        result:()=> bi({cn:'你想了十分钟。有了一点方向。',en:'You thought for ten minutes. You have a direction now.'}),
+        eff:{thinking:5,delayRate:5}, mood:'想到好主意' },
+    ]
+  },
+  {
+    text:{ cn:'你照着参考图写 prompt，生成出来的和参考图差了十万八千里。<br>但 AI 的置信度是 99%。', en:'You wrote a prompt based on a reference image. What came out looks nothing like it.<br>AI confidence: 99%.' },
+    choices:[
+      { text:()=> bi({cn:'换一个工具试试',en:'Try a different tool'}),
+        result:()=> bi({cn:'新工具生成的和原来的一样离谱，但方式不同。',en:'The new tool\'s results are just as off — just in a different way.'}),
+        eff:{thinking:-5,delayRate:6}, mood:'生气' },
+      { text:()=> bi({cn:'接受现实，自己改图',en:'Accept reality and fix it yourself'}),
+        result:()=> bi({cn:'你打开 PS，开始救图。',en:'You open PS and start salvaging the image.'}),
+        eff:{thinking:4,delayRate:4}, mood:'平静' },
+    ]
+  },
+  {
+    text:{ cn:'你终于生成了一张满意的图。<br>然后你发现你不记得用了什么关键词，而且这个工具不支持历史记录。', en:'You finally generated one you\'re happy with.<br>Then you realize you don\'t remember the keywords — and this tool has no history.' },
+    choices:[
+      { text:()=> bi({cn:'花时间重新找',en:'Spend time searching for them again'}),
+        result:()=> Math.random()<0.3
+          ? bi({cn:'奇迹，找到了。',en:'A miracle — you found them.'})
+          : bi({cn:'没找到。那个感觉永远消失了。',en:'Couldn\'t find them. That feeling is gone for good.'}),
+        eff:{thinking:-4,delayRate:7}, mood:'生气' },
+      { text:()=> G.revisionCount>=2
+          ? bi({cn:'截图存下来（老办法）',en:'Screenshot it (old reliable)'})
+          : bi({cn:'就用这一张，截图存下来',en:'Use this one and screenshot it'}),
+        result:()=> bi({cn:'截图了。质量缩水了三分之一。',en:'Screenshot taken. Quality dropped by a third.'}),
+        eff:{thinking:-5,delayRate:2}, mood:'麻木' },
+    ]
+  },
+  {
+    text:{ cn:'AI 给你一张图，风格正确，构图完美，颜色协调。<br>但仔细看，里面那个人的手有六根手指。', en:'AI gives you an image — right style, perfect composition, balanced colors.<br>But look closer: the person\'s hand has six fingers.' },
+    choices:[
+      { text:()=> bi({cn:'用 PS 修手指',en:'Fix the fingers in PS'}),
+        result:()=> bi({cn:'修了四十分钟。现在有五根了。',en:'Forty minutes later. Now there are five.'}),
+        eff:{thinking:2,delayRate:8}, mood:'生气' },
+      { text:()=> bi({cn:'裁掉那只手',en:'Crop out that hand'}),
+        result:()=> bi({cn:'构图改了。老板可能不会注意到手的问题。',en:'Composition changed. Your boss probably won\'t notice the hand issue.'}),
+        eff:{thinking:-4,delayRate:2}, mood:'平静' },
+      { text:()=> G.revisionCount>=2
+          ? bi({cn:'重新生成（还是要求"正常的手"）',en:'Regenerate (still requesting "normal hands")'})
+          : bi({cn:'重新生成，要求"正常的手"',en:'Regenerate, request "normal hands"'}),
+        result:()=> bi({cn:'这次只有四根手指。',en:'This time there are four fingers.'}),
+        eff:{thinking:-6,delayRate:5}, mood:'生气' },
+    ]
+  },
+];
+
+// ── 手搓过程事件 ──────────────────────────────────────────────
+const MANUAL_EVENTS = [
+  {
+    text:{ cn:'你在自己画草图。画着画着发现比你想象的难。', en:'You\'re sketching by hand. Partway through, you realize it\'s harder than you thought.' },
+    choices:[
+      { text:()=> bi({cn:'继续硬画',en:'Push through and keep drawing'}),
+        result:()=> bi({cn:'画出来了。不完美，但是你的。',en:'You finished it. Not perfect, but it\'s yours.'}),
+        eff:{thinking:8,delayRate:8}, mood:'激动' },
+      { text:()=> bi({cn:'偷偷开个 AI 参考一下构图',en:'Quietly open AI just to reference the composition'}),
+        result:()=> bi({cn:'参考了一下。你告诉自己只是参考。',en:'You referenced it. You tell yourself it\'s just for reference.'}),
+        eff:{thinking:-5,delayRate:-3}, mood:'平静' },
+    ]
+  },
+  {
+    text:{ cn:'你在 PS 里做到一半，卡在某个细节上出不来。', en:'You\'re halfway through in PS, stuck on a particular detail.' },
+    choices:[
+      { text:()=> bi({cn:'死磕',en:'Grind through it'}),
+        result:()=> Math.random()<0.5
+          ? bi({cn:'磕出来了。',en:'You got through it.'})
+          : bi({cn:'没磕出来。换个方向处理了。',en:'Couldn\'t crack it. Approached it from a different angle.'}),
+        eff:{thinking:6,delayRate:7}, mood:'激动' },
+      { text:()=> bi({cn:'跳过这个细节，先做其他部分',en:'Skip this detail and work on other parts first'}),
+        result:()=> bi({cn:'你绕过去了。回头再看，发现其实不那么重要。',en:'You worked around it. Looking back, it wasn\'t that important anyway.'}),
+        eff:{thinking:3,delayRate:3}, mood:'平静' },
+    ]
+  },
+  {
+    text:{ cn:'同事看了你的稿子，说"你怎么不用 AI，这个 AI 一下就能做"。', en:'A colleague looks at your draft and says "why aren\'t you using AI? AI could do this in seconds."' },
+    choices:[
+      { text:()=> bi({cn:'我知道，但我想自己做',en:'I know, but I want to do it myself'}),
+        result:()=> bi({cn:'同事耸耸肩走了。你继续。',en:'Your colleague shrugs and walks away. You continue.'}),
+        eff:{thinking:8}, mood:'平静' },
+      { text:()=> bi({cn:'动摇了，切换成 AI',en:'You waver and switch to AI'}),
+        result:()=> bi({cn:'你打开 AI 工具。之前做的没有完全用上。',en:'You open the AI tool. What you\'d done before doesn\'t fully carry over.'}),
+        eff:{thinking:-6,aiOutput:4}, mood:'平静' },
+    ]
+  },
+  {
+    text:{ cn:'PS 图层越来越多，你开始找不到东西了。', en:'The PS layers keep multiplying. You\'re starting to lose track of things.' },
+    choices:[
+      { text:()=> bi({cn:'停下来整理图层',en:'Stop and organize the layers'}),
+        result:()=> bi({cn:'整理好了。慢，但清晰了。',en:'Done. Slow, but now it\'s clear.'}),
+        eff:{thinking:4,delayRate:5}, mood:'平静' },
+      { text:()=> bi({cn:'继续往上堆，先做完再说',en:'Keep stacking layers, deal with it later'}),
+        result:()=> bi({cn:'做完了。你希望以后不用再改这个文件。',en:'Done. You hope you never have to touch this file again.'}),
+        eff:{thinking:-4,delayRate:-2}, mood:'麻木' },
+    ]
+  },
+];
+
+const PASS_TEXTS = [
+  {cn:'老板说可以了。',en:'Your boss says it\'s good.'},
+  {cn:'老板回："这次不错。"',en:'Boss replies: "Not bad this time."'},
+  {cn:'老板说："行，就这样。"',en:'Boss says: "Fine, let\'s go with this."'},
+  {cn:'老板发来一个大拇指。什么话都没说。',en:'Boss sends a thumbs up. Nothing else.'},
+  {cn:'老板回："可以，发给我源文件。"',en:'Boss replies: "Works for me, send me the source file."'},
+];
+
+const FAIL_COMMENTS = [
+  {cn:'整体感觉不太对，颜色要更跳一点，但又不能太花。',en:'Overall feel isn\'t quite right — colors need more pop, but not too busy.'},
+  {cn:'主体不够突出，背景抢了焦点。',en:'The subject isn\'t prominent enough — the background is stealing focus.'},
+  {cn:'风格跟品牌调性不符，重新想想方向。',en:'The style doesn\'t match the brand tone — rethink the direction.'},
+  {cn:'细节太粗糙了，再精细一下。',en:'Details are too rough — refine it more.'},
+  {cn:'感觉缺少一点故事感，你懂我的意思吗？',en:'Feels like it\'s missing some storytelling quality — you know what I mean?'},
+  {cn:'跟上次说的不太一样……你重新看一下我之前的需求。',en:'Not quite what we discussed last time… go back and re-read my original brief.'},
+  {cn:'这个方向不对，我的意思是要有创意，但不要这么"AI感"。',en:'Wrong direction — I want creative, but not this... AI-ish.'},
+  {cn:'太平了，没有冲击力。',en:'Too flat — no impact.'},
+  {cn:'好像做到一半的感觉，再完整一点。',en:'Feels half-finished — make it more complete.'},
+  {cn:'这个颜色我之前说过不能用。',en:'I said before that color wasn\'t allowed.'},
+  {cn:'和竞品撞了，换一个思路。',en:'It clashes with a competitor — try a different angle.'},
+  {cn:'文字排版乱了，主次不清楚。',en:'Typography is messy — hierarchy isn\'t clear.'},
+];
+
+// ── 阈值事件 ──────────────────────────────────────────────────
+const THRESHOLDS = [
+  {
+    id:'thinking_75',
+    check:()=> G.thinking<=75 && G.thinking>50,
+    text:{ cn:'接到任务，没有参考图，没有说明。你打开 AI，发现不知道输入什么。<br>你意识到你已经很久没有"先想再做"了，一直都是先生成再选。', en:'New task arrives — no reference images, no brief. You open AI and realize you don\'t know what to type.<br>You notice you haven\'t "thought before doing" in a long time. You\'ve always generated first, then chosen.' },
+    choices:[
+      { text:{cn:'先自己想十分钟',en:'Think on your own for ten minutes first'},
+        result:{cn:'想了十分钟。有一点轮廓了。',en:'Ten minutes later. You have an outline.'},
+        eff:{thinking:8,delayRate:3}, mood:'想到好主意' },
+      { text:{cn:'随便输几个词，看 AI 给什么',en:'Type a few random words and see what AI gives you'},
+        result:{cn:'AI 给了你一些东西。你选了一张。',en:'AI gave you some options. You picked one.'},
+        eff:{thinking:-6,aiOutput:3}, mood:'麻木' },
+    ]
+  },
+  {
+    id:'thinking_50',
+    check:()=> G.thinking<=50 && G.thinking>25,
+    text:{ cn:'例会上老板问你这个方案的创作思路。<br>你说到一半发现——你其实不知道为什么选了这个方向。当时是 AI 生成的，你觉得还行就用了。', en:'Your boss asks about your creative rationale in the team meeting.<br>Partway through explaining, you realize — you don\'t actually know why you chose this direction. AI generated it, you thought it was fine, and you used it.' },
+    choices:[
+      { text:{cn:'如实说',en:'Tell the truth'},
+        result:{cn:'老板沉默了一下，说"下次想清楚再做"。',en:'Your boss paused, then said "think it through before doing it next time."'},
+        eff:{thinking:5,aiOutput:-4}, mood:'平静' },
+      { text:{cn:'编一个思路',en:'Make up a rationale'},
+        result:{cn:'老板点头。你自己也信了。',en:'Your boss nods. You start believing it yourself.'},
+        eff:{thinking:-10}, mood:'麻木' },
+    ]
+  },
+  {
+    id:'thinking_25',
+    check:()=> G.thinking<=25 && G.thinking>0,
+    text:{ cn:'你突然想起来，以前你会手绘草图来整理思路。<br>你打开备忘录想画，发现不知道从哪里开始。', en:'You suddenly remember — you used to sketch by hand to organize your thinking.<br>You open a notepad to draw, and realize you don\'t know where to start.' },
+    choices:[
+      { text:{cn:'强迫自己画',en:'Force yourself to draw'},
+        result:{cn:'画出来了。很粗糙，但是你的。',en:'You drew something. Very rough, but it\'s yours.'},
+        eff:{thinking:10,delayRate:7}, mood:'激动' },
+      { text:{cn:'算了，直接 AI',en:'Forget it, just use AI'},
+        result:{cn:'你关掉备忘录。',en:'You close the notepad.'},
+        eff:{thinking:-8}, mood:'麻木' },
+    ]
+  },
+  {
+    id:'output_50',
+    check:()=> G.aiOutput>=50,
+    text:{ cn:'老板在例会上表扬你效率高，要你给其他同事分享工作流。', en:'Your boss praises your efficiency in the team meeting and asks you to share your workflow with others.' },
+    choices:[
+      { text:{cn:'分享',en:'Share it'},
+        result:{cn:'你把方法教给了别人。说不清楚里面有多少是你自己的方法。',en:'You taught others your method. You can\'t say how much of it is actually yours.'},
+        eff:{aiOutput:4,thinking:-5}, mood:'平静' },
+      { text:{cn:'简单说说，没细讲',en:'Give a brief overview, skip the details'},
+        result:{cn:'同事说"讲得不够清楚"。',en:'Your colleague says "that wasn\'t very clear."'},
+        eff:{thinking:3}, mood:'平静' },
+    ]
+  },
+  {
+    id:'delay_40',
+    check:()=> G.delayRate>=40,
+    text:{ cn:'老板私信你："最近进度有点慢，怎么了？"', en:'Your boss DMs you: "Progress has been a bit slow lately — what\'s going on?"' },
+    choices:[
+      { text:{cn:'解释 AI 工具不稳定',en:'Explain that the AI tools are unreliable'},
+        result:{cn:'老板说"别人也在用同样的工具"。',en:'Boss says "everyone else is using the same tools."'},
+        eff:{delayRate:-5,thinking:-5}, mood:'生气' },
+      { text:{cn:'说自己在保证质量',en:'Say you\'re maintaining quality standards'},
+        result:{cn:'老板说"质量和效率要兼顾"。',en:'Boss says "quality and efficiency both matter."'},
+        eff:{delayRate:4,thinking:5}, mood:'平静' },
+    ]
+  },
+  {
+    id:'delay_70',
+    check:()=> G.delayRate>=70,
+    text:{ cn:'项目组会议上，你负责的那个模块被单独提出来讨论。所有人都在看你。', en:'In the project meeting, your module is singled out for discussion. Everyone is looking at you.' },
+    choices:[
+      { text:{cn:'当场承诺 deadline',en:'Commit to a deadline on the spot'},
+        result:{cn:'你告诉自己这次一定能按时完成。',en:'You tell yourself this time you\'ll definitely make it on time.'},
+        eff:{delayRate:-10}, mood:'激动' },
+      { text:{cn:'解释困难',en:'Explain the challenges'},
+        result:{cn:'有人理解，有人不理解。',en:'Some people get it. Others don\'t.'},
+        eff:{delayRate:5,thinking:6}, mood:'生气' },
+    ]
+  },
+];
+
+const ENDINGS = {
+  quit:{
+    title:{ cn:'结局：离职 / 寻找灵魂', en:'Ending: Resignation / Searching for the Self' },
+    text:{ cn:'你把工牌放在桌上，拎包走了。\n\n走到楼下，你站了一会儿。\n\n你还不知道下一步去哪里。\n\n但今天不用再打开 AI 工具了。\n\n也许你会去找回那个东西——那个你还没放下就已经开始丢失的东西。',
+           en:'You set your badge on the desk and walked out.\n\nDownstairs, you stood for a while.\n\nYou still don\'t know where to go next.\n\nBut today you don\'t have to open an AI tool.\n\nMaybe you\'ll go looking for that thing — the thing you started losing before you even let go.' }
+  },
+  hollow:{
+    title:{ cn:'结局：空心人', en:'Ending: Hollow' },
+    text:{ cn:'新任务来了。\n\n你打开电脑，打开 AI 工具。\n\n你在输入框里输了几个字，然后停下来。\n\n你想不起来自己在做什么，也想不起来为什么要做。\n\n你不是累了。你只是空了。\n\n你关掉电脑。去喝了杯水。\n\n你没有告诉任何人。',
+           en:'A new task arrives.\n\nYou open your computer, open the AI tool.\n\nYou type a few words into the input box, then stop.\n\nYou can\'t remember what you\'re doing. Or why you\'re doing it.\n\nYou\'re not tired. You\'re just empty.\n\nYou close the computer. Get a glass of water.\n\nYou don\'t tell anyone.' }
+  },
+  ai_person:{
+    title:{ cn:'结局：AI人', en:'Ending: AI Person' },
+    text:{ cn:'老板说可以了。\n\n你看着最终版，已经看不出哪里是你的想法，哪里是 AI 给的。\n\n老板把文件发给了客户。客户说"很好，有创意"。\n\n你已经在写下一个任务的 prompt 了。\n\n你不需要想从哪里开始。你打开工具，手指已经开始动了。\n\n这件事你做得很流畅。',
+           en:'Your boss says it\'s good.\n\nLooking at the final version, you can\'t tell what came from you and what came from AI.\n\nYour boss sends the file to the client. Client says "great, very creative."\n\nYou\'re already writing the prompt for the next task.\n\nYou don\'t need to think about where to start. You open the tool, and your fingers are already moving.\n\nYou do this very smoothly.' }
+  },
+};
+
+function checkEnding(){ if(G.thinking<=0) return 'hollow'; return null; }
+
+// ── UI ────────────────────────────────────────────────────────
+function updateMoodDisplay(){
+  document.getElementById('mood-label').textContent = MOOD_NAMES[LANG][G.mood]||G.mood;
+}
+function setMood(m){
+  G.mood = m||'平静';
+  document.getElementById('char-img').src = 'image/'+G.mood+'.png';
+  updateMoodDisplay();
+}
+function updateUI(){
+  document.getElementById('thinking').textContent = G.thinking;
+  document.getElementById('delay').textContent    = G.delayRate;
+  document.getElementById('status-list').innerHTML = G.statuses.map(s=>`<li>${s}</li>`).join('');
+  document.getElementById('last-result').textContent = G.lastResult||'';
+}
+function refreshStatuses(){
+  const s = [];
+  if(G._isFirstDay){
+    s.push(bi({cn:'激动人心的第一天',en:'An exciting first day'}));
+  } else {
+    if     (G.thinking>75) s.push(bi({cn:'思维还算清晰',en:'Still thinking clearly'}));
+    else if(G.thinking>50) s.push(bi({cn:'有点依赖 AI 了',en:'Getting AI-dependent'}));
+    else if(G.thinking>25) s.push(bi({cn:'自己想不太动了',en:'Struggling to think independently'}));
+    else                   s.push(bi({cn:'脑子有点生锈',en:'Brain feels rusty'}));
+    if     (G.delayRate>60) s.push(bi({cn:'进度压力很大',en:'Deadline pressure is intense'}));
+    else if(G.delayRate>30) s.push(bi({cn:'进度有点落后',en:'Falling a bit behind schedule'}));
+    if     (G.aiOutput>70)  s.push(bi({cn:'公司认可你的效率',en:'Company recognizes your efficiency'}));
+    else if(G.aiOutput>40)  s.push(bi({cn:'产出还不错',en:'Output is decent'}));
+  }
+  G.statuses = s;
+}
+
+// ── 渲染 ──────────────────────────────────────────────────────
+function render(textFn, choices){
+  const resolveText = ()=>{
+    const t = typeof textFn==='function' ? textFn() : textFn;
+    return typeof t==='object' && t!==null ? bi(t) : (t||'');
+  };
+
+  document.getElementById('event-box').innerHTML = resolveText();
+  const box = document.getElementById('choices-box');
+  box.innerHTML = '';
+  const onclicks = [];
+  choices.forEach(c=>{
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = typeof c.label==='function' ? c.label() : bi(c.label);
+    const oc = ()=>{
+      if(c.eff) applyFx(c.eff);
+      const raw = typeof c.result==='function' ? c.result() : c.result;
+      G.lastResult = bi(raw)||'';
+      const moodOv = G.thinking<=30 ? '麻木' : (c.mood||'平静');
+      setMood(moodOv);
+      updateUI();
+      if(c.ending){ showEnding(c.ending); return; }
+      const imm = checkEnding();
+      if(imm && (G.thinking<=0||G.delayRate>=100)){ showEnding(imm); }
+      else { (c.next||nextStep)(); }
+    };
+    btn.onclick = oc;
+    onclicks.push(oc);
+    box.appendChild(btn);
+  });
+
+  G._rerender = ()=>{
+    document.getElementById('event-box').innerHTML = resolveText();
+    const btns = box.querySelectorAll('.choice-btn');
+    choices.forEach((c,i)=>{
+      if(btns[i]) btns[i].textContent = typeof c.label==='function' ? c.label() : bi(c.label);
+    });
+  };
+}
+
+// ── 主流程 ────────────────────────────────────────────────────
+function nextStep(){
+  G._isFirstDay = false;
+  G.day++;
+  refreshStatuses();
+  updateUI();
+
+  for(const t of THRESHOLDS){
+    if(!triggered.has(t.id) && t.check()){
+      triggered.add(t.id);
+      render(
+        ()=> bi(t.text),
+        t.choices.map(c=>({
+          label:()=> bi(c.text),
+          eff:c.eff,
+          result:()=> bi(c.result),
+          mood:c.mood,
+          ending:c.ending,
+          next:nextStep
+        }))
+      );
+      return;
+    }
+  }
+
+  const end = checkEnding();
+  if(end){ showEnding(end); return; }
+
+  switch(G.phase){
+    case 'task_received': showTaskReceived(); break;
+    case 'method_choice': showMethodChoice(); break;
+    case 'working':       showWorking();      break;
+    case 'feedback':      showFeedback();     break;
+    case 'revision':      showRevision();     break;
+  }
+}
+
+function showTaskReceived(){
+  G.currentTask = pick(TASKS);
+  G.revisionCount = 0;
+  setMood('平静');
+  render(
+    ()=> LANG==='cn'
+      ? `老板发来新任务：${G.currentTask.desc.cn}<br><br>截止日期：<span class="red">${G.currentTask.deadline} 天后</span>。`
+      : `New task from your boss: ${G.currentTask.desc.en}<br><br>Deadline: <span class="red">${G.currentTask.deadline} days</span>.`,
+    [
+      { label:()=> bi({cn:'接受',en:'Accept'}),
+        result:()=> bi({cn:'好的。',en:'Got it.'}),
+        eff:{}, mood:'激动',
+        next:()=>{ G.phase='method_choice'; nextStep(); } },
+      { label:()=> bi({cn:'不干了，离职',en:'I quit'}),
+        result:'', eff:{}, mood:'平静', ending:'quit' },
+    ]
+  );
+}
+
+function showMethodChoice(){
+  render(
+    ()=> bi({cn:'你打算怎么做这个任务？',en:'How are you going to approach this task?'}),
+    [
+      { label:()=> bi({cn:'用 AI 工具做',en:'Use AI tools'}),
+        result:()=> bi({cn:'你打开 AI 工具，开始想怎么写 prompt。',en:'You open an AI tool and start thinking about how to write the prompt.'}),
+        eff:{aiOutput:2}, mood:'平静',
+        next:()=>{ G.usedAI=true; G.workEventsLeft=3+Math.floor(Math.random()*3); G.phase='working'; nextStep(); } },
+      { label:()=> bi({cn:'自己手搓',en:'Do it by hand'}),
+        result:()=> bi({cn:'你打开设计软件，开始起草。',en:'You open your design software and start drafting.'}),
+        eff:{thinking:4,delayRate:3}, mood:'激动',
+        next:()=>{ G.usedAI=false; G.workEventsLeft=3+Math.floor(Math.random()*3); G.phase='working'; nextStep(); } },
+    ]
+  );
+}
+
+function showWorking(){
+  if(G.workEventsLeft>0){
+    G.workEventsLeft--;
+    G._currentEvent = pick(G.usedAI ? AI_EVENTS : MANUAL_EVENTS);
+    const ev = G._currentEvent;
+    render(
+      ()=> bi(ev.text),
+      ev.choices.map(c=>({
+        label:()=> typeof c.text==='function' ? c.text() : bi(c.text),
+        eff:c.eff,
+        result:()=> typeof c.result==='function' ? c.result() : bi(c.result),
+        mood:c.mood,
+        next:nextStep
+      }))
+    );
+  } else {
+    G._currentEvent = null;
+    G.phase = 'feedback';
+    nextStep();
+  }
+}
+
+function passRate(){ return Math.min(0.28, 0.05+G.revisionCount*0.03); }
+
+function showFeedback(){
+  const pass = Math.random()<passRate();
+  const r = G.revisionCount;
+  if(pass){
+    const passText = pick(PASS_TEXTS);
+    const getSuffix = ()=> r===0
+      ? bi({cn:'大概符合。',en:'roughly on target.'})
+      : r<=3
+      ? bi({cn:'和最开始想的有点不一样了。',en:'a bit different from what you first imagined.'})
+      : bi({cn:'你已经不记得第一版长什么样了。',en:'you can\'t remember what the first version looked like.'});
+    render(
+      ()=> LANG==='cn'
+        ? `${bi(passText)} 你看着最终版，${getSuffix()}`
+        : `${bi(passText)} Looking at the final version, ${getSuffix()}`,
+      [
+        { label:()=> bi({cn:'想想这个过程',en:'Reflect on the process'}),
+          eff:{thinking: G.usedAI ? -3 : 5},
+          result:'', mood: G.usedAI ? '麻木' : '想到好主意',
+          ending:'ai_person' },
+      ]
+    );
+  } else {
+    const failComment = pick(FAIL_COMMENTS);
+    const choices = [
+      { label:()=> bi({cn:'问老板具体指哪里',en:'Ask your boss for specifics'}),
+        eff:{delayRate:4,thinking:5},
+        result:()=> bi({cn:'老板说"你感受一下"。你感受了一下，没感受出来。',en:'Boss says "feel it out." You tried. You couldn\'t.'}),
+        mood:'生气',
+        next:()=>{ G.phase='revision'; nextStep(); } },
+      { label:()=> bi({cn:'自己理解，重新做一版',en:'Interpret it yourself and redo a version'}),
+        eff:{thinking:-3,delayRate:3},
+        result:()=> bi({cn:'重做了，老板还没回。',en:'Redone. Boss hasn\'t replied yet.'}),
+        mood:'生气',
+        next:()=>{ G.phase='revision'; nextStep(); } },
+    ];
+    if(G.revisionCount>=3 && Math.random()<0.30){
+      choices.push({
+        label:()=> bi({cn:'不想做了，直接离职',en:'Done with this — I quit'}),
+        result:'', eff:{}, mood:'激动', ending:'quit'
+      });
+    }
+    render(
+      ()=> LANG==='cn'
+        ? `老板说："${bi(failComment)}"`
+        : `Your boss says: "${bi(failComment)}"`,
+      choices
+    );
+  }
+}
+
+function showRevision(){
+  G.revisionCount++;
+  const n = G.revisionCount;
+  const txt = ()=>{
+    if(n===1) return LANG==='cn'
+      ? `你根据老板的反馈重新调整。${G.usedAI?'重新写了 prompt，再生成一批。':'在 PS 里改了方向。'}`
+      : `You revise based on your boss's feedback. ${G.usedAI?'Rewrote the prompt and generated another batch.':'Changed direction in PS.'}`;
+    if(n===2) return LANG==='cn'
+      ? `第二次返修。${G.usedAI?'AI 生成的还是差一点。你继续调整关键词。':'你改了两个小时，感觉越来越接近了。'}`
+      : `Second revision. ${G.usedAI?'AI output is still a bit off. You keep adjusting keywords.':'Two hours of edits — feeling closer.'}`;
+    if(n===3) return LANG==='cn'
+      ? `第三次了。老板还是觉得不对。${G.usedAI?'你已经生成了几十张，挑了又挑。':'你打开 PS，不知道还能改什么。'}`
+      : `Third time. Your boss still isn't satisfied. ${G.usedAI?'You\'ve generated dozens of images, picking and repicking.':'You open PS, not sure what else to change.'}`;
+    if(n<=6) return LANG==='cn'
+      ? `第 ${n} 次返修。你已经忘了最开始的想法是什么了。`
+      : `Revision ${n}. You've forgotten what the original idea was.`;
+    return LANG==='cn'
+      ? `第 ${n} 次。你看着屏幕，什么感觉都没有了。`
+      : `Revision ${n}. You stare at the screen. Nothing.`;
+  };
+
+  const reworkCount = 2+Math.floor(Math.random()*3);
+  const reworkThinking = G.usedAI ? (n<=3?-4:-9) : (n<=3?3:-5);
+  const choices = [
+    { label:()=> G.usedAI
+        ? (n<=3 ? bi({cn:'重新思考提示词再生成',en:'Rethink the prompt and regenerate'}) : bi({cn:'同一提示词重新生成',en:'Regenerate with the same prompt'}))
+        : (n<=3 ? bi({cn:'重新改',en:'Revise again'}) : bi({cn:'还是照原来的思路改',en:'Stick with the same approach and revise'})),
+      eff:{delayRate:4,thinking:reworkThinking},
+      result:()=> n<=3
+        ? bi({cn:'你重新想了一下，开始做。',en:'You rethought it and started over.'})
+        : bi({cn:'你打开工具，粘贴上次的关键词。',en:'You open the tool and paste last time\'s keywords.'}),
+      mood:n>=4?'麻木':'生气',
+      next:()=>{ G.workEventsLeft=reworkCount; G.phase='working'; nextStep(); } },
+    { label:()=> bi({cn:'换一个思路重来',en:'Scrap it and try a completely new direction'}),
+      eff:{thinking:n>=4?2:5, delayRate:6},
+      result:()=> bi({cn:'你推翻了之前的方向，从头开始。',en:'You threw out the previous direction and started fresh.'}),
+      mood:n>=4?'麻木':'平静',
+      next:()=>{ G.workEventsLeft=reworkCount+1; G.phase='working'; nextStep(); } },
+  ];
+  if(n>=4){
+    choices.push({
+      label:()=> bi({cn:'把第一版翻出来对比一下',en:'Dig out the first version and compare'}),
+      eff:{thinking:6},
+      result:()=> bi({cn:'你发现第一版其实更好。但你已经说不清楚为什么改掉了。',en:'You find the first version was actually better. But you can\'t explain why you changed it.'}),
+      mood:'生气',
+      next:()=>{ G.workEventsLeft=1; G.phase='working'; nextStep(); }
+    });
+  }
+  render(txt, choices);
+}
+
+const ENDING_MOODS = { quit:'激动', hollow:'麻木', ai_person:'麻木' };
+
+function showEnding(key){
+  const e = ENDINGS[key];
+  G.lastResult = '';
+  setMood(ENDING_MOODS[key]||'麻木');
+  updateUI();
+
+  const renderEnding = ()=>{
+    document.getElementById('event-box').innerHTML =
+      `<strong>${bi(e.title)}</strong><br><br>${bi(e.text).replace(/\n/g,'<br>')}`;
+    const statsDiv = document.getElementById('ending-stats');
+    if(statsDiv) statsDiv.textContent = LANG==='cn'
+      ? `主体思考性 ${G.thinking} / 100 · 延期率 ${G.delayRate}%`
+      : `Creative Thinking ${G.thinking} / 100 · Delay Rate ${G.delayRate}%`;
+    const btn = document.querySelector('#choices-box .choice-btn');
+    if(btn) btn.textContent = bi({cn:'重新开始',en:'Play Again'});
+  };
+
+  document.getElementById('event-box').innerHTML =
+    `<strong>${bi(e.title)}</strong><br><br>${bi(e.text).replace(/\n/g,'<br>')}`;
+  document.getElementById('choices-box').innerHTML = `
+    <div id="ending-stats">
+      ${LANG==='cn'
+        ? `主体思考性 ${G.thinking} / 100 &nbsp;·&nbsp; 延期率 ${G.delayRate}%`
+        : `Creative Thinking ${G.thinking} / 100 &nbsp;·&nbsp; Delay Rate ${G.delayRate}%`}
+    </div>
+    <button class="choice-btn" onclick="restart()">${bi({cn:'重新开始',en:'Play Again'})}</button>
+  `;
+  G._rerender = renderEnding;
+}
+
+function restart(){
+  Object.assign(G,{
+    thinking:100, aiOutput:0, delayRate:0, day:1,
+    statuses:[], lastResult:'', mood:'平静',
+    phase:'task_received', usedAI:false,
+    workEventsLeft:0, revisionCount:0, currentTask:null,
+    _currentEvent:null, _rerender:null, _isFirstDay:true,
+  });
+  triggered.clear();
+  setMood('平静');
+  refreshStatuses();
+  updateUI();
+  startGame();
+}
+
+function startGame(){
+  G._isFirstDay = true;
+  refreshStatuses();
+  setMood('激动');
+  render(
+    ()=> bi({cn:'你加入了一家设计公司。老板说现在大家都在用 AI 工具，你也要跟上。', en:'You\'ve joined a design company. Your boss says everyone is using AI tools now, and you need to keep up.'}),
+    [{ label:()=> bi({cn:'好的。',en:'Got it.'}), eff:{}, result:'', mood:'激动',
+       next:()=>{ G.phase='task_received'; nextStep(); } }]
+  );
+  updateUI();
+}
+
+applyLang();
+startGame();
+</script>
+</body>
+</html>

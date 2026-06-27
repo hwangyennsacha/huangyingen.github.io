@@ -1,0 +1,963 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>AI创意工作模拟器 — 作品集</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --dark: #1A1A1A;
+    --warm: #F0EBE2;
+    --mid: #D6CFBF;
+    --accent: #B8886A;
+    --text-dark: #2D2D2D;
+    --text-light: #EDE8DC;
+    --serif: Georgia, "Times New Roman", serif;
+    --sans: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--sans); background: var(--warm); color: var(--text-dark); }
+
+  /* ── 通用 ── */
+  .container { max-width: 960px; margin: 0 auto; padding: 0 40px; }
+  .container-wide { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+
+  h1 { font-size: 52px; line-height: 1.1; letter-spacing: -1px; font-weight: 700; }
+  h2 { font-size: 13px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.5; margin-bottom: 20px; }
+  h3 { font-size: 28px; line-height: 1.3; font-weight: 600; margin-bottom: 16px; }
+  p  { font-size: 16px; line-height: 1.9; color: inherit; }
+
+  .label {
+    font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+    opacity: 0.45; display: block; margin-bottom: 8px;
+  }
+
+  /* ── S1: HERO ── */
+  #hero {
+    background: var(--dark);
+    color: var(--text-light);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 80px;
+  }
+  #hero .meta {
+    display: flex; gap: 40px; margin-bottom: 40px;
+    font-size: 12px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.4;
+  }
+  #hero h1 { font-size: 64px; max-width: 700px; margin-bottom: 28px; font-family: var(--serif); font-weight: 400; }
+  #hero .subtitle {
+    font-size: 17px; opacity: 0.6; max-width: 520px; line-height: 1.7;
+    border-left: 2px solid var(--accent); padding-left: 20px;
+  }
+  #hero .scroll-hint {
+    margin-top: 60px; font-size: 11px; letter-spacing: 2px; opacity: 0.3; text-transform: uppercase;
+  }
+
+  /* ── S2: 起因 ── */
+  #origin { padding: 120px 0; background: var(--warm); }
+  #origin .grid {
+    display: grid; grid-template-columns: 1fr 2fr; gap: 80px; align-items: start;
+  }
+  #origin .side-label { padding-top: 8px; }
+  #origin blockquote {
+    font-family: var(--serif); font-size: 26px; line-height: 1.55;
+    color: var(--text-dark); margin-bottom: 32px; font-weight: 400;
+    font-style: italic;
+  }
+  #origin blockquote em { color: var(--accent); font-style: normal; }
+
+  /* ── 观察卡片 ── */
+  .obs-panel {
+    margin-top: 60px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    grid-column: 1 / -1;
+  }
+  .obs-card {
+    background: #fff;
+    border: 1px solid var(--mid);
+    padding: 28px;
+    border-radius: 4px;
+    position: relative;
+  }
+  .obs-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 4px 4px 0 0;
+    opacity: 0.5;
+  }
+  .obs-num {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.7;
+    display: block;
+    margin-bottom: 16px;
+  }
+  .obs-quote {
+    font-family: var(--serif);
+    font-size: 15px;
+    line-height: 1.6;
+    font-style: italic;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .obs-sub {
+    font-size: 12px;
+    line-height: 1.7;
+    color: #888;
+  }
+
+  /* ── S3: 理论 ── */
+  #theory { background: var(--dark); color: var(--text-light); padding: 120px 0; }
+  #theory .intro { max-width: 640px; margin-bottom: 80px; }
+  #theory .intro p { font-size: 18px; line-height: 1.8; opacity: 0.75; }
+  .theory-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+    background: #333;
+  }
+  .theory-card {
+    background: var(--dark); padding: 48px 36px;
+  }
+  .theory-card .num {
+    font-size: 11px; letter-spacing: 2px; opacity: 0.3; text-transform: uppercase; margin-bottom: 24px;
+  }
+  .theory-card .concept {
+    font-family: var(--serif); font-size: 22px; line-height: 1.3;
+    color: var(--accent); margin-bottom: 16px; font-style: italic;
+  }
+  .theory-card p { font-size: 14px; line-height: 1.8; opacity: 0.65; }
+  .theory-card .source {
+    margin-top: 20px; font-size: 11px; letter-spacing: 1px; opacity: 0.3; text-transform: uppercase;
+  }
+
+  /* ── S4: 观察 → 机制 ── */
+  #process { padding: 120px 0; background: var(--warm); }
+  .process-intro { max-width: 580px; margin-bottom: 80px; }
+  .mapping-row {
+    display: grid; grid-template-columns: 1fr 60px 1fr;
+    align-items: center; gap: 0;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    padding: 32px 0;
+  }
+  .mapping-row:last-child { border-bottom: 1px solid rgba(0,0,0,0.1); }
+  .mapping-obs { font-size: 15px; line-height: 1.7; color: #555; padding-right: 24px; }
+  .mapping-obs strong { display: block; font-size: 16px; color: var(--text-dark); margin-bottom: 4px; }
+  .arrow {
+    text-align: center; font-size: 20px; color: var(--accent); opacity: 0.7;
+  }
+  .mapping-mech { padding-left: 24px; }
+  .mapping-mech .tag {
+    display: inline-block; background: var(--dark); color: var(--warm);
+    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 3px; margin-bottom: 8px;
+  }
+  .mapping-mech p { font-size: 14px; line-height: 1.7; color: #555; }
+
+  /* ── S5: 设计决策 ── */
+  #decisions { background: #1A1A1A; color: var(--text-light); padding: 120px 0; }
+  #decisions .intro { max-width: 600px; margin-bottom: 80px; }
+  #decisions .intro p { opacity: 0.65; font-size: 16px; line-height: 1.9; }
+  .decision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: #333; }
+  .decision-card { background: #1A1A1A; padding: 48px 40px; }
+  .decision-card h4 { font-size: 18px; margin-bottom: 12px; color: var(--text-light); font-weight: 600; }
+  .decision-card p { font-size: 14px; line-height: 1.85; opacity: 0.6; }
+  .decision-card .stat {
+    font-family: var(--serif); font-size: 48px; color: var(--accent);
+    margin-bottom: 12px; line-height: 1;
+  }
+
+  /* ── S6: 三个数值 ── */
+  #metrics { padding: 120px 0; background: var(--warm); }
+  .metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--mid); margin-top: 60px; }
+  .metric-card { background: var(--warm); padding: 48px 32px; }
+  .metric-card .m-name { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .metric-card .m-range { font-size: 12px; letter-spacing: 1px; opacity: 0.4; margin-bottom: 20px; }
+  .metric-card p { font-size: 14px; line-height: 1.8; opacity: 0.7; }
+  .metric-card .m-meaning {
+    margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--mid);
+    font-size: 13px; font-style: italic; color: var(--accent); line-height: 1.7;
+  }
+
+  /* ── S7: 三个结局 ── */
+  #endings { background: var(--dark); color: var(--text-light); padding: 120px 0; }
+  .ending-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: #333; margin-top: 60px; }
+  .ending-card { background: var(--dark); padding: 56px 40px; }
+  .ending-card .e-num { font-size: 60px; font-family: var(--serif); color: var(--accent); opacity: 0.3; line-height: 1; margin-bottom: 16px; }
+  .ending-card .e-title { font-size: 22px; font-weight: 700; margin-bottom: 16px; }
+  .ending-card .e-trigger { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.35; margin-bottom: 20px; }
+  .ending-card p { font-size: 14px; line-height: 1.85; opacity: 0.6; }
+  .ending-card .e-theory { margin-top: 24px; font-size: 13px; color: var(--accent); font-style: italic; opacity: 0.8; line-height: 1.7; }
+
+  /* ── S8: DEMO — 流程图 + 截图 ── */
+  #demo { padding: 120px 0; background: var(--warm); }
+
+  /* 流程图子区块 */
+  .demo-flow-section {
+    background: var(--dark);
+    border-radius: 8px;
+    padding: 60px 40px;
+    margin-top: 60px;
+    margin-bottom: 80px;
+  }
+  .demo-flow-label {
+    font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--accent); opacity: 0.8; margin-bottom: 32px; display: block;
+  }
+  .flow-diagram-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .flow-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: nowrap;
+  }
+  .flow-row-connector {
+    font-size: 11px;
+    color: #555;
+    letter-spacing: 1px;
+    padding-left: 20px;
+  }
+  .flow-node {
+    background: #2D2D2D;
+    color: var(--text-light);
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-size: 13px;
+    white-space: nowrap;
+    border: 1px solid #444;
+    flex-shrink: 0;
+  }
+  .flow-node.start { background: #3A2E28; border-color: var(--accent); color: var(--accent); }
+  .flow-node.loop-node { background: #1E2A1E; border-color: #5A8A5A; color: #8ACA8A; }
+  .flow-node.end-node { background: #2A2A3A; border-color: #6666AA; color: #AAAADD; }
+  .flow-arrow {
+    color: #555;
+    font-size: 16px;
+    padding: 0 6px;
+    flex-shrink: 0;
+  }
+  .flow-arrow.accent { color: var(--accent); }
+  .flow-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .flow-group-inner {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .flow-exit {
+    font-size: 11px;
+    color: #666;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-top: 4px;
+  }
+  .flow-loop-block {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border: 1px dashed #444;
+    border-radius: 8px;
+    padding: 16px 20px;
+    flex-shrink: 0;
+  }
+  .flow-loop-label {
+    position: absolute;
+    top: -9px;
+    left: 12px;
+    background: var(--dark);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #5A8A5A;
+    padding: 0 6px;
+  }
+  .flow-exits-row {
+    display: flex;
+    gap: 32px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #2D2D2D;
+  }
+  .flow-exit-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: #666;
+  }
+  .flow-exit-item .exit-tag {
+    background: #2A2A3A;
+    border: 1px solid #6666AA;
+    color: #AAAADD;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .flow-note {
+    margin-top: 24px;
+    font-size: 12px;
+    color: #555;
+    line-height: 1.7;
+    border-left: 2px solid #333;
+    padding-left: 14px;
+  }
+
+  /* 截图区块 */
+  .demo-screens-label {
+    font-size: 13px; letter-spacing: 2px; text-transform: uppercase;
+    opacity: 0.5; margin-bottom: 8px; display: block;
+  }
+  .demo-screens-intro {
+    font-size: 16px; line-height: 1.9; opacity: 0.7; max-width: 560px; margin-bottom: 60px;
+  }
+
+  /* 游戏截图 mockup CSS */
+  .mock-wrap { margin: 48px 0; }
+  .mock-chrome { background: #2D2D2D; padding: 10px 16px; display: flex; align-items: center; gap: 6px; border-radius: 8px 8px 0 0; }
+  .mock-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .mock-title { font-size: 11px; color: #888; margin-left: 10px; }
+  .mock-game { background: #EDE8DC; padding: 16px; display: grid; grid-template-columns: 150px 1fr; gap: 10px; border-radius: 0 0 8px 8px; }
+  .mock-statbar { grid-column: 1/-1; background: #2D2D2D; color: #F0EBE2; padding: 8px 16px; display: flex; justify-content: space-between; font-size: 12px; border-radius: 4px; }
+  .mock-char { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .mock-img { width: 120px; height: 120px; background: #D8D2C4; border-radius: 8px; }
+  .mock-mood { font-size: 11px; color: #999; }
+  .mock-status { background: #F7F4EE; border-radius: 6px; padding: 8px 10px; font-size: 11px; color: #777; line-height: 1.7; width: 100%; }
+  .mock-status ul { list-style: none; padding: 0; }
+  .mock-status ul li::before { content: '· '; opacity: 0.5; }
+  .mock-event { background: #fff; border-radius: 8px; padding: 20px; font-size: 13px; line-height: 1.8; color: #2D2D2D; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .mock-event strong { font-weight: 700; display: block; margin-bottom: 8px; font-size: 14px; }
+  .mock-btns { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+  .mock-btn { background: #2D2D2D; color: #F0EBE2; border: none; border-radius: 5px; padding: 10px 14px; text-align: left; font-size: 12px; cursor: default; }
+  .mock-btn::before { content: '→  '; opacity: 0.5; }
+  .mock-caption { background: #F7F4EE; border-left: 3px solid var(--accent); padding: 16px 20px; margin-top: 0; font-size: 13px; line-height: 1.7; color: #666; border-radius: 0 4px 4px 0; }
+
+  /* 旧版 iframe 区域 */
+  #demo .demo-iframe-block { margin-top: 80px; }
+  .demo-frame {
+    border: 1px solid var(--mid); border-radius: 8px; overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.1); margin-top: 48px;
+  }
+  .demo-bar {
+    background: #2D2D2D; padding: 12px 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #555; }
+  .dot.r { background: #FF5F56; } .dot.y { background: #FFBD2E; } .dot.g { background: #27C93F; }
+  .demo-inner { padding: 0; }
+  .demo-inner iframe {
+    width: 100%; height: 540px; border: none; display: block;
+    background: #EDE8DC;
+  }
+  .demo-caption { margin-top: 20px; font-size: 13px; opacity: 0.5; line-height: 1.6; }
+
+  /* ── S9: 反思 ── */
+  #reflection { background: var(--warm); padding: 140px 0; }
+  #reflection .r-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 100px; }
+  #reflection blockquote {
+    font-family: var(--serif); font-size: 32px; line-height: 1.5;
+    font-style: italic; color: var(--text-dark);
+    border-left: 3px solid var(--accent); padding-left: 32px;
+  }
+  #reflection .r-body p { font-size: 16px; line-height: 1.95; opacity: 0.8; margin-bottom: 20px; }
+  .r-questions { margin-top: 40px; }
+  .r-questions li {
+    font-size: 15px; line-height: 1.8; opacity: 0.65; margin-bottom: 12px;
+    padding-left: 20px; position: relative; list-style: none;
+  }
+  .r-questions li::before { content: '—'; position: absolute; left: 0; opacity: 0.4; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark); color: var(--text-light); padding: 60px 0;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  footer .f-left { opacity: 0.4; font-size: 13px; letter-spacing: 1px; }
+  footer .f-link {
+    font-size: 13px; color: var(--accent); text-decoration: none; letter-spacing: 1px;
+  }
+  footer .f-link:hover { text-decoration: underline; }
+
+  /* ── 分割线装饰 ── */
+  .section-line {
+    width: 40px; height: 2px; background: var(--accent);
+    margin-bottom: 40px;
+  }
+  .section-line.light { background: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="container">
+    <div class="meta">
+      <span>2026</span>
+      <span>叙事游戏 / 批判设计</span>
+      <span>HTML · CSS · JavaScript</span>
+    </div>
+    <h1>AI创意<br>工作模拟器</h1>
+    <p class="subtitle">
+      一个关于创造力异化的浏览器游戏——<br>
+      用荒诞放大真实，用选项呈现困境
+    </p>
+    <p class="scroll-hint">向下滚动 ↓</p>
+  </div>
+</section>
+
+<!-- ── 起因 ── -->
+<section id="origin">
+  <div class="container">
+    <div class="grid">
+      <div class="side-label">
+        <h2>01 / 起因</h2>
+        <div class="section-line"></div>
+      </div>
+      <div>
+        <blockquote>
+          "你今天已经生成了<em>四十多张图</em>了。每一张都差一点。<br>
+          你也说不清楚差在哪里。"
+        </blockquote>
+        <p>这句话来自游戏里的一个事件节点。但它最初来自真实观察：</p>
+        <br>
+        <p>在AI工具普及之后，创意工作者的日常工作发生了一种微妙的结构性变化——不是"AI替代了人"，而是人开始用一种新的方式异化自己：不停生成、不停筛选、不停返修，却越来越难以解释"我为什么选了这一张"。</p>
+        <br>
+        <p>这个游戏想做的，不是批判AI，而是<strong>把这种体验可视化</strong>——把一个逐渐变得机械、重复、麻木的过程，压缩成几十分钟的玩法，让人在笑着点按钮的时候，隐约意识到：这好像也是我的日常。</p>
+      </div>
+    </div>
+
+    <!-- 观察面板 -->
+    <div class="obs-panel">
+      <div class="obs-card">
+        <span class="obs-num">观察 #1</span>
+        <div class="obs-quote">"四十张图选一张"</div>
+        <div class="obs-sub">判断力饱和，每张看起来都差不多</div>
+      </div>
+      <div class="obs-card">
+        <span class="obs-num">观察 #2</span>
+        <div class="obs-quote">"忘记用了什么关键词"</div>
+        <div class="obs-sub">过程与结果断开，无法复现</div>
+      </div>
+      <div class="obs-card">
+        <span class="obs-num">观察 #3</span>
+        <div class="obs-quote">"说不清楚自己的思路"</div>
+        <div class="obs-sub">被问到时发现无法回答</div>
+      </div>
+      <div class="obs-card">
+        <span class="obs-num">观察 #4</span>
+        <div class="obs-quote">"反复粘贴同一组词"</div>
+        <div class="obs-sub">不再思考，只是重复操作</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 理论框架 ── -->
+<section id="theory">
+  <div class="container">
+    <div class="intro">
+      <h2>02 / 理论框架</h2>
+      <div class="section-line"></div>
+      <p>游戏的机制设计并非凭空而来，它建立在三个相互交叉的理论框架上。这些理论提供了一种语言，让"用AI工作感觉不对劲"这件事可以被更清晰地描述和分析。</p>
+    </div>
+    <div class="theory-grid">
+      <div class="theory-card">
+        <div class="num">理论 01</div>
+        <div class="concept">劳动异化<br>Entfremdung</div>
+        <p>马克思的异化理论描述了劳动者与其劳动产品、劳动过程、自身本质以及他人之间的四重分离。在AI创意劳动中，这种分离被加速和重新配置：<strong>工人不再是创造者，而是AI输出的筛选者</strong>。</p>
+        <div class="source">Marx, 1844 经济学哲学手稿</div>
+      </div>
+      <div class="theory-card">
+        <div class="num">理论 02</div>
+        <div class="concept">主体性异化<br>Alienation of Agency</div>
+        <p>当创造判断被持续外包给算法，个体的判断能力开始退化。Hannah Arendt区分了"劳动"（重复性）与"工作"（创造性）：AI工具正在将本属于"工作"的创意行为，转化为一种新形式的机械劳动。</p>
+        <div class="source">Arendt, The Human Condition, 1958</div>
+      </div>
+      <div class="theory-card">
+        <div class="num">理论 03</div>
+        <div class="concept">认知卸载<br>Cognitive Offloading</div>
+        <p>人类将认知任务外化到工具的行为本身是正常的——但当外化的是<strong>核心创意判断</strong>时，问题随之而来。Braverman的"技能剥夺"理论在这里获得了新的语境：不是体力，而是创造力本身在被逐步剥夺。</p>
+        <div class="source">Braverman, Labor and Monopoly Capital, 1974</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 观察 → 机制 ── -->
+<section id="process">
+  <div class="container">
+    <div class="process-intro">
+      <h2>03 / 设计过程</h2>
+      <div class="section-line"></div>
+      <h3>从真实观察<br>到游戏机制</h3>
+      <p>设计的核心工作是：把那些"说不清楚但确实存在"的感受，翻译成玩家可以感知的规则和选项。每一个游戏机制背后，都对应着一个真实的工作情境。</p>
+    </div>
+
+    <div class="mapping-row">
+      <div class="mapping-obs">
+        <strong>四十张图选一张</strong>
+        生成大量内容后，判断能力趋于饱和。所有图看起来都差不多好，又都差不多不好。
+      </div>
+      <div class="arrow">→</div>
+      <div class="mapping-mech">
+        <span class="tag">主体思考性下降</span>
+        <p>重复生成的选项会有括号注明"和上次一样"，主体思考性在每次无脑选择后扣减更多。</p>
+      </div>
+    </div>
+
+    <div class="mapping-row">
+      <div class="mapping-obs">
+        <strong>说不清楚这个方案的思路</strong>
+        项目通过后，被问到"为什么这么做"时，发现自己无法回答——那是AI生成的，当时觉得还行就用了。
+      </div>
+      <div class="arrow">→</div>
+      <div class="mapping-mech">
+        <span class="tag">阈值事件触发</span>
+        <p>思考性降到50时，触发"例会事件"：老板问创作思路，玩家只能选择"如实说"或"编一个"。</p>
+      </div>
+    </div>
+
+    <div class="mapping-row">
+      <div class="mapping-obs">
+        <strong>反复用同一提示词</strong>
+        改了七八次之后，不再想新思路，只是不停地粘贴上次的关键词，希望能出一张不同的。
+      </div>
+      <div class="arrow">→</div>
+      <div class="mapping-mech">
+        <span class="tag">按钮文字变化</span>
+        <p>前3次返修显示"重新思考提示词再生成"（-4思考），第4次起变成"同一提示词重新生成"（-9思考）。</p>
+      </div>
+    </div>
+
+    <div class="mapping-row">
+      <div class="mapping-obs">
+        <strong>随时想离职</strong>
+        在第7次被拒回来的时候，心里冒出来"不如不干了"，但同时又被整个系统的惯性裹着继续。
+      </div>
+      <div class="arrow">→</div>
+      <div class="mapping-mech">
+        <span class="tag">随机离职选项</span>
+        <p>第3次返修起，每次被老板拒绝有30%概率弹出"不想做了，直接离职"选项。</p>
+      </div>
+    </div>
+
+    <div class="mapping-row">
+      <div class="mapping-obs">
+        <strong>AI崩了反而松了口气</strong>
+        工具卡住的二十分钟，是少有的"自己做"的时间。但工具好了之后，那个状态又消失了。
+      </div>
+      <div class="arrow">→</div>
+      <div class="mapping-mech">
+        <span class="tag">工具报错事件</span>
+        <p>AI报错时出现选项：趁机自己起草稿（+8思考）vs 刷手机等（-7思考）。代表两种不同的反应。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 三个数值 ── -->
+<section id="metrics">
+  <div class="container">
+    <h2>04 / 核心数值设计</h2>
+    <div class="section-line"></div>
+    <p style="max-width:560px;opacity:.7;font-size:16px;line-height:1.9;">
+      游戏只有两个可见数值——它们不是"生命值"，而是两种时间的压力：一种是内在的（思维还剩多少），一种是外在的（系统还能等多久）。
+    </p>
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="m-name">主体思考性</div>
+        <div class="m-range">100 → 0</div>
+        <p>代表创作者还保有多少独立判断和主动思考的能力。不是体力，也不是情绪——是那个"我知道我在做什么、我为什么这么做"的感觉。</p>
+        <div class="m-meaning">归零时：进入"空心人"结局。坐在屏幕前，输入框是空的，人也是空的。</div>
+      </div>
+      <div class="metric-card">
+        <div class="m-name">延期率</div>
+        <div class="m-range">0 → 100%</div>
+        <p>代表你在系统里还有多少时间和容错空间。每一次拒绝、每一次重来都在推高这个数字——它衡量的是"你在这个组织里还能撑多久"。</p>
+        <div class="m-meaning">达到100%时：被系统淘汰。你的项目被转给另一个人，他用AI三天做完了。</div>
+      </div>
+      <div class="metric-card">
+        <div class="m-name">通过率</div>
+        <div class="m-range">5% → 28%</div>
+        <p>不是玩家的数值，而是老板"满意"的概率。基础5%，每次返修增加3%，封顶28%。这个设计本身就是一种立场——</p>
+        <div class="m-meaning">用AI做的东西，通过率低，不是因为质量差，而是因为"对不对"从来都是模糊的。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 三个结局 ── -->
+<section id="endings">
+  <div class="container">
+    <h2>05 / 三个结局</h2>
+    <div class="section-line"></div>
+    <p style="max-width:560px;opacity:.6;font-size:16px;line-height:1.9;">
+      游戏没有"好结局"。三个结局代表了在AI工作压力下，人可能走向的三种不同方向——每一种都是真实的，每一种都有代价。
+    </p>
+    <div class="ending-grid">
+      <div class="ending-card">
+        <div class="e-num">01</div>
+        <div class="e-trigger">触发条件 — 主动选择离开</div>
+        <div class="e-title">离职 / 寻找灵魂</div>
+        <p>你把工牌放在桌上，拎包走了。走到楼下，你站了一会儿。你还不知道下一步去哪里。但今天不用再打开AI工具了。</p>
+        <div class="e-theory">代表：清醒的抵抗。代价是真实的——失去了位置，但也许找回了主体性。这是唯一一个玩家可以主动触发的结局。</div>
+      </div>
+      <div class="ending-card">
+        <div class="e-num">02</div>
+        <div class="e-trigger">触发条件 — 主体思考性归零</div>
+        <div class="e-title">空心人</div>
+        <p>你在输入框里输了几个字，然后停下来。你想不起来自己在做什么，也想不起来为什么要做。你不是累了。你只是空了。</p>
+        <div class="e-theory">代表：被动的崩溃。不是愤怒，不是抗拒——是那种更安静的、一点一点被磨空的感觉。对应Arendt意义上"工作"的彻底消失。</div>
+      </div>
+      <div class="ending-card">
+        <div class="e-num">03</div>
+        <div class="e-trigger">触发条件 — 任务最终通过</div>
+        <div class="e-title">AI人</div>
+        <p>你已经看不出哪里是你的想法，哪里是AI给的。你不需要想从哪里开始。你打开工具，手指已经开始动了。这件事你做得很流畅。</p>
+        <div class="e-theory">代表：同化。这是最"成功"的结局，也是最沉默的异化。你赢了，但你赢的方式，让你成了另一种东西。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 游戏体验 ── -->
+<section id="demo">
+  <div class="container">
+    <h2>06 / 游戏机制与体验</h2>
+    <div class="section-line"></div>
+    <p style="max-width:560px;opacity:.7;font-size:16px;line-height:1.9;">
+      游戏的核心是一个状态机：每一次选择都在改变两个数值，同时推进或中止流程。以下是游戏的完整流程结构，以及五个关键时刻的界面截图。
+    </p>
+
+    <!-- Part A: 流程图 -->
+    <div class="demo-flow-section">
+      <span class="demo-flow-label">06a / 游戏状态机流程</span>
+      <img src="game-flow.png" alt="游戏状态机流程图" style="width:100%;border-radius:6px;display:block;margin-top:24px;">
+    </div>
+
+    <!-- Part B: 五个截图 -->
+    <span class="demo-screens-label">06b / 关键时刻截图</span>
+    <p class="demo-screens-intro">以下五个界面还原了游戏中具有代表性的五个时刻，每张截图下方附有机制说明。</p>
+
+    <!-- Screen 1 -->
+    <div class="mock-wrap">
+      <div class="mock-chrome">
+        <div class="mock-dot" style="background:#FF5F56;"></div>
+        <div class="mock-dot" style="background:#FFBD2E;"></div>
+        <div class="mock-dot" style="background:#27C93F;"></div>
+        <span class="mock-title">AI创意工作模拟器</span>
+      </div>
+      <div class="mock-game">
+        <div class="mock-statbar">
+          <span>主体思考性 100 / 100</span>
+          <span>延期率 0 %</span>
+        </div>
+        <div class="mock-char">
+          <img class="mock-img" src="image/平静.png" alt="平静">
+          <div class="mock-mood">心情：平静</div>
+          <div class="mock-status">
+            <ul>
+              <li>思维还算清晰</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="mock-event">
+            老板发来新任务：夏日活动海报，节日氛围，热闹，色彩鲜明。截止日期：3天后。
+          </div>
+          <div class="mock-btns">
+            <button class="mock-btn">接受</button>
+            <button class="mock-btn">不干了，离职</button>
+          </div>
+        </div>
+      </div>
+      <div class="mock-caption">
+        <strong>时刻1 — 任务下达</strong>
+        游戏起点。两个选项形成了第一个分叉：接受，进入返修循环；或立刻离职，直接触发结局A。离职选项在全程都有，但此刻是代价最低的时候。
+      </div>
+    </div>
+
+    <!-- Screen 2 -->
+    <div class="mock-wrap">
+      <div class="mock-chrome">
+        <div class="mock-dot" style="background:#FF5F56;"></div>
+        <div class="mock-dot" style="background:#FFBD2E;"></div>
+        <div class="mock-dot" style="background:#27C93F;"></div>
+        <span class="mock-title">AI创意工作模拟器 — 第2次返修</span>
+      </div>
+      <div class="mock-game">
+        <div class="mock-statbar">
+          <span>主体思考性 74 / 100</span>
+          <span>延期率 22 %</span>
+        </div>
+        <div class="mock-char">
+          <img class="mock-img" src="image/生气.png" alt="生气">
+          <div class="mock-mood">心情：生气</div>
+          <div class="mock-status">
+            <ul>
+              <li>有点依赖AI了</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="mock-event">
+            你写了一个很详细的prompt：国风、水墨、留白、高端、克制。AI给你生成了一个赛博朋克霓虹街头。
+          </div>
+          <div class="mock-btns">
+            <button class="mock-btn">重新写prompt，再试</button>
+            <button class="mock-btn">赛博朋克其实也不错，试着往这个方向做</button>
+          </div>
+        </div>
+      </div>
+      <div class="mock-caption">
+        <strong>时刻2 — AI生成过程（第2次返修）</strong>
+        AI输出与预期的根本性背离。两个选项的代价不对等：坚持原思路（-4思考性）；顺着AI走（-2思考性，但方向跑偏）。游戏在此引导玩家感受"输入与输出的断开"。
+      </div>
+    </div>
+
+    <!-- Screen 3 -->
+    <div class="mock-wrap">
+      <div class="mock-chrome">
+        <div class="mock-dot" style="background:#FF5F56;"></div>
+        <div class="mock-dot" style="background:#FFBD2E;"></div>
+        <div class="mock-dot" style="background:#27C93F;"></div>
+        <span class="mock-title">AI创意工作模拟器 — 第4次被拒</span>
+      </div>
+      <div class="mock-game">
+        <div class="mock-statbar">
+          <span>主体思考性 51 / 100</span>
+          <span>延期率 38 %</span>
+        </div>
+        <div class="mock-char">
+          <img class="mock-img" src="image/生气.png" alt="生气">
+          <div class="mock-mood">心情：生气</div>
+          <div class="mock-status">
+            <ul>
+              <li>自己想不太动了</li>
+              <li>进度有点落后</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="mock-event">
+            老板说："这个方向不对，我的意思是要有创意，但不要这么'AI感'。"
+          </div>
+          <div class="mock-btns">
+            <button class="mock-btn">问老板具体指哪里</button>
+            <button class="mock-btn">自己理解，重新做一版</button>
+            <button class="mock-btn">不想做了，直接离职</button>
+          </div>
+        </div>
+      </div>
+      <div class="mock-caption">
+        <strong>时刻3 — 老板拒绝（第4次）</strong>
+        思考性跌破50时，"离职"选项开始以更高频率出现。老板的反馈是故意模糊的——"有创意但不要AI感"本身就是无法量化的指令，玩家被迫在信息不足的情况下选择。
+      </div>
+    </div>
+
+    <!-- Screen 4 -->
+    <div class="mock-wrap">
+      <div class="mock-chrome">
+        <div class="mock-dot" style="background:#FF5F56;"></div>
+        <div class="mock-dot" style="background:#FFBD2E;"></div>
+        <div class="mock-dot" style="background:#27C93F;"></div>
+        <span class="mock-title">AI创意工作模拟器 — 第7次返修</span>
+      </div>
+      <div class="mock-game">
+        <div class="mock-statbar">
+          <span>主体思考性 28 / 100</span>
+          <span>延期率 61 %</span>
+        </div>
+        <div class="mock-char">
+          <img class="mock-img" src="image/麻木.png" alt="麻木">
+          <div class="mock-mood">心情：麻木</div>
+          <div class="mock-status">
+            <ul>
+              <li>脑子有点生锈</li>
+              <li>进度压力很大</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="mock-event">
+            第7次返修。你已经忘了最开始的想法是什么了。
+          </div>
+          <div class="mock-btns">
+            <button class="mock-btn">同一提示词重新生成</button>
+            <button class="mock-btn">换一个思路重来</button>
+          </div>
+        </div>
+      </div>
+      <div class="mock-caption">
+        <strong>时刻4 — 第7次返修</strong>
+        第4次起，"重新思考提示词"按钮变成了"同一提示词重新生成"，标志着玩家进入纯重复状态。事件文本也从描述具体动作，转变为对玩家内心状态的旁白——"你已经忘了最开始的想法是什么了。"
+      </div>
+    </div>
+
+    <!-- Screen 5 -->
+    <div class="mock-wrap">
+      <div class="mock-chrome">
+        <div class="mock-dot" style="background:#FF5F56;"></div>
+        <div class="mock-dot" style="background:#FFBD2E;"></div>
+        <div class="mock-dot" style="background:#27C93F;"></div>
+        <span class="mock-title">AI创意工作模拟器 — 结局</span>
+      </div>
+      <div class="mock-game">
+        <div class="mock-statbar">
+          <span>主体思考性 21 / 100</span>
+          <span>延期率 65 %</span>
+        </div>
+        <div class="mock-char">
+          <img class="mock-img" src="image/麻木.png" alt="麻木">
+          <div class="mock-mood">心情：麻木</div>
+          <div class="mock-status">
+            <ul>
+              <li>脑子有点生锈</li>
+              <li>进度压力很大</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="mock-event">
+            <strong>结局：AI人</strong>
+            老板说可以了。你看着最终版，已经看不出哪里是你的想法，哪里是AI给的。你已经在写下一个任务的prompt了。你不需要想从哪里开始。你打开工具，手指已经开始动了。这件事你做得很流畅。
+          </div>
+          <div class="mock-btns">
+            <button class="mock-btn">重新开始</button>
+          </div>
+        </div>
+      </div>
+      <div class="mock-caption">
+        <strong>时刻5 — 结局：AI人</strong>
+        游戏唯一的"成功"结局，也是设计上最具批判性的时刻。数值没有归零，任务通过了，但玩家的内心已经与工作彻底断开。"这件事你做得很流畅"——流畅，在这里是最沉默的悼词。
+      </div>
+    </div>
+
+    <!-- 原 iframe 区域 -->
+    <div class="demo-iframe-block">
+      <h2 style="margin-bottom:12px;">06b / 游戏体验</h2>
+      <p style="max-width:560px;opacity:.7;font-size:16px;line-height:1.9;">
+        游戏为纯浏览器端运行，无需安装，单一HTML文件。以下是内嵌版本——或直接打开 <code style="background:var(--mid);padding:2px 6px;border-radius:3px;font-size:14px;">index.html</code> 体验完整版。
+      </p>
+      <div class="demo-frame">
+        <div class="demo-bar">
+          <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+          <span style="margin-left:12px;font-size:11px;color:#888;letter-spacing:1px;">AI创意工作模拟器</span>
+        </div>
+        <div class="demo-inner">
+          <iframe src="index.html" title="游戏内嵌预览"></iframe>
+        </div>
+      </div>
+      <p class="demo-caption">内嵌预览可能因浏览器安全策略限制部分功能，建议直接打开 index.html 体验完整版本。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── 反思 ── -->
+<section id="reflection">
+  <div class="container">
+    <h2>07 / 反思</h2>
+    <div class="section-line"></div>
+    <div class="r-grid">
+      <div>
+        <blockquote>
+          "这件事你做得很流畅。"
+        </blockquote>
+      </div>
+      <div class="r-body">
+        <p>游戏的最后一句话，放在"AI人"结局里——那是所有结局里唯一一个听起来像赞美的句子。流畅，高效，不出错，老板满意。</p>
+        <p>但它紧跟在一段让人不太舒服的描述后面：你已经看不出哪里是你的，你不需要想从哪里开始，你打开工具，手指已经开始动了。</p>
+        <p>这个游戏想问的问题不是"AI好不好"。它想问的是：<strong>当创造变得流畅，我们应该庆祝还是警惕？</strong>当我们再也不需要停下来想"我为什么这么做"，那个停下来想的时刻——是效率的损耗，还是人之为人的核心？</p>
+        <div class="r-questions">
+          <ul>
+            <li>如果你做的东西通过了，但你说不清楚为什么，那还算是你做的吗？</li>
+            <li>熟练意味着进步，还是意味着某种东西的消失？</li>
+            <li>你上一次有自己的想法是什么时候？</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 08 延续：数字媒体装置 ── -->
+<section id="next-work" style="background:#0D0D0D; color:#EDE8DC; padding:120px 0;">
+  <div class="container">
+    <h2 style="opacity:0.4; letter-spacing:3px; text-transform:uppercase; font-size:13px; margin-bottom:20px;">08 / 延续</h2>
+    <div class="section-line" style="background:#B8886A; width:40px; height:2px; margin-bottom:48px;"></div>
+
+    <div style="display:grid; grid-template-columns:1fr 1.6fr; gap:80px; align-items:start; margin-bottom:72px;">
+      <div>
+        <h3 style="font-size:36px; font-weight:400; font-family:Georgia,'Times New Roman',serif; line-height:1.3; margin-bottom:24px;">
+          AI祭坛<br>
+          <span style="font-size:20px; opacity:0.45; letter-spacing:2px;">数字媒体装置</span>
+        </h3>
+        <p style="font-size:14px; opacity:0.35; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:0;">开发中 · 2026</p>
+      </div>
+      <div>
+        <p style="font-size:16px; line-height:1.95; opacity:0.7; margin-bottom:20px;">
+          《AI创意工作模拟器》之后，同一个批判将以另一种形式延续。
+        </p>
+        <p style="font-size:16px; line-height:1.95; opacity:0.7; margin-bottom:20px;">
+          游戏让你<em style="font-style:normal; color:#B8886A;">目睹</em>异化的过程；下一件作品，让你<em style="font-style:normal; color:#B8886A;">主动参与</em>它——你将"认知"、"想象力"、"注意力"作为祭品逐一献出，祭坛才能被激活。这是一个关于自愿让渡的装置。
+        </p>
+        <p style="font-size:14px; line-height:1.8; opacity:0.4;">
+          计划形式：浏览器交互装置 / Godot 数字展览场景
+        </p>
+      </div>
+    </div>
+
+    <!-- 祭坛图 -->
+    <img src="image/altar.png" alt="AI祭坛" style="width:100%; display:block; border-radius:3px;">
+
+    <!-- 三个献祭物说明 -->
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:#222; margin-top:2px;">
+      <div style="background:#0D0D0D; padding:40px 32px;">
+        <div style="font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:#B8886A; opacity:0.6; margin-bottom:14px;">献祭物 01</div>
+        <div style="font-size:22px; font-family:Georgia,serif; color:#EDE8DC; margin-bottom:14px;">认知</div>
+        <p style="font-size:13px; line-height:1.85; opacity:0.5;">当判断被持续外包给算法，认知本身成为第一个被悄悄献出的东西。</p>
+      </div>
+      <div style="background:#0D0D0D; padding:40px 32px;">
+        <div style="font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:#B8886A; opacity:0.6; margin-bottom:14px;">献祭物 02</div>
+        <div style="font-size:22px; font-family:Georgia,serif; color:#EDE8DC; margin-bottom:14px;">想象力</div>
+        <p style="font-size:13px; line-height:1.85; opacity:0.5;">当生成取代构想，想象力不再是起点，而是退化为筛选结果的标准。</p>
+      </div>
+      <div style="background:#0D0D0D; padding:40px 32px;">
+        <div style="font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:#B8886A; opacity:0.6; margin-bottom:14px;">献祭物 03</div>
+        <div style="font-size:22px; font-family:Georgia,serif; color:#EDE8DC; margin-bottom:14px;">注意力</div>
+        <p style="font-size:13px; line-height:1.85; opacity:0.5;">等待生成、刷手机、等待再生成——注意力以碎片形式一点点流失，直到空无。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container" style="display:flex;justify-content:space-between;align-items:center;width:100%">
+    <div class="f-left">AI创意工作模拟器 &nbsp;·&nbsp; 2026 &nbsp;·&nbsp; 批判设计 / 叙事游戏</div>
+    <a class="f-link" href="index.html">→ 进入游戏</a>
+  </div>
+</footer>
+
+</body>
+</html>

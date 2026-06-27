@@ -40,6 +40,11 @@
             transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         body { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.4); }
+            50% { transform: scale(1.06); box-shadow: 0 0 0 6px rgba(255,255,255,0); }
+        }
+        .btn-breathe { animation: breathe 2s ease-in-out infinite; }
     </style>
 </head>
 <body class="bg-black text-white">
@@ -179,7 +184,7 @@
                                 </div>
                             </div>
                             <div class="flex gap-2">
-                                <button onclick="p3Rework()" class="w-1/2 py-1.5 bg-white hover:bg-zinc-200 border border-white text-black text-[10px] font-mono rounded transition-all">CLICK TO REWORK</button>
+                                <button onclick="p3Rework()" class="btn-breathe w-1/2 py-1.5 bg-white hover:bg-zinc-200 border border-white text-black text-[10px] font-mono rounded">CLICK TO REWORK</button>
                                 <button onclick="p3Reset()" class="w-1/2 py-1.5 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-400 text-[10px] font-mono rounded transition-all">RESET</button>
                             </div>
                         </div>

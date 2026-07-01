@@ -74,45 +74,66 @@
     <div id="slide-container" class="aspect-[16/9] w-full max-w-[1400px] bg-black shadow-[0_0_50px_rgba(0,0,0,0.8)] rounded-xl border border-zinc-900 relative overflow-hidden transition-all duration-500">
 
         <!-- SLIDE 1: COVER -->
-        <div id="page-1" class="slide-page absolute inset-0 w-full h-full p-12 flex flex-col justify-between bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-900/40 via-black to-black">
-            <div class="flex justify-between items-start relative z-10">
-                <div>
-                    <p class="text-xs tracking-widest text-zinc-500 uppercase font-header">Academic & Commercial Portfolio / 2023 - 2026</p>
-                    <h1 class="text-5xl font-header font-bold mt-4 tracking-tight leading-none text-zinc-100">DIGITAL TAPESTRY &<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-zinc-400 via-white to-zinc-600">CONSCIOUSNESS RESONANCE</span></h1>
-                </div>
-            </div>
-            <div class="grid grid-cols-4 gap-6 w-full py-6 border-y border-zinc-900 relative z-10">
-                <div class="p-6 rounded bg-zinc-950/40 border border-zinc-900/50">
-                    <span class="text-brandAmber font-mono text-sm font-bold block">PART 01</span>
-                    <span class="text-base font-semibold text-zinc-200 mt-2 block">AI创意工作模拟器</span>
-                    <p class="text-xs text-zinc-500 mt-2">AI 时代创意劳动的异化与清醒抵抗思辨交互系统。</p>
-                </div>
-                <div class="p-6 rounded bg-zinc-950/40 border border-zinc-900/50">
-                    <span class="text-brandRed font-mono text-sm font-bold block">PART 02</span>
-                    <span class="text-base font-semibold text-zinc-200 mt-2 block">RED LINE</span>
-                    <p class="text-xs text-zinc-500 mt-2">基于点云参数化算法生成的数字文物记忆重构实验。</p>
-                </div>
-                <div class="p-6 rounded bg-zinc-950/40 border border-zinc-900/50">
-                    <span class="text-brandPink font-mono text-sm font-bold block">PART 03</span>
-                    <span class="text-base font-semibold text-zinc-200 mt-2 block">HER — 凝视消解</span>
-                    <p class="text-xs text-zinc-500 mt-2">女性主义身体政治、流量跟踪与量子坍缩动态海报。</p>
-                </div>
-                <div class="p-6 rounded bg-zinc-950/40 border border-zinc-900/50">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandPurple to-brandPinkNeon font-mono text-sm font-bold block">PART 04</span>
-                    <span class="text-base font-semibold text-zinc-200 mt-2 block">BEHIND THE TIME</span>
-                    <p class="text-xs text-zinc-500 mt-2">莉莉丝游戏 Dislyte 宣发 CG、空间考古学场景概念与电影分镜。</p>
-                </div>
-            </div>
-            <div class="flex justify-between items-end relative z-10">
-                <div class="flex space-x-12 text-xs">
+        <div id="page-1" class="slide-page absolute inset-0 w-full h-full bg-[#050507]">
+            <!-- ambient particle canvas -->
+            <canvas id="p1-canvas" class="absolute inset-0 w-full h-full"></canvas>
+            <!-- subtle grid overlay -->
+            <div class="absolute inset-0 pointer-events-none" style="background-image:linear-gradient(rgba(255,255,255,0.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.012) 1px,transparent 1px);background-size:55px 55px;"></div>
+            <!-- content -->
+            <div class="absolute inset-0 flex flex-col justify-between p-10 z-10">
+                <!-- Title row -->
+                <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-zinc-500">Designer / Director</p>
-                        <p class="text-zinc-300 font-semibold mt-0.5">HUANG YINGEN (黄音根)</p>
+                        <p class="text-[9px] tracking-[0.35em] text-zinc-600 uppercase font-mono mb-3">Academic & Commercial Portfolio / 2023 – 2026</p>
+                        <h1 class="font-header font-bold tracking-tight leading-none text-white" style="font-size:2.9rem">DIGITAL TAPESTRY &<br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandAmber via-brandRed to-brandPink">CONSCIOUSNESS RESONANCE</span></h1>
                     </div>
-                    <div>
-                        <p class="text-zinc-500">Target Field</p>
-                        <p class="text-zinc-300 font-semibold mt-0.5">Interactive Media & Art Direction</p>
+                    <div class="font-mono text-zinc-700 text-[9px] tracking-widest mt-1"><span id="p1-fps">● LIVE</span></div>
+                </div>
+                <!-- 4 Project Cards -->
+                <div class="grid grid-cols-4 gap-4">
+                    <div class="group relative rounded-xl border border-brandAmber/20 hover:border-brandAmber/55 transition-all duration-500 hover:scale-[1.02]" style="background:rgba(255,214,0,0.03);backdrop-filter:blur(16px);padding:1.25rem;">
+                        <span class="text-brandAmber font-mono text-[10px] font-bold block mb-2 tracking-widest">PART 01</span>
+                        <span class="font-header text-[13px] font-semibold text-zinc-100 block mb-2 leading-snug">AI CREATIVE WORK<br>SIMULATOR</span>
+                        <p class="text-[10px] text-zinc-500 leading-relaxed mb-4">Critical design simulation of creative labor in AI-driven production environments.</p>
+                        <button onclick="jumpToPage(2)" class="text-[9px] font-mono tracking-[0.2em] text-brandAmber/55 hover:text-brandAmber border border-brandAmber/20 hover:border-brandAmber/60 px-2.5 py-0.5 rounded transition-all">ENTER →</button>
                     </div>
+                    <div class="group relative rounded-xl border border-brandRed/20 hover:border-brandRed/55 transition-all duration-500 hover:scale-[1.02]" style="background:rgba(255,46,46,0.03);backdrop-filter:blur(16px);padding:1.25rem;">
+                        <span class="text-brandRed font-mono text-[10px] font-bold block mb-2 tracking-widest">PART 02</span>
+                        <span class="font-header text-[13px] font-semibold text-zinc-100 block mb-2 leading-snug">RED LINE</span>
+                        <p class="text-[10px] text-zinc-500 leading-relaxed mb-4">Point cloud parametric algorithm — digital artifact memory reconstruction experiment.</p>
+                        <button onclick="jumpToPage(7)" class="text-[9px] font-mono tracking-[0.2em] text-brandRed/55 hover:text-brandRed border border-brandRed/20 hover:border-brandRed/60 px-2.5 py-0.5 rounded transition-all">ENTER →</button>
+                    </div>
+                    <div class="group relative rounded-xl border border-brandPink/20 hover:border-brandPink/55 transition-all duration-500 hover:scale-[1.02]" style="background:rgba(247,163,181,0.03);backdrop-filter:blur(16px);padding:1.25rem;">
+                        <span class="text-brandPink font-mono text-[10px] font-bold block mb-2 tracking-widest">PART 03</span>
+                        <span class="font-header text-[13px] font-semibold text-zinc-100 block mb-2 leading-snug">HER —<br>凝视消解</span>
+                        <p class="text-[10px] text-zinc-500 leading-relaxed mb-4">Feminist body politics, gaze tracking & quantum collapse dynamic poster series.</p>
+                        <button onclick="jumpToPage(13)" class="text-[9px] font-mono tracking-[0.2em] text-brandPink/55 hover:text-brandPink border border-brandPink/20 hover:border-brandPink/60 px-2.5 py-0.5 rounded transition-all">ENTER →</button>
+                    </div>
+                    <div class="group relative rounded-xl border border-brandPurple/20 hover:border-brandPurple/55 transition-all duration-500 hover:scale-[1.02]" style="background:rgba(127,0,255,0.03);backdrop-filter:blur(16px);padding:1.25rem;">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandPurple to-brandPinkNeon font-mono text-[10px] font-bold block mb-2 tracking-widest">PART 04</span>
+                        <span class="font-header text-[13px] font-semibold text-zinc-100 block mb-2 leading-snug">BEHIND THE TIME</span>
+                        <p class="text-[10px] text-zinc-500 leading-relaxed mb-4">Lilith Games Dislyte CG, spatial archaeology & cinematic storyboard production.</p>
+                        <button onclick="jumpToPage(19)" class="text-[9px] font-mono tracking-[0.2em] text-brandPurple/55 hover:text-brandPurple border border-brandPurple/20 hover:border-brandPurple/60 px-2.5 py-0.5 rounded transition-all">ENTER →</button>
+                    </div>
+                </div>
+                <!-- Footer row -->
+                <div class="flex justify-between items-end">
+                    <div class="flex space-x-10">
+                        <div>
+                            <p class="text-zinc-700 font-mono text-[9px] tracking-widest uppercase mb-1">Designer / Director</p>
+                            <p class="text-zinc-300 font-header text-[13px] font-semibold">HUANG YINGEN (黄音根)</p>
+                        </div>
+                        <div>
+                            <p class="text-zinc-700 font-mono text-[9px] tracking-widest uppercase mb-1">Target Programme</p>
+                            <p class="text-zinc-300 font-header text-[13px] font-semibold">M.Des — École de Design Nantes 2026</p>
+                        </div>
+                        <div>
+                            <p class="text-zinc-700 font-mono text-[9px] tracking-widest uppercase mb-1">Focus Area</p>
+                            <p class="text-zinc-300 font-header text-[13px] font-semibold">Interactive Media & Art Direction</p>
+                        </div>
+                    </div>
+                    <p class="text-zinc-700 font-mono text-[9px] tracking-[0.3em]">DESIGN & CODE / 2023–2026</p>
                 </div>
             </div>
         </div>
@@ -694,7 +715,7 @@
 
         <!-- SLIDE 21: VIDEO -->
         <div id="page-23" class="slide-page absolute inset-0 w-full h-full bg-black hidden items-center justify-center">
-            <iframe src="https://www.youtube.com/embed/2W8Vs6NsXD4?controls=1&rel=0&modestbranding=1&vq=hd1440" style="width:100%;height:100%;border:none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <iframe src="https://www.youtube-nocookie.com/embed/2W8Vs6NsXD4?controls=1&rel=0&modestbranding=1&vq=hd1440" style="width:100%;height:100%;border:none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
 
         <!-- SLIDE 24: SUMMARY & EPILOGUE -->
@@ -884,13 +905,13 @@
 
         <!-- SLIDE 12: FLOWER VIDEOS -->
         <div id="page-18" class="slide-page absolute inset-0 w-full h-full bg-black hidden items-center justify-center">
-            <iframe src="https://www.youtube.com/embed/W6ShzmiMDv4?rel=0&modestbranding=1&vq=hd1080" style="width:50%;height:100%;border:none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-            <iframe src="https://www.youtube.com/embed/voQUR5OkuQQ?rel=0&modestbranding=1&vq=hd1080" style="width:50%;height:100%;border:none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <iframe src="https://www.youtube-nocookie.com/embed/W6ShzmiMDv4?rel=0&modestbranding=1&vq=hd1080" style="width:50%;height:100%;border:none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <iframe src="https://www.youtube-nocookie.com/embed/voQUR5OkuQQ?rel=0&modestbranding=1&vq=hd1080" style="width:50%;height:100%;border:none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
 
         <!-- SLIDE 12: HER VIDEO -->
         <div id="page-13" class="slide-page absolute inset-0 w-full h-full bg-black hidden items-center justify-center">
-            <iframe src="https://www.youtube.com/embed/c7x5T22fiT0?rel=0&modestbranding=1&vq=hd1080" style="width:100%;height:100%;border:none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <iframe src="https://www.youtube-nocookie.com/embed/c7x5T22fiT0?rel=0&modestbranding=1&vq=hd1080" style="width:100%;height:100%;border:none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
 
         <!-- SLIDE 13: PART 3 HER INTRODUCTION -->
@@ -994,6 +1015,7 @@
             const map = { part0:'bg-zinc-800', part1:'bg-brandAmber/10', part2:'bg-brandRed/10', part3:'bg-brandPink/10', part4:'bg-brandPurple/10' };
             activeBtn.classList.add(map[section]);
         }
+        if (currentPage === 1) { initP1Canvas(); } else { stopP1Loop(); }
         if (currentPage === 8) { initP8Canvas(); } else { stopP8Loop(); }
     }
 
@@ -1316,6 +1338,79 @@
         }
         p8AnimId = requestAnimationFrame(p8Loop);
     }
+
+    // ─── PAGE 1 AMBIENT PARTICLE CANVAS ──────────────────────────────────
+    let p1Canvas, p1Ctx, p1AnimId, p1Particles = [];
+    let p1Mouse = {x: -9999, y: -9999}, p1Initialized = false, p1LastT = 0;
+    const P1_COLS = [[255,214,0],[255,46,46],[247,163,181],[127,0,255]];
+
+    function initP1Canvas() {
+        p1Canvas = document.getElementById('p1-canvas');
+        if (!p1Canvas) return;
+        p1Ctx = p1Canvas.getContext('2d');
+        const W = p1Canvas.parentElement.clientWidth || 1200;
+        const H = p1Canvas.parentElement.clientHeight || 675;
+        p1Canvas.width = W; p1Canvas.height = H;
+        if (!p1Initialized) {
+            p1Canvas.addEventListener('mousemove', e => {
+                const r = p1Canvas.getBoundingClientRect();
+                p1Mouse.x = (e.clientX - r.left) * (W / r.width);
+                p1Mouse.y = (e.clientY - r.top) * (H / r.height);
+            });
+            p1Canvas.addEventListener('mouseleave', () => { p1Mouse.x = -9999; p1Mouse.y = -9999; });
+            p1Initialized = true;
+        }
+        p1Particles = Array.from({length: 55}, () => {
+            const c = P1_COLS[Math.floor(Math.random() * 4)];
+            return { x: Math.random()*W, y: Math.random()*H,
+                     vx: (Math.random()-.5)*.4, vy: (Math.random()-.5)*.4,
+                     r: Math.random()*1.2+.4, color: c,
+                     alpha: Math.random()*.35+.08, phase: Math.random()*Math.PI*2 };
+        });
+        stopP1Loop(); p1Loop();
+    }
+
+    function stopP1Loop() { if (p1AnimId) { cancelAnimationFrame(p1AnimId); p1AnimId = null; } }
+
+    function p1Loop() {
+        if (!p1Canvas) return;
+        const W = p1Canvas.width, H = p1Canvas.height, t = performance.now() * .001;
+        p1Ctx.fillStyle = 'rgba(5,5,7,.18)'; p1Ctx.fillRect(0,0,W,H);
+        for (const pt of p1Particles) {
+            const dx = pt.x - p1Mouse.x, dy = pt.y - p1Mouse.y;
+            const d = Math.sqrt(dx*dx + dy*dy);
+            if (d < 130 && d > 0) { const f=(130-d)/130*.7; pt.vx+=dx/d*f; pt.vy+=dy/d*f; }
+            pt.vx *= .97; pt.vy *= .97;
+            const spd = Math.sqrt(pt.vx*pt.vx + pt.vy*pt.vy);
+            if (spd > 1.8) { pt.vx *= 1.8/spd; pt.vy *= 1.8/spd; }
+            pt.vx += (Math.random()-.5)*.02; pt.vy += (Math.random()-.5)*.02;
+            pt.x = (pt.x + pt.vx + W) % W; pt.y = (pt.y + pt.vy + H) % H;
+            const a = pt.alpha * (.65 + .35*Math.sin(t*1.1+pt.phase));
+            p1Ctx.beginPath(); p1Ctx.arc(pt.x,pt.y,pt.r,0,Math.PI*2);
+            p1Ctx.fillStyle = `rgba(${pt.color[0]},${pt.color[1]},${pt.color[2]},${a.toFixed(3)})`;
+            p1Ctx.fill();
+        }
+        p1Ctx.lineWidth = .5;
+        for (let i=0; i<p1Particles.length; i++) {
+            for (let j=i+1; j<p1Particles.length; j++) {
+                const a=p1Particles[i], b=p1Particles[j];
+                const dx=a.x-b.x, dy=a.y-b.y, d=Math.sqrt(dx*dx+dy*dy);
+                if (d < 110) {
+                    const al = ((1-d/110)*.1).toFixed(3);
+                    p1Ctx.strokeStyle = `rgba(${(a.color[0]+b.color[0])>>1},${(a.color[1]+b.color[1])>>1},${(a.color[2]+b.color[2])>>1},${al})`;
+                    p1Ctx.beginPath(); p1Ctx.moveTo(a.x,a.y); p1Ctx.lineTo(b.x,b.y); p1Ctx.stroke();
+                }
+            }
+        }
+        const fpsEl = document.getElementById('p1-fps');
+        if (fpsEl && p1LastT > 0) {
+            const fps = Math.min(99, Math.round(1/(t - p1LastT)));
+            fpsEl.textContent = `● ${fps} FPS`;
+        }
+        p1LastT = t;
+        p1AnimId = requestAnimationFrame(p1Loop);
+    }
+    // ─────────────────────────────────────────────────────────────────────
 
     window.onload = () => { updateSlideDisplay(); P3.render(); drawPage4MindMap(); };
 
